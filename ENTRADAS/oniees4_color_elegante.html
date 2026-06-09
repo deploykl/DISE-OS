@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ONIEES - Observatorio Nacional de Infraestructura y Equipamiento</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed": "#001a41",
+                        "tertiary-fixed": "#e2e2e2",
+                        "surface": "#f8f9ff",
+                        "on-secondary-container": "#586672",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed-variant": "#004494",
+                        "primary-fixed-dim": "#adc6ff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface-dim": "#d0dbed",
+                        "surface-container-low": "#eff4ff",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "secondary-fixed": "#d6e4f3",
+                        "tertiary-container": "#5a5c5c",
+                        "primary-container": "#0058bc",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "background": "#f8f9ff",
+                        "outline": "#727784",
+                        "on-error": "#ffffff",
+                        "on-background": "#121c2a",
+                        "on-error-container": "#93000a",
+                        "error": "#ba1a1a",
+                        "surface-container-high": "#dee9fc",
+                        "on-surface-variant": "#424753",
+                        "on-surface": "#121c2a",
+                        "on-primary": "#ffffff",
+                        "surface-variant": "#d9e3f6",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "on-primary-container": "#c3d4ff",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed": "#d8e2ff",
+                        "tertiary": "#434445",
+                        "on-tertiary-container": "#d4d4d4",
+                        "error-container": "#ffdad6",
+                        "surface-bright": "#f8f9ff",
+                        "secondary-container": "#d6e4f3",
+                        "surface-container": "#e6eeff",
+                        "on-secondary-fixed": "#0f1d27",
+                        "primary": "#00418f",
+                        "inverse-surface": "#27313f",
+                        "secondary": "#53606c",
+                        "surface-container-highest": "#d9e3f6",
+                        "surface-tint": "#095bbf",
+                        "outline-variant": "#c2c6d5",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed-dim": "#bac8d6",
+                        "on-secondary-fixed-variant": "#3b4854",
+                        "inverse-primary": "#adc6ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "grid-gutter": "24px",
+                        "container-padding": "32px",
+                        "stack-lg": "24px",
+                        "stack-sm": "8px",
+                        "stack-md": "16px",
+                        "sidebar-width": "280px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "title-lg": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "label-lg": ["Hanken Grotesk"],
+                        "label-sm": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "display-md": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["28px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "title-lg": ["18px", {"lineHeight": "1.5", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-lg": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "label-sm": ["10px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                        "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "display-md": ["36px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "headline-md": ["22px", {"lineHeight": "1.4", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Hanken Grotesk', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        
+        /* Intro Sequence Animations */
+        @keyframes scanline { 0% { top: -100%; } 100% { top: 100%; } }
+        .scanline { position: absolute; width: 100%; height: 2px; background: rgba(0, 88, 188, 0.3); animation: scanline 4s linear infinite; }
+        
+        .laser-blind { position: fixed; background: #00418f; z-index: 100; transition: transform 0.8s cubic-bezier(0.87, 0, 0.13, 1); }
+        .laser-v { width: 100%; height: 50%; left: 0; }
+        .laser-h { height: 100%; width: 50%; top: 0; }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .pulse-indicator {
+            width: 8px;
+            height: 8px;
+            background-color: #00E676;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.7);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(0, 230, 118, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 230, 118, 0); }
+        }
+
+        .data-stream-item { animation: slideUp 2s ease-out infinite; opacity: 0; }
+        @keyframes slideUp { 0% { transform: translateY(20px); opacity: 0; } 50% { opacity: 1; } 100% { transform: translateY(-40px); opacity: 0; } }
+    </style>
+</head>
+<body class="bg-surface text-on-surface overflow-hidden">
+<!-- Loading / Intro Layer -->
+<div class="fixed inset-0 z-[100] flex items-center justify-center bg-on-primary-fixed overflow-hidden" id="intro-layer">
+<!-- STITCH_SHADER_START:ANIMATION_1 class="absolute inset-0 w-full h-full opacity-30" -->
+<div class="absolute inset-0 w-full h-full opacity-30" style="display:block;">
+<canvas id="shader-canvas-ANIMATION_1" style="display:block;width:100%;height:100%"></canvas>
+<script>
+(function() {
+  const canvas = document.getElementById('shader-canvas-ANIMATION_1');
+
+  // Sync the WebGL drawing-buffer size with the CSS-driven layout size.
+  // This fires on initial layout and whenever the element is resized.
+  function syncSize() {
+    const w = canvas.clientWidth  || 1280;
+    const h = canvas.clientHeight || 720;
+    if (canvas.width !== w || canvas.height !== h) {
+      canvas.width  = w;
+      canvas.height = h;
+    }
+  }
+  if (typeof ResizeObserver !== 'undefined') {
+    new ResizeObserver(syncSize).observe(canvas);
+  }
+  syncSize();
+
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) return;
+  const vs = `attribute vec2 a_position;
+varying vec2 v_texCoord;
+void main() {
+  v_texCoord = a_position * 0.5 + 0.5;
+  gl_Position = vec4(a_position, 0.0, 1.0);
+}`;
+  const fs = `
+        precision highp float;
+        uniform float u_time;
+        uniform vec2 u_resolution;
+        varying vec2 v_texCoord;
+
+        vec3 permute(vec3 x) { return mod(((x*34.0)+1.0)*x, 289.0); }
+        float snoise(vec2 v){
+            const vec4 C = vec4(0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439);
+            vec2 i  = floor(v + dot(v, C.yy) );
+            vec2 x0 = v -   i + dot(i, C.xx);
+            vec2 i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+            vec4 x12 = x0.xyxy + C.xxzz; x12.xy -= i1; i = mod(i, 289.0);
+            vec3 p = permute( permute( i.y + vec3(0.0, i1.y, 1.0 )) + i.x + vec3(0.0, i1.x, 1.0 ));
+            vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);
+            m = m*m; m = m*m;
+            vec3 x = 2.0 * fract(p * C.www) - 1.0; vec3 h = abs(x) - 0.5;
+            vec3 ox = floor(x + 0.5); vec3 a0 = x - ox;
+            m *= 1.79284291400159 - 0.85373472095314 * ( a0*a0 + h*h );
+            vec3 g; g.x = a0.x * x0.x + h.x * x0.y; g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+            return 130.0 * dot(m, g);
+        }
+
+        void main() {
+            vec2 uv = v_texCoord;
+            float n1 = snoise(uv * 0.8 + u_time * 0.05);
+            float n2 = snoise(uv * 1.2 - u_time * 0.08);
+            float combined = (n1 * 0.5 + n2 * 0.5);
+            vec3 base = vec3(0.97, 0.98, 1.0);
+            vec3 accent = vec3(0.0, 0.44, 0.92);
+            float peak = smoothstep(0.2, 0.9, combined);
+            vec3 color = mix(base, accent, peak * 0.08);
+            color = mix(color, vec3(1.0), pow(peak, 5.0) * 0.3);
+            gl_FragColor = vec4(color, 1.0);
+        }
+    `;
+  function cs(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    return s;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, cs(gl.VERTEX_SHADER, vs));
+  gl.attachShader(prog, cs(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(prog);
+  gl.useProgram(prog);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+  const pos = gl.getAttribLocation(prog, 'a_position');
+  gl.enableVertexAttribArray(pos);
+  gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+  const uTime = gl.getUniformLocation(prog, 'u_time');
+  const uRes = gl.getUniformLocation(prog, 'u_resolution');
+  const uMouse = gl.getUniformLocation(prog, 'u_mouse');
+
+  // u_mouse is in pixel coordinates matching u_resolution (ShaderToy convention).
+  // Shaders that need normalized coords should use: u_mouse / u_resolution.
+  let mouse = { x: canvas.width / 2, y: canvas.height / 2 };
+  window.addEventListener('mousemove', (event) => {
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width && rect.height) {
+      const nx = (event.clientX - rect.left) / rect.width;
+      const ny = 1.0 - (event.clientY - rect.top) / rect.height;
+      mouse.x = nx * canvas.width;
+      mouse.y = ny * canvas.height;
+    }
+  });
+
+  function render(t) {
+    if (typeof ResizeObserver === 'undefined') syncSize();
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    if (uTime) gl.uniform1f(uTime, t * 0.001);
+    if (uRes) gl.uniform2f(uRes, canvas.width, canvas.height);
+    if (uMouse) gl.uniform2f(uMouse, mouse.x, mouse.y);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    requestAnimationFrame(render);
+  }
+  render(0);
+})();
+</script>
+</div>
+<!-- STITCH_SHADER_END:ANIMATION_1 -->
+<!-- Data Stream Background -->
+<div class="absolute inset-0 flex flex-wrap gap-10 p-10 pointer-events-none overflow-hidden opacity-20 font-mono text-[10px] text-primary-fixed-dim">
+<div class="data-stream-item">RX-9480: OPERATIONAL</div>
+<div class="data-stream-item" style="animation-delay: 0.5s">EQUIP_ID_772: SYNC</div>
+<div class="data-stream-item" style="animation-delay: 1.2s">LAT: -12.0464 LONG: -77.0428</div>
+<div class="data-stream-item" style="animation-delay: 0.8s">DIEM_CORE: ACTIVE</div>
+<div class="data-stream-item" style="animation-delay: 1.5s">HEARTBEAT_SEC: 100%</div>
+</div>
+<div class="relative z-10 flex flex-col items-center">
+<div class="relative w-48 h-48 mb-8 flex items-center justify-center">
+<!-- Pulsing Circles -->
+<div class="absolute inset-0 border border-primary-fixed-dim rounded-full animate-ping opacity-20"></div>
+<div class="absolute inset-4 border border-primary-fixed-dim rounded-full animate-pulse opacity-40"></div>
+<!-- Counter -->
+<div class="font-display-md text-display-md text-white font-bold" id="loader-counter">0%</div>
+</div>
+<div class="flex flex-col items-center gap-2">
+<span class="font-label-lg text-label-lg text-primary-fixed-dim tracking-[0.2em] uppercase">Iniciando Protocolo ONIEES</span>
+<div class="w-64 h-1 bg-white/10 rounded-full overflow-hidden">
+<div class="h-full bg-primary-container w-0 transition-all duration-300" id="loader-bar"></div>
+</div>
+</div>
+</div>
+<!-- Laser Blinds (revealed at 100%) -->
+<div class="laser-blind laser-v top-0 translate-y-0" id="laser-top"></div>
+<div class="laser-blind laser-v bottom-0 translate-y-0" id="laser-bottom"></div>
+<div class="laser-blind laser-h left-0 translate-x-0" id="laser-left"></div>
+<div class="laser-blind laser-h right-0 translate-x-0" id="laser-right"></div>
+</div>
+<!-- Main Experience Background -->
+<!-- STITCH_SHADER_START:ANIMATION_1 class="fixed inset-0 w-full h-full -z-10" -->
+<div class="fixed inset-0 w-full h-full -z-10" style="display:block;">
+<canvas id="shader-canvas-ANIMATION_1" style="display:block;width:100%;height:100%"></canvas>
+<script>
+(function() {
+  const canvas = document.getElementById('shader-canvas-ANIMATION_1');
+
+  // Sync the WebGL drawing-buffer size with the CSS-driven layout size.
+  // This fires on initial layout and whenever the element is resized.
+  function syncSize() {
+    const w = canvas.clientWidth  || 1280;
+    const h = canvas.clientHeight || 720;
+    if (canvas.width !== w || canvas.height !== h) {
+      canvas.width  = w;
+      canvas.height = h;
+    }
+  }
+  if (typeof ResizeObserver !== 'undefined') {
+    new ResizeObserver(syncSize).observe(canvas);
+  }
+  syncSize();
+
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) return;
+  const vs = `attribute vec2 a_position;
+varying vec2 v_texCoord;
+void main() {
+  v_texCoord = a_position * 0.5 + 0.5;
+  gl_Position = vec4(a_position, 0.0, 1.0);
+}`;
+  const fs = `
+        precision highp float;
+        uniform float u_time;
+        uniform vec2 u_resolution;
+        varying vec2 v_texCoord;
+
+        vec3 permute(vec3 x) { return mod(((x*34.0)+1.0)*x, 289.0); }
+        float snoise(vec2 v){
+            const vec4 C = vec4(0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439);
+            vec2 i  = floor(v + dot(v, C.yy) );
+            vec2 x0 = v -   i + dot(i, C.xx);
+            vec2 i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+            vec4 x12 = x0.xyxy + C.xxzz; x12.xy -= i1; i = mod(i, 289.0);
+            vec3 p = permute( permute( i.y + vec3(0.0, i1.y, 1.0 )) + i.x + vec3(0.0, i1.x, 1.0 ));
+            vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);
+            m = m*m; m = m*m;
+            vec3 x = 2.0 * fract(p * C.www) - 1.0; vec3 h = abs(x) - 0.5;
+            vec3 ox = floor(x + 0.5); vec3 a0 = x - ox;
+            m *= 1.79284291400159 - 0.85373472095314 * ( a0*a0 + h*h );
+            vec3 g; g.x = a0.x * x0.x + h.x * x0.y; g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+            return 130.0 * dot(m, g);
+        }
+
+        void main() {
+            vec2 uv = v_texCoord;
+            float n1 = snoise(uv * 0.8 + u_time * 0.05);
+            float n2 = snoise(uv * 1.2 - u_time * 0.08);
+            float combined = (n1 * 0.5 + n2 * 0.5);
+            vec3 base = vec3(0.97, 0.98, 1.0);
+            vec3 accent = vec3(0.0, 0.44, 0.92);
+            float peak = smoothstep(0.2, 0.9, combined);
+            vec3 color = mix(base, accent, peak * 0.08);
+            color = mix(color, vec3(1.0), pow(peak, 5.0) * 0.3);
+            gl_FragColor = vec4(color, 1.0);
+        }
+    `;
+  function cs(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    return s;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, cs(gl.VERTEX_SHADER, vs));
+  gl.attachShader(prog, cs(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(prog);
+  gl.useProgram(prog);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+  const pos = gl.getAttribLocation(prog, 'a_position');
+  gl.enableVertexAttribArray(pos);
+  gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+  const uTime = gl.getUniformLocation(prog, 'u_time');
+  const uRes = gl.getUniformLocation(prog, 'u_resolution');
+  const uMouse = gl.getUniformLocation(prog, 'u_mouse');
+
+  // u_mouse is in pixel coordinates matching u_resolution (ShaderToy convention).
+  // Shaders that need normalized coords should use: u_mouse / u_resolution.
+  let mouse = { x: canvas.width / 2, y: canvas.height / 2 };
+  window.addEventListener('mousemove', (event) => {
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width && rect.height) {
+      const nx = (event.clientX - rect.left) / rect.width;
+      const ny = 1.0 - (event.clientY - rect.top) / rect.height;
+      mouse.x = nx * canvas.width;
+      mouse.y = ny * canvas.height;
+    }
+  });
+
+  function render(t) {
+    if (typeof ResizeObserver === 'undefined') syncSize();
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    if (uTime) gl.uniform1f(uTime, t * 0.001);
+    if (uRes) gl.uniform2f(uRes, canvas.width, canvas.height);
+    if (uMouse) gl.uniform2f(uMouse, mouse.x, mouse.y);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    requestAnimationFrame(render);
+  }
+  render(0);
+})();
+</script>
+</div>
+<!-- STITCH_SHADER_END:ANIMATION_1 -->
+<div class="flex h-screen w-full transition-opacity duration-1000 opacity-0" id="main-content">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-sidebar-width z-40 bg-surface-container-low/90 backdrop-blur-lg border-r border-white/20 flex flex-col p-stack-md gap-stack-lg shadow-md">
+<div class="flex items-center gap-3 px-2 py-4">
+<div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-white shadow-lg">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">hub</span>
+</div>
+<div>
+<h2 class="font-title-lg text-title-lg font-bold text-on-surface">ONIEES</h2>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Gestión de Infraestructura</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2 mt-4 flex-1">
+<a class="flex items-center gap-stack-md bg-primary-container text-on-primary-container rounded-lg px-4 py-3 border-l-4 border-primary transition-all active:scale-98" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-lg text-label-lg">Dashboard</span>
+</a>
+<a class="flex items-center gap-stack-md text-on-surface-variant hover:bg-surface-variant/50 rounded-lg px-4 py-3 transition-transform duration-200 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">domain</span>
+<span class="font-label-lg text-label-lg">Infraestructura</span>
+</a>
+<a class="flex items-center gap-stack-md text-on-surface-variant hover:bg-surface-variant/50 rounded-lg px-4 py-3 transition-transform duration-200 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">medical_services</span>
+<span class="font-label-lg text-label-lg">Equipamiento</span>
+</a>
+<a class="flex items-center gap-stack-md text-on-surface-variant hover:bg-surface-variant/50 rounded-lg px-4 py-3 transition-transform duration-200 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">engineering</span>
+<span class="font-label-lg text-label-lg">Mantenimiento</span>
+</a>
+<a class="flex items-center gap-stack-md text-on-surface-variant hover:bg-surface-variant/50 rounded-lg px-4 py-3 transition-transform duration-200 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">folder_open</span>
+<span class="font-label-lg text-label-lg">Repositorio</span>
+</a>
+</nav>
+<div class="mt-auto flex flex-col gap-2">
+<button class="bg-primary hover:bg-primary-container text-white py-4 rounded-xl font-bold text-label-lg flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-all">
+<span class="material-symbols-outlined">add_chart</span>
+                    REPORTE NACIONAL
+                </button>
+<div class="h-px bg-white/20 my-2"></div>
+<a class="flex items-center gap-stack-md text-on-surface-variant hover:bg-surface-variant/50 rounded-lg px-4 py-3" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-lg text-label-lg">Configuración</span>
+</a>
+<a class="flex items-center gap-stack-md text-on-surface-variant hover:bg-surface-variant/50 rounded-lg px-4 py-3" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-lg text-label-lg">Ayuda</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 ml-sidebar-width h-full overflow-y-auto relative">
+<!-- TopAppBar -->
+<header class="sticky top-0 z-50 flex justify-between items-center px-container-padding h-16 w-full bg-surface/80 backdrop-blur-xl border-b border-white/20 shadow-sm">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4">
+<span class="font-display-md text-display-md font-extrabold text-primary">ONIEES</span>
+<div class="w-px h-8 bg-outline-variant"></div>
+<span class="font-headline-md text-headline-md text-on-surface-variant opacity-60">MINSA / DIEM</span>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative group">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer group-hover:text-primary transition-colors">notifications</span>
+<span class="absolute -top-1 -right-1 w-2 h-2 bg-error rounded-full"></span>
+</div>
+<div class="flex items-center gap-3 pl-4 border-l border-outline-variant">
+<div class="text-right">
+<p class="font-label-lg text-label-lg leading-none">Admin Usuario</p>
+<p class="text-[10px] text-on-surface-variant font-medium">Analista DIEM</p>
+</div>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary/20">
+<img alt="Profile" data-alt="A professional headshot of a male government analyst in his 40s wearing a crisp white shirt and navy blazer. The lighting is soft and corporate with a neutral, high-key background. He has a welcoming yet serious expression, fitting for a national health infrastructure department profile." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBL8dcAVqeyNlAWI5Wr6x21p-N7j8TY5Ikgqw0YqalOcQIAgGU2PXRJucHzxw5x0fi5-5wGJcLwRGyqrw26eRsfWs41mx1AWaylICOlT2vTak1JKXsvDX7N1sY_lu0-dOoM_UB8zUP9J_Csi01c4rxHNYqTRkOfSRjX8vWMIxKcwuduYNTQc2QK0meGW-iETzjn1eYKbaT95Gy1UG10w497jDP3m2dcNcvoozZnxIj-EoIXH5pkRdun62NFnZbRPgFOlqh120x4M0U"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Hero Section -->
+<div class="px-container-padding py-10">
+<div class="mb-10 animate-fade-in-up">
+<div class="flex items-center gap-3 mb-4">
+<span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase flex items-center gap-2">
+<span class="pulse-indicator"></span>
+                            Sistema Operacional V4.2
+                        </span>
+</div>
+<h1 class="font-display-lg text-display-lg max-w-4xl text-on-primary-fixed mb-4">
+                        Observatorio Nacional de Infraestructura y Equipamiento en Salud
+                    </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">
+                        Monitorización avanzada en tiempo real de la capacidad instalada y operativa del sistema nacional de salud. Análisis predictivo y gestión estratégica de recursos para el bienestar ciudadano.
+                    </p>
+</div>
+<!-- Bento Grid Metrics -->
+<div class="grid grid-cols-12 gap-grid-gutter mb-grid-gutter">
+<!-- Main Metric Large -->
+<div class="col-span-12 lg:col-span-6 glass-panel rounded-xl p-8 shadow-md relative overflow-hidden transition-all hover:translate-y-[-4px]">
+<div class="absolute top-0 right-0 p-4">
+<span class="material-symbols-outlined text-primary/30 text-5xl">location_city</span>
+</div>
+<h3 class="font-label-lg text-label-lg uppercase tracking-widest text-on-surface-variant mb-2">Total Establecimientos</h3>
+<div class="flex items-baseline gap-4">
+<span class="font-display-md text-display-md font-bold text-primary">9,480</span>
+<span class="text-on-error-container font-bold text-label-lg flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">trending_up</span> +2.4%
+                            </span>
+</div>
+<div class="mt-8 flex gap-4">
+<div class="flex-1 bg-white/40 p-3 rounded-lg border border-white/40">
+<p class="text-[10px] uppercase font-bold opacity-50">Primer Nivel</p>
+<p class="font-title-lg">8,650</p>
+</div>
+<div class="flex-1 bg-white/40 p-3 rounded-lg border border-white/40">
+<p class="text-[10px] uppercase font-bold opacity-50">Segundo Nivel</p>
+<p class="font-title-lg">580</p>
+</div>
+<div class="flex-1 bg-white/40 p-3 rounded-lg border border-white/40">
+<p class="text-[10px] uppercase font-bold opacity-50">Tercer Nivel</p>
+<p class="font-title-lg">250</p>
+</div>
+</div>
+</div>
+<!-- Small Metric 1 -->
+<div class="col-span-12 md:col-span-6 lg:col-span-3 glass-panel rounded-xl p-6 shadow-md transition-all hover:translate-y-[-4px]">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-secondary-container/30 rounded-lg text-primary">
+<span class="material-symbols-outlined">health_and_safety</span>
+</div>
+<span class="pulse-indicator"></span>
+</div>
+<h3 class="font-label-lg text-label-lg uppercase tracking-widest text-on-surface-variant mb-1">Instituciones</h3>
+<div class="font-headline-md text-headline-md">MINSA, EsSalud</div>
+<p class="text-[11px] text-on-surface-variant mt-2">Cobertura multisectorial activa.</p>
+</div>
+<!-- Small Metric 2 -->
+<div class="col-span-12 md:col-span-6 lg:col-span-3 glass-panel rounded-xl p-6 shadow-md transition-all hover:translate-y-[-4px]">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-secondary-container/30 rounded-lg text-primary">
+<span class="material-symbols-outlined">analytics</span>
+</div>
+<span class="material-symbols-outlined text-primary text-xl">verified</span>
+</div>
+<h3 class="font-label-lg text-label-lg uppercase tracking-widest text-on-surface-variant mb-1">Disponibilidad</h3>
+<div class="font-headline-md text-headline-md text-green-600">98.2%</div>
+<p class="text-[11px] text-on-surface-variant mt-2">Equipos de alta complejidad funcionales.</p>
+</div>
+<!-- Modules Functional Area -->
+<div class="col-span-12 lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-stack-md">
+<div class="relative rounded-2xl p-8 bg-primary text-white overflow-hidden group shadow-xl">
+<div class="absolute inset-0 bg-gradient-to-br from-primary via-primary to-on-primary-fixed-variant opacity-80 z-0"></div>
+<img alt="Infraestructura" class="absolute inset-0 w-full h-full object-cover mix-blend-overlay group-hover:scale-110 transition-transform duration-700" data-alt="A cinematic, wide-angle shot of a brand-new, modern hospital building with floor-to-ceiling glass windows and white architectural panels. The sky is a clear, brilliant blue, and the lighting is bright and optimistic. The overall aesthetic is clean, professional, and indicative of advanced national healthcare infrastructure." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAn1WNTtMR9MCmihh_c7PoBsVF5lxr6TZ8CVrp2ZalXoSSudkZTOWe_Ti18Ni0FhdMDZFMFMEmkdAIJOoPc80dfJ6Xqt5rRprhqAqQ3EauArWOpxYYHt7z_g7cBZOAz1TCq-duZGSALh-1wclmyBn1VpWExSfKPLMzBnC30EjD4MoAzW5W4qnPQTlwisbwSYOFVxtTOCtqxmQtiONbnFsspDH_254Eal0kQnifSEuS9hoF68Djipy0XQoiQ7JYoMorK3VsPrKkWTT8"/>
+<div class="relative z-10">
+<span class="bg-white/20 px-3 py-1 rounded-full text-[10px] font-bold uppercase mb-4 inline-block">Módulo Activo</span>
+<h3 class="font-display-md text-display-md mb-2">Infraestructura</h3>
+<p class="text-white/80 text-body-md mb-6">Explora el mapa nacional de establecimientos de salud y su estado actual.</p>
+<button class="bg-white text-primary px-6 py-3 rounded-lg font-bold flex items-center gap-2 hover:bg-surface transition-colors">
+                                    Ingresar Panel <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="relative rounded-2xl p-8 bg-surface-variant/50 text-on-surface-variant overflow-hidden border border-white/40 group">
+<div class="absolute inset-0 backdrop-blur-sm z-0"></div>
+<div class="relative z-10 flex flex-col h-full">
+<span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-[10px] font-bold uppercase mb-4 inline-block self-start">Próximamente</span>
+<h3 class="font-headline-lg text-headline-lg mb-2">Equipamiento</h3>
+<p class="text-body-md mb-6 opacity-70">Sistema integrado de trazabilidad para equipos médicos críticos.</p>
+<div class="mt-auto opacity-40 grayscale pointer-events-none">
+<button class="bg-on-surface/10 text-on-surface px-6 py-3 rounded-lg font-bold flex items-center gap-2">
+                                        Ingresar Panel <span class="material-symbols-outlined">lock</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Side Notifications / Timeline -->
+<div class="col-span-12 lg:col-span-4 glass-panel rounded-xl p-6 shadow-md">
+<div class="flex items-center justify-between mb-6">
+<h3 class="font-title-lg text-title-lg">Eventos Recientes</h3>
+<button class="text-primary text-[11px] font-bold hover:underline">Ver todo</button>
+</div>
+<div class="space-y-6">
+<div class="flex gap-4">
+<div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined">update</span>
+</div>
+<div>
+<p class="font-label-lg text-label-lg leading-tight">Actualización de Equipos</p>
+<p class="text-[11px] text-on-surface-variant">Región Piura ha actualizado su inventario de tomógrafos.</p>
+<p class="text-[10px] mt-1 font-bold text-primary/60">Hace 12 min</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 shrink-0">
+<span class="material-symbols-outlined">warning</span>
+</div>
+<div>
+<p class="font-label-lg text-label-lg leading-tight">Alerta de Mantenimiento</p>
+<p class="text-[11px] text-on-surface-variant">Hospital Nacional Dos de Mayo requiere servicio preventivo.</p>
+<p class="text-[10px] mt-1 font-bold text-primary/60">Hace 2 horas</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600 shrink-0">
+<span class="material-symbols-outlined">verified</span>
+</div>
+<div>
+<p class="font-label-lg text-label-lg leading-tight">Nuevo Puesto Inaugurado</p>
+<p class="text-[11px] text-on-surface-variant">Inauguración del Puesto de Salud Curimaná en Ucayali.</p>
+<p class="text-[10px] mt-1 font-bold text-primary/60">Ayer</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<script>
+        // Intro Sequence Script
+        document.addEventListener('DOMContentLoaded', () => {
+            const counterElement = document.getElementById('loader-counter');
+            const loaderBar = document.getElementById('loader-bar');
+            const introLayer = document.getElementById('intro-layer');
+            const mainContent = document.getElementById('main-content');
+            
+            const laserTop = document.getElementById('laser-top');
+            const laserBottom = document.getElementById('laser-bottom');
+            const laserLeft = document.getElementById('laser-left');
+            const laserRight = document.getElementById('laser-right');
+
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.floor(Math.random() * 5) + 1;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    startReveal();
+                }
+                counterElement.textContent = progress + '%';
+                loaderBar.style.width = progress + '%';
+            }, 50);
+
+            function startReveal() {
+                setTimeout(() => {
+                    // Start Laser Reveal
+                    laserTop.style.transform = 'translateY(-100%)';
+                    laserBottom.style.transform = 'translateY(100%)';
+                    laserLeft.style.transform = 'translateX(-100%)';
+                    laserRight.style.transform = 'translateX(100%)';
+                    
+                    setTimeout(() => {
+                        introLayer.style.opacity = '0';
+                        introLayer.style.pointerEvents = 'none';
+                        mainContent.classList.remove('opacity-0');
+                        document.body.classList.remove('overflow-hidden');
+                        document.body.classList.add('overflow-auto');
+                    }, 600);
+                }, 500);
+            }
+        });
+
+        // Micro-interactions
+        const cards = document.querySelectorAll('.glass-panel');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.borderColor = 'rgba(0, 88, 188, 0.4)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+            });
+        });
+    </script>
+</body></html>

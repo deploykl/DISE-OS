@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Synthesis Suite | Operational Intelligence</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Hanken+Grotesk:wght@400;500;600;700&amp;family=Geist:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#191c1d",
+                        "on-primary-fixed-variant": "#004493",
+                        "tertiary-container": "#66768d",
+                        "secondary": "#545f73",
+                        "surface-container": "#edeeef",
+                        "surface": "#f8f9fa",
+                        "on-secondary-fixed-variant": "#3c475a",
+                        "surface-variant": "#e1e3e4",
+                        "on-tertiary-container": "#fefcff",
+                        "surface-dim": "#d9dadb",
+                        "surface-container-highest": "#e1e3e4",
+                        "primary": "#0058bc",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed": "#0b1c30",
+                        "on-tertiary": "#ffffff",
+                        "inverse-surface": "#2e3132",
+                        "on-primary": "#ffffff",
+                        "tertiary": "#4d5d73",
+                        "on-surface-variant": "#414754",
+                        "on-error": "#ffffff",
+                        "surface-container-low": "#f3f4f5",
+                        "on-primary-fixed": "#001a41",
+                        "inverse-primary": "#adc6ff",
+                        "surface-bright": "#f8f9fa",
+                        "primary-container": "#0070eb",
+                        "on-tertiary-fixed-variant": "#38485d",
+                        "on-surface": "#191c1d",
+                        "on-secondary-container": "#586377",
+                        "on-secondary-fixed": "#111c2d",
+                        "tertiary-fixed": "#d3e4fe",
+                        "secondary-fixed": "#d8e3fb",
+                        "primary-fixed-dim": "#adc6ff",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed-dim": "#b7c8e1",
+                        "background": "#f8f9fa",
+                        "on-primary-container": "#fefcff",
+                        "error-container": "#ffdad6",
+                        "inverse-on-surface": "#f0f1f2",
+                        "on-error-container": "#93000a",
+                        "surface-container-high": "#e7e8e9",
+                        "secondary-container": "#d5e0f8",
+                        "outline": "#727786",
+                        "primary-fixed": "#d8e2ff",
+                        "outline-variant": "#c1c6d6",
+                        "surface-tint": "#005bc1",
+                        "secondary-fixed-dim": "#bcc7de",
+                        "on-secondary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin": "24px",
+                        "xl": "32px",
+                        "container-max": "1280px",
+                        "lg": "24px",
+                        "gutter": "24px",
+                        "xs": "4px",
+                        "md": "16px",
+                        "sm": "8px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Geist"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "label-sm": ["Geist"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "headline-xl": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", {"lineHeight": "1", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "1", "letterSpacing": "0.03em", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "headline-xl": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        /* --- Animation Phase 1: Vertical Slide --- */
+        @keyframes curtainTop {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-100%); }
+        }
+        @keyframes curtainBottom {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(100%); }
+        }
+        
+        /* --- Animation Phase 2: Horizontal Slide --- */
+        @keyframes curtainLeft {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+        @keyframes curtainRight {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* --- UI Entrance --- */
+        @keyframes blurIn {
+            0% { opacity: 0; transform: translateY(20px) scale(0.98); filter: blur(10px); }
+            100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        @keyframes drawIn {
+            0% { transform: scaleY(0); transform-origin: bottom; }
+            100% { transform: scaleY(1); transform-origin: bottom; }
+        }
+        
+        .phase-1-top { animation: curtainTop 0.8s cubic-bezier(0.7, 0, 0.3, 1) forwards; animation-delay: 0.5s; }
+        .phase-1-bottom { animation: curtainBottom 0.8s cubic-bezier(0.7, 0, 0.3, 1) forwards; animation-delay: 0.5s; }
+        
+        .phase-2-left { animation: curtainLeft 0.8s cubic-bezier(0.7, 0, 0.3, 1) forwards; animation-delay: 1.3s; }
+        .phase-2-right { animation: curtainRight 0.8s cubic-bezier(0.7, 0, 0.3, 1) forwards; animation-delay: 1.3s; }
+        
+        /* Dashboard content reveals after 2.1s */
+        .reveal-content { opacity: 0; animation: blurIn 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; animation-delay: var(--delay, 2.1s); }
+        .reveal-nav { opacity: 0; animation: fadeIn 0.8s ease-out forwards; animation-delay: 2.1s; }
+
+        .bento-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 
+                0 4px 6px -1px rgba(0, 0, 0, 0.03), 
+                0 2px 4px -1px rgba(0, 0, 0, 0.02),
+                inset 0 0 0 1px rgba(0, 88, 188, 0.05);
+            transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .bento-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 
+                0 20px 40px -10px rgba(0, 0, 0, 0.05),
+                inset 0 0 0 1px rgba(0, 88, 188, 0.15);
+            background: rgba(255, 255, 255, 0.85);
+        }
+
+        .primary-btn {
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .primary-btn:hover {
+            transform: translateY(-1px) scale(1.02);
+            box-shadow: 0 0 15px rgba(0, 88, 188, 0.3);
+        }
+
+        .nav-indicator {
+            position: absolute;
+            left: 0;
+            width: 3px;
+            height: 24px;
+            background: #0058bc;
+            border-radius: 0 4px 4px 0;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            opacity: 0;
+        }
+        .nav-item:hover .nav-indicator, .nav-item.active .nav-indicator {
+            opacity: 1;
+        }
+
+        .data-bar {
+            animation: drawIn 1.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #d9dadb; border-radius: 10px; }
+
+        #shader-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Prevent interaction during curtains */
+        .curtain-overlay { pointer-events: none; }
+    </style>
+</head>
+<body class="bg-background text-on-background selection:bg-primary-container selection:text-white overflow-hidden font-body-md">
+<canvas id="shader-canvas"></canvas>
+<!-- Phase 1: Vertical Curtains (Top & Bottom) -->
+<div class="fixed inset-0 z-[110] flex flex-col pointer-events-none" id="curtain-container-v">
+<div class="phase-1-top flex-1 bg-surface-container-lowest border-b border-outline-variant/10 flex items-end justify-center pb-8">
+<h1 class="font-headline-xl text-headline-xl text-primary font-bold tracking-tighter opacity-10">SYNTHESIS</h1>
+</div>
+<div class="phase-1-bottom flex-1 bg-surface-container-lowest border-t border-outline-variant/10 flex items-start justify-center pt-8">
+<h1 class="font-headline-xl text-headline-xl text-primary font-bold tracking-tighter opacity-10">SUITE</h1>
+</div>
+</div>
+<!-- Phase 2: Horizontal Curtains (Left & Right) -->
+<div class="fixed inset-0 z-[105] flex pointer-events-none" id="curtain-container-h">
+<div class="phase-2-left w-1/2 h-full bg-white border-r border-outline-variant/20 flex items-center justify-end pr-12">
+<h1 class="font-headline-xl text-[40px] text-primary font-bold tracking-tighter">SYNTHESIS</h1>
+</div>
+<div class="phase-2-right w-1/2 h-full bg-white border-l border-outline-variant/20 flex items-center justify-start pl-12">
+<h1 class="font-headline-xl text-[40px] text-primary font-bold tracking-tighter">SUITE</h1>
+</div>
+</div>
+<!-- SideNavBar Shell -->
+<aside class="reveal-nav fixed left-0 top-0 h-full flex flex-col z-50 bg-white/60 backdrop-blur-xl border-r border-outline-variant/30 w-64">
+<div class="p-8">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-9 h-9 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-white text-[20px]" style="font-variation-settings: 'FILL' 1;">insights</span>
+</div>
+<div>
+<h2 class="font-headline-md text-[20px] font-bold text-primary tracking-tight">Synthesis</h2>
+<p class="font-label-sm text-[10px] text-on-surface-variant uppercase tracking-[0.2em] opacity-70">Intelligence</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-1 mt-4 relative">
+<a class="nav-item active group flex items-center gap-3 px-4 py-3 text-primary transition-all duration-300 relative" href="#">
+<div class="nav-indicator"></div>
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md font-semibold">Command Center</span>
+</a>
+<a class="nav-item group flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-primary transition-all duration-300 relative" href="#">
+<div class="nav-indicator"></div>
+<span class="material-symbols-outlined">monitoring</span>
+<span class="font-body-md">Telemetry</span>
+</a>
+<a class="nav-item group flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-primary transition-all duration-300 relative" href="#">
+<div class="nav-indicator"></div>
+<span class="material-symbols-outlined">database</span>
+<span class="font-body-md">Assets</span>
+</a>
+<a class="nav-item group flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-primary transition-all duration-300 relative" href="#">
+<div class="nav-indicator"></div>
+<span class="material-symbols-outlined">payments</span>
+<span class="font-body-md">Transactions</span>
+</a>
+<a class="nav-item group flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-primary transition-all duration-300 relative" href="#">
+<div class="nav-indicator"></div>
+<span class="material-symbols-outlined">shield</span>
+<span class="font-body-md">Security</span>
+</a>
+<a class="nav-item group flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-primary transition-all duration-300 relative" href="#">
+<div class="nav-indicator"></div>
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md">Configuration</span>
+</a>
+</nav>
+<div class="p-8 mt-auto">
+<div class="bg-primary/5 rounded-2xl p-4 border border-primary/10">
+<p class="font-label-sm text-[11px] text-primary font-bold mb-3 flex items-center gap-2">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+</span>
+                System Active
+            </p>
+<div class="h-1 w-full bg-primary/10 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[98%] rounded-full"></div>
+</div>
+</div>
+</div>
+</aside>
+<!-- TopNavBar Shell -->
+<header class="reveal-nav fixed top-0 right-0 left-64 h-20 flex justify-between items-center px-10 z-40 bg-white/40 backdrop-blur-md border-b border-outline-variant/10">
+<div class="flex items-center gap-8">
+<div class="relative w-80">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline/50 text-[18px]">search</span>
+<input class="w-full bg-surface-container-low/50 border border-outline-variant/30 rounded-xl pl-10 pr-4 py-2 font-body-sm text-body-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all text-on-surface placeholder:text-outline/40" placeholder="Search operational logs..." type="text"/>
+</div>
+<nav class="flex gap-10">
+<a class="font-label-md text-on-surface-variant hover:text-primary transition-colors py-1" href="#">Network</a>
+<a class="font-label-md text-primary font-bold border-b-2 border-primary py-1" href="#">Nodes</a>
+<a class="font-label-md text-on-surface-variant hover:text-primary transition-colors py-1" href="#">Logs</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-1">
+<button class="p-2.5 text-on-surface-variant hover:text-primary hover:bg-primary/5 rounded-full transition-all">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2.5 text-on-surface-variant hover:text-primary hover:bg-primary/5 rounded-full transition-all">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+</div>
+<div class="h-6 w-px bg-outline-variant/20"></div>
+<button class="px-5 py-2 bg-white/80 border border-outline-variant/50 text-on-surface font-semibold rounded-xl font-label-sm text-label-sm hover:bg-surface-dim transition-all shadow-sm">
+            Export
+        </button>
+<button class="primary-btn px-7 py-2 bg-primary text-white rounded-full font-bold text-label-sm shadow-lg shadow-primary/30">
+            Deploy
+        </button>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary/20 p-0.5 ml-2">
+<img alt="User Profile" class="w-full h-full object-cover rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIfXO69JgTImikOx5y1nwVPlgOcXBVKOXV3eEb0D_D5mM0Ys89DRp81i6cCQM3pkW_B5IMtwJItLK7yPk5f4eKcqPolbRndk_elvIGREOJ9UfaOCAEkKkTyO5U9KAi9oeS8kvc4xmr_gGCHx_mDk43DpCJbItJQ3tNv4qxEqdG_xtTJIhrkGqF6BJ7WRCh8b-DTyIgWN0olIRu5p6rdQdQwH7g7v2SGwg8i66Y3Ju2rMlFWGyldQFd4Q9O-ytv9xhZVu_Gm35BdzYL"/>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="ml-64 mt-20 p-10 relative z-10 overflow-y-auto h-[calc(100vh-80px)] custom-scrollbar">
+<div class="grid grid-cols-12 gap-8 max-w-[1500px] mx-auto pb-12">
+<!-- Revenue Trajectory Chart -->
+<div class="reveal-content col-span-8 row-span-2 bento-card rounded-3xl p-8 flex flex-col" style="--delay: 2.1s;">
+<div class="flex justify-between items-start mb-8">
+<div>
+<h3 class="font-headline-md text-headline-md text-primary tracking-tight">Revenue Trajectory</h3>
+<p class="font-body-sm text-on-surface-variant opacity-70">Real-time fiscal velocity tracking</p>
+</div>
+<div class="flex gap-2">
+<span class="px-4 py-1.5 rounded-full bg-primary/5 text-primary text-[10px] font-bold border border-primary/10 uppercase tracking-[0.1em]">Verified Nodes</span>
+</div>
+</div>
+<div class="flex-1 flex items-end justify-between gap-4 pt-4">
+<div class="w-full flex items-end justify-between h-56 gap-4 px-4">
+<div class="data-bar w-full bg-primary/10 hover:bg-primary/20 transition-all rounded-t-xl h-[40%]" style="animation-delay: 2.5s"></div>
+<div class="data-bar w-full bg-primary/10 hover:bg-primary/20 transition-all rounded-t-xl h-[55%]" style="animation-delay: 2.6s"></div>
+<div class="data-bar w-full bg-primary/10 hover:bg-primary/20 transition-all rounded-t-xl h-[48%]" style="animation-delay: 2.7s"></div>
+<div class="data-bar w-full bg-primary/10 hover:bg-primary/20 transition-all rounded-t-xl h-[62%]" style="animation-delay: 2.8s"></div>
+<div class="data-bar w-full bg-primary/10 hover:bg-primary/20 transition-all rounded-t-xl h-[75%]" style="animation-delay: 2.9s"></div>
+<div class="data-bar w-full bg-primary/10 hover:bg-primary/20 transition-all rounded-t-xl h-[68%]" style="animation-delay: 3.0s"></div>
+<div class="data-bar w-full bg-primary/10 hover:bg-primary/20 transition-all rounded-t-xl h-[85%]" style="animation-delay: 3.1s"></div>
+<div class="data-bar w-full bg-primary/10 hover:bg-primary/20 transition-all rounded-t-xl h-[92%]" style="animation-delay: 3.2s"></div>
+<div class="data-bar w-full bg-primary rounded-t-xl h-[100%] shadow-lg shadow-primary/20" style="animation-delay: 3.3s"></div>
+</div>
+</div>
+<div class="flex justify-between mt-8 font-label-sm text-[11px] text-on-surface-variant font-bold opacity-50 uppercase tracking-widest">
+<span>Q1 ALPHA</span>
+<span>Q2 BRAVO</span>
+<span>Q3 CHARLIE</span>
+<span>Q4 DELTA</span>
+</div>
+</div>
+<!-- Total Sales Card -->
+<div class="reveal-content col-span-4 bento-card rounded-3xl p-8" style="--delay: 2.2s;">
+<div class="flex justify-between items-start">
+<div class="p-3 bg-primary/5 rounded-2xl text-primary">
+<span class="material-symbols-outlined text-[24px]">account_balance_wallet</span>
+</div>
+<span class="flex items-center gap-1 text-emerald-600 font-bold text-[14px] bg-emerald-50 px-3 py-1 rounded-full">
+<span class="material-symbols-outlined text-[18px]">trending_up</span> +14.2%
+                </span>
+</div>
+<div class="mt-8">
+<p class="font-label-sm text-on-surface-variant uppercase tracking-[0.15em] font-bold opacity-60 text-[11px]">Global Acquisition Value</p>
+<h4 class="font-headline-lg text-[40px] text-on-surface mt-2 tracking-tight">$4.29M</h4>
+</div>
+<div class="mt-10 flex gap-2">
+<div class="h-2 flex-1 bg-primary rounded-full"></div>
+<div class="h-2 flex-1 bg-primary rounded-full"></div>
+<div class="h-2 flex-1 bg-surface-variant/40 rounded-full"></div>
+<div class="h-2 flex-1 bg-surface-variant/40 rounded-full"></div>
+</div>
+</div>
+<!-- User Acquisition Progress -->
+<div class="reveal-content col-span-4 bento-card rounded-3xl p-8 flex flex-col items-center justify-center text-center" style="--delay: 2.3s;">
+<div class="relative w-40 h-40 mb-6">
+<svg class="w-full h-full -rotate-90">
+<circle class="text-surface-variant/20" cx="80" cy="80" fill="transparent" r="72" stroke="currentColor" stroke-width="12"></circle>
+<circle class="text-primary" cx="80" cy="80" fill="transparent" id="progress-circle" r="72" stroke="currentColor" stroke-dasharray="452.3" stroke-dashoffset="452.3" stroke-linecap="round" stroke-width="12" style="transition: stroke-dashoffset 2s cubic-bezier(0.4, 0, 0.2, 1);"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="font-headline-md text-[32px] text-on-surface tracking-tight" id="progress-text">0%</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant uppercase font-bold opacity-60">Capacity</span>
+</div>
+</div>
+<h4 class="font-label-sm text-on-surface-variant mb-1 font-bold opacity-60 uppercase tracking-widest text-[11px]">Node Velocity</h4>
+<p class="font-body-md text-primary font-bold text-[18px]">2.4k Nodes / Hour</p>
+</div>
+<!-- System Latency Gauge -->
+<div class="reveal-content col-span-3 bento-card rounded-3xl p-8" style="--delay: 2.4s;">
+<div class="flex items-center gap-3 mb-6">
+<div class="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600">
+<span class="material-symbols-outlined">speed</span>
+</div>
+<h4 class="font-label-sm text-on-surface-variant font-bold opacity-60 uppercase tracking-widest text-[11px]">Latencies</h4>
+</div>
+<div class="flex items-baseline gap-2 mb-8">
+<span class="font-headline-xl text-[44px] text-emerald-600 tracking-tighter">12ms</span>
+<span class="font-body-sm text-on-surface-variant font-medium">Optimal</span>
+</div>
+<div class="flex gap-2 items-end h-12">
+<div class="data-bar w-2 h-5 bg-emerald-500/20 rounded-full" style="animation-delay: 3.4s"></div>
+<div class="data-bar w-2 h-8 bg-emerald-500/20 rounded-full" style="animation-delay: 3.5s"></div>
+<div class="data-bar w-2 h-4 bg-emerald-500/20 rounded-full" style="animation-delay: 3.6s"></div>
+<div class="data-bar w-2 h-10 bg-emerald-500/20 rounded-full" style="animation-delay: 3.7s"></div>
+<div class="data-bar w-2 h-7 bg-emerald-500/20 rounded-full" style="animation-delay: 3.8s"></div>
+<div class="data-bar w-2 h-9 bg-emerald-500 rounded-full shadow-lg shadow-emerald-500/20" style="animation-delay: 3.9s"></div>
+</div>
+</div>
+<!-- Recent Transactions -->
+<div class="reveal-content col-span-9 bento-card rounded-3xl p-0 overflow-hidden" style="--delay: 2.5s;">
+<div class="px-8 py-6 border-b border-outline-variant/10 flex justify-between items-center bg-white/30">
+<div>
+<h4 class="font-headline-md text-headline-md text-primary tracking-tight">Protocol Logs</h4>
+<p class="text-[12px] text-on-surface-variant opacity-60">Sub-millisecond ledger updates</p>
+</div>
+<button class="p-3 text-on-surface-variant hover:text-primary hover:bg-primary/5 rounded-2xl transition-all border border-outline-variant/10 shadow-sm bg-white/50">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+</div>
+<div class="divide-y divide-outline-variant/10">
+<div class="px-8 py-5 flex items-center justify-between hover:bg-primary/[0.02] transition-colors group">
+<div class="flex items-center gap-5">
+<div class="w-12 h-12 rounded-2xl border border-outline-variant/20 overflow-hidden group-hover:border-primary/30 transition-colors bg-white shadow-sm">
+<img alt="User" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlt5audNXbC4B3NJ1PQ6HK4GyjFGjetDu9BT1CONEf1DJL0IZ7BGCDGdD90wtwam_Lig0mz48N058ubCAwmvPZ5vRzjE_Q5Yl7GpWv1hvECNU7x2t3n24vOkMefdwOTkyB_iT6mVqcJLuNHHdLoX9o63_wIhSmVQKqmHsCLgN9UrBPUxaKpnvs8svLGpEgRhXHKohUA8WllWauqEm6DOQravgpNpoUZ-iIbrBevrPf2QOFbpUe65Tb9BAbc1ux8fdMMu7G5BAIYerq"/>
+</div>
+<div>
+<p class="font-body-md text-on-surface font-semibold">Alpha Protocol Deployment</p>
+<p class="font-label-sm text-[11px] text-on-surface-variant/50 font-mono">SYN-9821-X • 2 mins ago</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-body-md text-primary font-bold tracking-tight">+ $12,400.00</p>
+<span class="px-3 py-1 rounded-full bg-emerald-100/50 text-emerald-700 text-[10px] font-bold border border-emerald-200/50 uppercase tracking-widest">Complete</span>
+</div>
+</div>
+<div class="px-8 py-5 flex items-center justify-between hover:bg-primary/[0.02] transition-colors group">
+<div class="flex items-center gap-5">
+<div class="w-12 h-12 rounded-2xl border border-outline-variant/20 overflow-hidden group-hover:border-primary/30 transition-colors bg-white shadow-sm">
+<img alt="User" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfr9bd6xhUIzYH86457SJF8mebiSGUjmQpqC_fGuFyrq62ohf_YAH7f2cItinmhccnCg8VyQ1xYPv1cOVc9e3WjY5Dn6GhpQbSyVOatZlGt4h5bP106YJy8Y3BJonAFkeF1A2mp1mT0g3ZN3Xax0MbUOsXmK8StEJv7SjXAADlNnnYiv-V80_XTpf3-L9DojlEn8F6jA01uAP-VmNyBafz7RXOkz0-gGSO1m7XaxKisjjcbE2ePaI_lnn4mZumXxUEPXG8dryeYud6"/>
+</div>
+<div>
+<p class="font-body-md text-on-surface font-semibold">Nexus Node Subscription</p>
+<p class="font-label-sm text-[11px] text-on-surface-variant/50 font-mono">SYN-0042-B • 15 mins ago</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-body-md text-primary font-bold tracking-tight">+ $1,299.00</p>
+<span class="px-3 py-1 rounded-full bg-emerald-100/50 text-emerald-700 text-[10px] font-bold border border-emerald-200/50 uppercase tracking-widest">Complete</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+    // --- Curtain Cleanup & Initialization ---
+    window.addEventListener('load', () => {
+        // Remove curtain containers after animations to ensure full interactivity
+        setTimeout(() => {
+            const v = document.getElementById('curtain-container-v');
+            if (v) v.style.display = 'none';
+        }, 1500); // After Phase 1
+        
+        setTimeout(() => {
+            const h = document.getElementById('curtain-container-h');
+            if (h) h.style.display = 'none';
+            document.body.classList.remove('overflow-hidden');
+            document.body.classList.add('overflow-auto');
+        }, 2500); // After Phase 2
+
+        // Trigger Progress Bar
+        setTimeout(() => {
+            const circle = document.getElementById('progress-circle');
+            const text = document.getElementById('progress-text');
+            if (circle && text) {
+                circle.style.strokeDashoffset = '126'; // approx 72%
+                let current = 0;
+                const interval = setInterval(() => {
+                    if (current >= 72) clearInterval(interval);
+                    else {
+                        current++;
+                        text.innerText = current + '%';
+                    }
+                }, 20);
+            }
+        }, 3000);
+    });
+
+    // --- Liquid Shader Implementation ---
+    const canvas = document.getElementById('shader-canvas');
+    const gl = canvas.getContext('webgl');
+
+    const vertexSource = `
+        attribute vec2 position;
+        varying vec2 v_texCoord;
+        void main() {
+            v_texCoord = position * 0.5 + 0.5;
+            gl_Position = vec4(position, 0.0, 1.0);
+        }
+    `;
+
+    const fragmentSource = `
+        precision highp float;
+        uniform float u_time;
+        uniform vec2 u_resolution;
+        varying vec2 v_texCoord;
+
+        vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+        vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+        vec3 permute(vec3 x) { return mod289(((x*34.0)+1.0)*x); }
+
+        float snoise(vec2 v) {
+            const vec4 C = vec4(0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439);
+            vec2 i  = floor(v + dot(v, C.yy));
+            vec2 x0 = v -   i + dot(i, C.xx);
+            vec2 i1;
+            i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+            vec4 x12 = x0.xyxy + C.xxzz;
+            x12.xy -= i1;
+            i = mod289(i);
+            vec3 p = permute(permute(i.y + vec3(0.0, i1.y, 1.0)) + i.x + vec3(0.0, i1.x, 1.0));
+            vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);
+            m = m*m;
+            m = m*m;
+            vec3 x = 2.0 * fract(p * C.www) - 1.0;
+            vec3 h = abs(x) - 0.5;
+            vec3 ox = floor(x + 0.5);
+            vec3 a0 = x - ox;
+            m *= 1.79284291400159 - 0.85373472095314 * (a0*a0 + h*h);
+            vec3 g;
+            g.x  = a0.x  * x0.x  + h.x  * x0.y;
+            g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+            return 130.0 * dot(m, g);
+        }
+
+        void main() {
+            vec2 uv = v_texCoord;
+            float n = snoise(uv * 1.5 + u_time * 0.1);
+            n += 0.5 * snoise(uv * 3.0 - u_time * 0.15);
+            
+            vec3 baseColor = vec3(0.97, 0.98, 0.99); 
+            vec3 glowColor = vec3(0.0, 0.44, 0.92); 
+            vec3 silverColor = vec3(0.85, 0.87, 0.90);
+            
+            float mask = smoothstep(-0.2, 0.8, n);
+            vec3 color = mix(baseColor, silverColor, mask * 0.3);
+            color = mix(color, glowColor, pow(mask, 4.0) * 0.15);
+            
+            float vig = 1.0 - smoothstep(0.5, 1.5, length(uv - 0.5));
+            color *= vig * 0.1 + 0.9;
+
+            gl_FragColor = vec4(color, 1.0);
+        }
+    `;
+
+    function createShader(gl, type, source) {
+        const shader = gl.createShader(type);
+        gl.shaderSource(shader, source);
+        gl.compileShader(shader);
+        return shader;
+    }
+
+    const program = gl.createProgram();
+    gl.attachShader(program, createShader(gl, gl.VERTEX_SHADER, vertexSource));
+    gl.attachShader(program, createShader(gl, gl.FRAGMENT_SHADER, fragmentSource));
+    gl.linkProgram(program);
+
+    const positionBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]), gl.STATIC_DRAW);
+
+    const positionLocation = gl.getAttribLocation(program, 'position');
+    const timeLocation = gl.getUniformLocation(program, 'u_time');
+    const resolutionLocation = gl.getUniformLocation(program, 'u_resolution');
+
+    function render(time) {
+        if (canvas.width !== window.innerWidth || canvas.height !== window.innerHeight) {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            gl.viewport(0, 0, canvas.width, canvas.height);
+        }
+        gl.useProgram(program);
+        gl.enableVertexAttribArray(positionLocation);
+        gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
+        gl.uniform1f(timeLocation, time * 0.001);
+        gl.uniform2f(resolutionLocation, canvas.width, canvas.height);
+        gl.drawArrays(gl.TRIANGLES, 0, 6);
+        requestAnimationFrame(render);
+    }
+    requestAnimationFrame(render);
+
+    // --- Micro-interactions ---
+    document.querySelectorAll('.primary-btn').forEach(btn => {
+        btn.addEventListener('mousemove', (e) => {
+            const rect = btn.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            btn.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px) scale(1.05)`;
+        });
+        btn.addEventListener('mouseleave', () => {
+            btn.style.transform = `translate(0, 0) scale(1)`;
+        });
+    });
+
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => {
+        item.addEventListener('click', function(e) {
+            navItems.forEach(i => i.classList.remove('active', 'text-primary'));
+            navItems.forEach(i => i.classList.add('text-on-surface-variant'));
+            this.classList.add('active', 'text-primary');
+            this.classList.remove('text-on-surface-variant');
+        });
+    });
+
+    console.log("Synthesis Suite Animated Sequence Initialized");
+</script>
+</body></html>
