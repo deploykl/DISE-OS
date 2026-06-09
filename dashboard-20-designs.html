@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html data-theme="dark" lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>20 Dashboard Design Systems</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&family=Orbitron:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Fira+Code:wght@400;500;600;700&family=Nunito:wght@400;600;700;800;900&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700;800&family=Raleway:wght@300;400;500;600;700;800&family=Work+Sans:wght@300;400;500;600;700&family=Fredoka+One&family=Sora:wght@300;400;500;600;700&family=Karla:wght@300;400;500;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Exo+2:wght@300;400;500;600;700;800&family=DM+Sans:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+/* === RESET & BASE === */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--t:.28s ease}
+body{padding:24px 20px;min-height:100vh;transition:background var(--t),color var(--t)}
+[data-theme="dark"] body{background:#09090B;color:#F4F4F5}
+[data-theme="light"] body{background:#F0F4F8;color:#1E293B}
+
+/* === THEME TOGGLE === */
+.toggle-wrap{position:fixed;top:18px;right:20px;z-index:9999}
+.theme-btn{
+  display:flex;align-items:center;gap:8px;padding:9px 18px;
+  border:none;border-radius:999px;cursor:pointer;
+  font-size:.82rem;font-weight:700;letter-spacing:.04em;
+  transition:all .2s;font-family:inherit;
+}
+.theme-btn:hover{transform:scale(1.05)}
+[data-theme="dark"] .theme-btn{background:#27272A;color:#F4F4F5;box-shadow:0 4px 16px rgba(0,0,0,.5)}
+[data-theme="light"] .theme-btn{background:#1E293B;color:#F8FAFC;box-shadow:0 4px 16px rgba(0,0,0,.2)}
+.theme-btn svg{width:15px;height:15px;flex-shrink:0}
+
+/* === PAGE TITLE === */
+.pg-title{
+  text-align:center;font-size:1.4rem;font-weight:800;
+  margin-bottom:28px;letter-spacing:.03em;
+  padding-right:80px;
+}
+[data-theme="dark"] .pg-title{color:#E2E8F0}
+[data-theme="light"] .pg-title{color:#0F172A}
+
+/* === ROW BASE === */
+.dr{
+  display:grid;
+  grid-template-columns:215px 1fr 1fr 1fr 1fr;
+  gap:13px;margin-bottom:18px;padding:18px;
+  align-items:center;transition:background var(--t),border-color var(--t);
+}
+.rl{
+  grid-column:1/-1;font-size:.58rem;font-weight:700;
+  letter-spacing:.2em;text-transform:uppercase;
+  margin-bottom:-2px;opacity:.35;
+}
+[data-theme="dark"] .rl{color:#fff}
+[data-theme="light"] .rl{color:#000}
+
+/* === CARD BASE === */
+.sc{
+  height:185px;padding:18px;display:flex;flex-direction:column;
+  justify-content:space-between;position:relative;overflow:hidden;
+  cursor:pointer;transition:transform .18s;
+}
+.sc:hover{transform:translateY(-2px)}
+.sc .lb{font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;opacity:.6}
+.sc .vl{font-size:1.85rem;font-weight:800;line-height:1.05;letter-spacing:-.02em}
+.sc .sb{font-size:.73rem;opacity:.55}
+.sc .bd{
+  display:inline-flex;align-items:center;gap:3px;
+  padding:3px 9px;border-radius:999px;
+  font-size:.68rem;font-weight:700;width:fit-content;
+}
+.bu{background:rgba(34,197,94,.15);color:#86EFAC}
+.bd2{background:rgba(239,68,68,.15);color:#FCA5A5}
+[data-theme="light"] .bu{background:rgba(21,128,61,.12);color:#166534}
+[data-theme="light"] .bd2{background:rgba(185,28,28,.12);color:#991B1B}
+.sc .ic{
+  position:absolute;top:14px;right:14px;
+  width:36px;height:36px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+}
+.sc .ic svg{width:19px;height:19px}
+
+/* === CHART BOX BASE === */
+.cb{
+  height:185px;padding:11px 13px;
+  display:flex;flex-direction:column;
+  transition:background var(--t),border-color var(--t);
+}
+.cb .ct{
+  font-size:.62rem;font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;margin-bottom:7px;opacity:.55;
+}
+.cb canvas{flex:1;min-height:0}
+
+/* ================================================================
+   DESIGN 01 — GLASSMORPHISM · Inter
+================================================================ */
+.d1{font-family:'Inter',sans-serif;border-radius:22px}
+[data-theme="dark"] .d1{
+  background:radial-gradient(ellipse at 15% 50%,rgba(99,102,241,.18)0%,transparent 55%),
+             radial-gradient(ellipse at 85% 50%,rgba(139,92,246,.14)0%,transparent 55%),#0F172A;
+}
+[data-theme="light"] .d1{
+  background:radial-gradient(ellipse at 15% 50%,rgba(199,210,254,.7)0%,transparent 55%),
+             radial-gradient(ellipse at 85% 50%,rgba(221,214,254,.6)0%,transparent 55%),#EEF2FF;
+}
+[data-theme="dark"] .d1 .sc{
+  background:rgba(255,255,255,.07);backdrop-filter:blur(22px) saturate(1.5);
+  border:1px solid rgba(255,255,255,.12);border-radius:16px;color:#EEF2FF;
+}
+[data-theme="light"] .d1 .sc{
+  background:rgba(255,255,255,.72);backdrop-filter:blur(22px) saturate(1.5);
+  border:1px solid rgba(255,255,255,.9);border-radius:16px;color:#1E1B4B;
+  box-shadow:0 8px 32px rgba(99,102,241,.1);
+}
+[data-theme="dark"] .d1 .ic{background:rgba(99,102,241,.2);color:#A5B4FC}
+[data-theme="light"] .d1 .ic{background:rgba(99,102,241,.1);color:#4F46E5}
+[data-theme="dark"] .d1 .cb{
+  background:rgba(255,255,255,.05);backdrop-filter:blur(14px);
+  border:1px solid rgba(255,255,255,.08);border-radius:14px;color:#C7D2FE;
+}
+[data-theme="light"] .d1 .cb{
+  background:rgba(255,255,255,.65);backdrop-filter:blur(14px);
+  border:1px solid rgba(255,255,255,.85);border-radius:14px;color:#4338CA;
+}
+
+/* ================================================================
+   DESIGN 02 — NEUMORPHISM · Poppins
+================================================================ */
+.d2{font-family:'Poppins',sans-serif;border-radius:22px}
+[data-theme="dark"] .d2{background:#1C1F2E}
+[data-theme="light"] .d2{background:#E0E5F0}
+[data-theme="dark"] .d2 .sc{
+  background:#1C1F2E;
+  box-shadow:9px 9px 22px #11131C,-9px -9px 22px #272B40;
+  border-radius:18px;color:#CBD5E1;border:none;
+}
+[data-theme="light"] .d2 .sc{
+  background:#E0E5F0;
+  box-shadow:9px 9px 18px #B8BDCC,-9px -9px 18px #FFFFFF;
+  border-radius:18px;color:#1E293B;border:none;
+}
+[data-theme="dark"] .d2 .ic{
+  background:#1C1F2E;
+  box-shadow:4px 4px 8px #11131C,-4px -4px 8px #272B40;
+  color:#A78BFA;border-radius:10px;
+}
+[data-theme="light"] .d2 .ic{
+  background:#E0E5F0;
+  box-shadow:4px 4px 8px #B8BDCC,-4px -4px 8px #FFFFFF;
+  color:#7C3AED;border-radius:10px;
+}
+[data-theme="dark"] .d2 .cb{
+  background:#1C1F2E;border:none;
+  box-shadow:inset 5px 5px 10px #11131C,inset -5px -5px 10px #272B40;
+  border-radius:14px;color:#A78BFA;
+}
+[data-theme="light"] .d2 .cb{
+  background:#E0E5F0;border:none;
+  box-shadow:inset 5px 5px 10px #B8BDCC,inset -5px -5px 10px #FFFFFF;
+  border-radius:14px;color:#5B21B6;
+}
+
+/* ================================================================
+   DESIGN 03 — BRUTALISM · Space Grotesk
+================================================================ */
+.d3{font-family:'Space Grotesk',sans-serif;border-radius:0;border:3px solid}
+[data-theme="dark"] .d3{background:#09090B;border-color:#FDE047}
+[data-theme="light"] .d3{background:#FFFEF0;border-color:#000}
+[data-theme="dark"] .d3 .sc{
+  background:#000;border:3px solid #FDE047;
+  box-shadow:5px 5px 0 #FDE047;border-radius:0;color:#FEF9C3;
+}
+[data-theme="light"] .d3 .sc{
+  background:#FEF9C3;border:3px solid #000;
+  box-shadow:5px 5px 0 #000;border-radius:0;color:#09090B;
+}
+[data-theme="dark"] .d3 .ic{background:#FDE047;color:#000;border-radius:0}
+[data-theme="light"] .d3 .ic{background:#000;color:#FDE047;border-radius:0}
+[data-theme="dark"] .d3 .vl{color:#FDE047;font-size:2rem}
+[data-theme="light"] .d3 .vl{color:#000;font-size:2rem}
+[data-theme="dark"] .d3 .cb{
+  background:#000;border:3px solid #FDE047;
+  box-shadow:4px 4px 0 #FDE047;border-radius:0;color:#FDE047;
+}
+[data-theme="light"] .d3 .cb{
+  background:#FFFEF0;border:3px solid #000;
+  box-shadow:4px 4px 0 #000;border-radius:0;color:#09090B;
+}
+
+/* ================================================================
+   DESIGN 04 — MATERIAL YOU · Roboto
+================================================================ */
+.d4{font-family:'Roboto',sans-serif;border-radius:28px}
+[data-theme="dark"] .d4{background:#1C1B1F}
+[data-theme="light"] .d4{background:#FFFBFE}
+[data-theme="dark"] .d4 .sc{
+  background:#2B2930;border:1px solid rgba(208,188,255,.2);
+  border-radius:28px;color:#E6E1E5;
+}
+[data-theme="light"] .d4 .sc{
+  background:#EADDFF;border:1px solid rgba(103,80,164,.12);
+  border-radius:28px;color:#21005D;
+  box-shadow:0 2px 12px rgba(103,80,164,.12);
+}
+[data-theme="dark"] .d4 .ic{background:rgba(208,188,255,.1);color:#D0BCFF;border-radius:18px}
+[data-theme="light"] .d4 .ic{background:rgba(103,80,164,.1);color:#6750A4;border-radius:18px}
+[data-theme="dark"] .d4 .cb{
+  background:#2B2930;border:1px solid rgba(208,188,255,.18);
+  border-radius:24px;color:#CCC2DC;
+}
+[data-theme="light"] .d4 .cb{
+  background:#F6EDFF;border:1px solid rgba(103,80,164,.1);
+  border-radius:24px;color:#4A4458;
+}
+
+/* ================================================================
+   DESIGN 05 — CYBERPUNK NEON · Orbitron
+================================================================ */
+.d5{font-family:'Orbitron',monospace;border-radius:4px;position:relative;overflow:hidden}
+.d5::before{
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(34,211,238,.025)3px,rgba(34,211,238,.025)4px);
+}
+[data-theme="dark"] .d5{background:#000;border:1px solid rgba(34,211,238,.35)}
+[data-theme="light"] .d5{background:#020C14;border:1px solid rgba(34,211,238,.45)}
+.d5 .sc,.d5[data-theme] .sc{
+  background:rgba(0,0,0,.85);border:1px solid #22D3EE;
+  box-shadow:0 0 14px rgba(34,211,238,.25),inset 0 0 24px rgba(34,211,238,.04);
+  border-radius:4px;color:#E0FFFF;position:relative;z-index:1;
+}
+[data-theme="dark"] .d5 .sc,[data-theme="light"] .d5 .sc{
+  background:rgba(0,10,20,.9);border:1px solid #22D3EE;
+  box-shadow:0 0 14px rgba(34,211,238,.25),inset 0 0 24px rgba(34,211,238,.04);
+  border-radius:4px;color:#E0FFFF;
+}
+.d5 .ic{background:rgba(34,211,238,.08);color:#22D3EE;border-radius:2px}
+.d5 .vl{color:#22D3EE;text-shadow:0 0 12px rgba(34,211,238,.7)}
+[data-theme="dark"] .d5 .cb,[data-theme="light"] .d5 .cb{
+  background:rgba(0,10,20,.8);border:1px solid rgba(34,211,238,.35);
+  box-shadow:0 0 8px rgba(34,211,238,.12);border-radius:4px;color:#67E8F9;
+  position:relative;z-index:1;
+}
+
+/* ================================================================
+   DESIGN 06 — LUXURY MINIMAL · Playfair Display
+================================================================ */
+.d6{font-family:'Playfair Display',serif;border-radius:6px}
+[data-theme="dark"] .d6{background:#0D0B08;border:1px solid #C9A227}
+[data-theme="light"] .d6{background:#FDFAF2;border:1px solid #C9A227}
+[data-theme="dark"] .d6 .sc{
+  background:#18140C;border:1px solid #B8960C;border-radius:4px;color:#FEF3C7;
+}
+[data-theme="light"] .d6 .sc{
+  background:#FFFFF5;border:1px solid #C9A227;border-radius:4px;color:#44300A;
+  box-shadow:0 4px 24px rgba(201,162,39,.08);
+}
+[data-theme="dark"] .d6 .ic{background:rgba(201,162,39,.1);color:#C9A227;border-radius:2px}
+[data-theme="light"] .d6 .ic{background:rgba(201,162,39,.08);color:#92701A;border-radius:2px}
+[data-theme="dark"] .d6 .vl{font-style:italic;color:#F0C244}
+[data-theme="light"] .d6 .vl{font-style:italic;color:#7A5212}
+[data-theme="dark"] .d6 .cb{
+  background:#18140C;border:1px solid rgba(184,150,12,.28);border-radius:4px;color:#F0C244;
+}
+[data-theme="light"] .d6 .cb{
+  background:#FFFFFA;border:1px solid rgba(201,162,39,.22);border-radius:4px;color:#7A5212;
+}
+
+/* ================================================================
+   DESIGN 07 — TERMINAL · Fira Code
+================================================================ */
+.d7{font-family:'Fira Code',monospace;border-radius:10px}
+[data-theme="dark"] .d7{background:#0D1117;border:1px solid #30363D}
+[data-theme="light"] .d7{background:#F6F8FA;border:1px solid #D0D7DE}
+[data-theme="dark"] .d7 .sc{
+  background:#161B22;border:1px solid #30363D;border-radius:8px;color:#E6EDF3;
+}
+[data-theme="light"] .d7 .sc{
+  background:#FFF;border:1px solid #D0D7DE;border-radius:8px;color:#1F2328;
+}
+.d7 .sc::before{
+  content:'● ● ●';position:absolute;top:10px;left:13px;
+  font-size:7px;letter-spacing:4px;font-family:'Fira Code',monospace;
+}
+[data-theme="dark"] .d7 .sc::before{color:#3FB950}
+[data-theme="light"] .d7 .sc::before{color:#26A13B}
+.d7 .sc .lb{margin-top:14px}
+[data-theme="dark"] .d7 .ic{background:rgba(63,185,80,.1);color:#3FB950;border-radius:4px}
+[data-theme="light"] .d7 .ic{background:rgba(38,160,59,.08);color:#1A7F37;border-radius:4px}
+[data-theme="dark"] .d7 .vl{color:#3FB950;font-size:1.7rem}
+[data-theme="light"] .d7 .vl{color:#1A7F37;font-size:1.7rem}
+[data-theme="dark"] .d7 .cb{
+  background:#161B22;border:1px solid #30363D;border-radius:8px;color:#3FB950;
+}
+[data-theme="light"] .d7 .cb{
+  background:#FFF;border:1px solid #D0D7DE;border-radius:8px;color:#1A7F37;
+}
+
+/* ================================================================
+   DESIGN 08 — SOFT CANDY · Nunito
+================================================================ */
+.d8{font-family:'Nunito',sans-serif;border-radius:26px}
+[data-theme="dark"] .d8{background:linear-gradient(135deg,#170A2A 0%,#0A1B3E 100%)}
+[data-theme="light"] .d8{background:linear-gradient(135deg,#FEF0FB 0%,#EFF2FF 100%)}
+[data-theme="dark"] .d8 .sc{
+  background:linear-gradient(145deg,#2A1552,#182B58);border:none;
+  border-radius:26px;color:#F0E6FF;
+  box-shadow:0 10px 40px rgba(168,85,247,.2);
+}
+[data-theme="light"] .d8 .sc{
+  background:linear-gradient(145deg,#FFE4F8,#E4EEFF);border:none;
+  border-radius:26px;color:#3A1C5F;
+  box-shadow:0 8px 32px rgba(168,85,247,.12);
+}
+[data-theme="dark"] .d8 .ic{background:rgba(244,114,182,.2);color:#F9A8D4;border-radius:16px}
+[data-theme="light"] .d8 .ic{background:rgba(244,114,182,.15);color:#DB2777;border-radius:16px}
+[data-theme="dark"] .d8 .cb{
+  background:rgba(255,255,255,.06);border:1.5px solid rgba(244,114,182,.2);
+  border-radius:20px;color:#F9A8D4;
+}
+[data-theme="light"] .d8 .cb{
+  background:rgba(255,255,255,.75);border:1.5px solid rgba(244,114,182,.18);
+  border-radius:20px;color:#9333EA;
+}
+
+/* ================================================================
+   DESIGN 09 — CORPORATE IBM · IBM Plex Sans
+================================================================ */
+.d9{font-family:'IBM Plex Sans',sans-serif;border-radius:0}
+[data-theme="dark"] .d9{background:#161616;border-left:4px solid #0F62FE}
+[data-theme="light"] .d9{background:#F4F4F4;border-left:4px solid #0F62FE}
+[data-theme="dark"] .d9 .sc{
+  background:#262626;border:none;border-top:3px solid #0F62FE;
+  border-radius:0;color:#F4F4F4;
+}
+[data-theme="light"] .d9 .sc{
+  background:#FFF;border:none;border-top:3px solid #0F62FE;
+  border-radius:0;color:#161616;
+  box-shadow:0 1px 4px rgba(0,0,0,.1);
+}
+[data-theme="dark"] .d9 .ic{background:rgba(15,98,254,.15);color:#78A9FF;border-radius:0}
+[data-theme="light"] .d9 .ic{background:rgba(15,98,254,.08);color:#0F62FE;border-radius:0}
+[data-theme="dark"] .d9 .vl{color:#78A9FF}
+[data-theme="light"] .d9 .vl{color:#0043CE}
+[data-theme="dark"] .d9 .cb{
+  background:#262626;border:none;border-top:2px solid rgba(15,98,254,.4);
+  border-radius:0;color:#78A9FF;
+}
+[data-theme="light"] .d9 .cb{
+  background:#FFF;border:none;border-top:2px solid rgba(15,98,254,.25);
+  border-radius:0;color:#0043CE;
+  box-shadow:0 1px 4px rgba(0,0,0,.06);
+}
+
+/* ================================================================
+   DESIGN 10 — GRADIENT MESH · Montserrat
+================================================================ */
+.d10{font-family:'Montserrat',sans-serif;border-radius:20px}
+[data-theme="dark"] .d10{
+  background:
+    radial-gradient(at 0% 0%,#1A053380 0,transparent 50%),
+    radial-gradient(at 100% 0%,#001B3380 0,transparent 50%),
+    radial-gradient(at 100% 100%,#001A1A80 0,transparent 50%),
+    radial-gradient(at 0% 100%,#1C053380 0,transparent 50%),#08080F;
+}
+[data-theme="light"] .d10{
+  background:
+    radial-gradient(at 0% 0%,#E9D5FF 0,transparent 50%),
+    radial-gradient(at 100% 0%,#DBEAFE 0,transparent 50%),
+    radial-gradient(at 100% 100%,#CFFAFE 0,transparent 50%),
+    radial-gradient(at 0% 100%,#FCE7F3 0,transparent 50%),#F8FAFC;
+}
+[data-theme="dark"] .d10 .sc{
+  background:linear-gradient(135deg,rgba(124,58,237,.75),rgba(6,182,212,.55));
+  border:1px solid rgba(255,255,255,.08);border-radius:16px;color:#FFF;
+  backdrop-filter:blur(8px);
+}
+[data-theme="light"] .d10 .sc{
+  background:linear-gradient(135deg,#7C3AED,#0EA5E9);border:none;
+  border-radius:16px;color:#FFF;box-shadow:0 12px 40px rgba(124,58,237,.28);
+}
+.d10 .ic{background:rgba(255,255,255,.18);color:#FFF}
+[data-theme="dark"] .d10 .cb{
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);
+  border-radius:14px;color:#C4B5FD;
+}
+[data-theme="light"] .d10 .cb{
+  background:rgba(255,255,255,.7);border:1px solid rgba(124,58,237,.1);
+  border-radius:14px;color:#5B21B6;
+}
+
+/* ================================================================
+   DESIGN 11 — AURORA · Raleway
+================================================================ */
+.d11{font-family:'Raleway',sans-serif;border-radius:20px;position:relative;overflow:hidden}
+.d11::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(200deg,rgba(16,185,129,.06)0%,rgba(139,92,246,.05)50%,rgba(6,182,212,.06)100%);
+}
+[data-theme="dark"] .d11{background:#040E10}
+[data-theme="light"] .d11{background:#F0FDF4}
+[data-theme="dark"] .d11 .sc{
+  background:linear-gradient(155deg,rgba(16,185,129,.12),rgba(139,92,246,.07));
+  border:1px solid rgba(16,185,129,.22);border-radius:16px;color:#D1FAE5;
+  box-shadow:0 4px 30px rgba(16,185,129,.1),0 0 50px rgba(139,92,246,.06);
+}
+[data-theme="light"] .d11 .sc{
+  background:linear-gradient(155deg,rgba(16,185,129,.07),rgba(139,92,246,.04));
+  border:1px solid rgba(16,185,129,.18);border-radius:16px;color:#065F46;
+  box-shadow:0 4px 24px rgba(16,185,129,.08);
+}
+[data-theme="dark"] .d11 .ic{background:rgba(16,185,129,.15);color:#34D399}
+[data-theme="light"] .d11 .ic{background:rgba(16,185,129,.1);color:#059669}
+[data-theme="dark"] .d11 .cb{
+  background:rgba(16,185,129,.04);border:1px solid rgba(16,185,129,.14);
+  border-radius:14px;color:#6EE7B7;
+}
+[data-theme="light"] .d11 .cb{
+  background:rgba(255,255,255,.8);border:1px solid rgba(16,185,129,.14);
+  border-radius:14px;color:#047857;
+}
+
+/* ================================================================
+   DESIGN 12 — SWISS MINIMAL · Work Sans
+================================================================ */
+.d12{font-family:'Work Sans',sans-serif;border-radius:0}
+[data-theme="dark"] .d12{background:#000;border-top:3px solid #EF4444;border-bottom:3px solid #EF4444}
+[data-theme="light"] .d12{background:#FFF;border-top:3px solid #EF4444;border-bottom:3px solid #EF4444}
+[data-theme="dark"] .d12 .sc{
+  background:transparent;border:none;border-bottom:1px solid #222;
+  border-radius:0;color:#FFF;padding-left:0;
+}
+[data-theme="light"] .d12 .sc{
+  background:transparent;border:none;border-bottom:1px solid #E5E7EB;
+  border-radius:0;color:#000;padding-left:0;
+}
+.d12 .ic{background:transparent;border-radius:0;right:0}
+[data-theme="dark"] .d12 .ic{color:#EF4444}
+[data-theme="light"] .d12 .ic{color:#EF4444}
+.d12 .vl{font-size:2.3rem;font-weight:900;color:#EF4444!important}
+[data-theme="dark"] .d12 .cb{
+  background:transparent;border:none;border-left:2px solid #222;
+  border-radius:0;color:#666;
+}
+[data-theme="light"] .d12 .cb{
+  background:transparent;border:none;border-left:2px solid #DDD;
+  border-radius:0;color:#888;
+}
+
+/* ================================================================
+   DESIGN 13 — MEMPHIS 90s · Fredoka One
+================================================================ */
+.d13{font-family:'Fredoka One',cursive;border-radius:16px;position:relative;overflow:hidden}
+[data-theme="dark"] .d13{
+  background-color:#12001F;
+  background-image:radial-gradient(circle,rgba(253,224,71,.18)1px,transparent 1px);
+  background-size:22px 22px;border:2px solid #FDE047;
+}
+[data-theme="light"] .d13{
+  background-color:#FFFDE0;
+  background-image:radial-gradient(circle,rgba(0,0,0,.09)1px,transparent 1px);
+  background-size:22px 22px;border:2px solid #F97316;
+}
+[data-theme="dark"] .d13 .sc{
+  background:#200035;border:2px solid #FDE047;border-radius:12px;color:#FEF9C3;
+  box-shadow:5px 5px 0 #FDE047;
+}
+[data-theme="light"] .d13 .sc{
+  background:#FFF;border:2px solid #F97316;border-radius:12px;color:#431407;
+  box-shadow:5px 5px 0 #F97316;
+}
+[data-theme="dark"] .d13 .ic{background:#FDE047;color:#000;border-radius:8px}
+[data-theme="light"] .d13 .ic{background:#F97316;color:#FFF;border-radius:8px}
+[data-theme="dark"] .d13 .vl{color:#FDE047;font-size:1.9rem}
+[data-theme="light"] .d13 .vl{color:#F97316;font-size:1.9rem}
+[data-theme="dark"] .d13 .cb{
+  background:rgba(32,0,53,.8);border:2px solid rgba(253,224,71,.38);border-radius:10px;color:#FDE047;
+}
+[data-theme="light"] .d13 .cb{
+  background:rgba(255,255,255,.88);border:2px solid rgba(249,115,22,.28);border-radius:10px;color:#9A3412;
+}
+
+/* ================================================================
+   DESIGN 14 — TOKYO NIGHT · Sora
+================================================================ */
+.d14{font-family:'Sora',sans-serif;border-radius:12px}
+[data-theme="dark"] .d14{background:#1A1B2E;border:1px solid rgba(122,162,247,.2)}
+[data-theme="light"] .d14{background:#F4F4FF;border:1px solid rgba(72,84,196,.15)}
+[data-theme="dark"] .d14 .sc{
+  background:#24283B;border:1px solid rgba(122,162,247,.22);border-radius:10px;color:#C0CAF5;
+}
+[data-theme="light"] .d14 .sc{
+  background:#EEEEFF;border:1px solid rgba(72,84,196,.14);border-radius:10px;color:#1A1B2E;
+  box-shadow:0 4px 16px rgba(72,84,196,.07);
+}
+[data-theme="dark"] .d14 .ic{background:rgba(187,154,247,.1);color:#BB9AF7}
+[data-theme="light"] .d14 .ic{background:rgba(72,84,196,.1);color:#4854C4}
+[data-theme="dark"] .d14 .vl{color:#7AA2F7}
+[data-theme="light"] .d14 .vl{color:#3550C0}
+[data-theme="dark"] .d14 .cb{
+  background:#24283B;border:1px solid rgba(122,162,247,.18);border-radius:10px;color:#7AA2F7;
+}
+[data-theme="light"] .d14 .cb{
+  background:#EEEEFF;border:1px solid rgba(72,84,196,.11);border-radius:10px;color:#4854C4;
+}
+
+/* ================================================================
+   DESIGN 15 — ARCTIC FROST · Karla
+================================================================ */
+.d15{font-family:'Karla',sans-serif;border-radius:16px}
+[data-theme="dark"] .d15{
+  background:linear-gradient(135deg,#091628 0%,#0D2244 100%);
+  border:1px solid rgba(147,210,254,.18);
+}
+[data-theme="light"] .d15{
+  background:linear-gradient(135deg,#EFF8FF 0%,#F0FFFD 100%);
+  border:1px solid rgba(147,197,253,.38);
+}
+[data-theme="dark"] .d15 .sc{
+  background:linear-gradient(135deg,rgba(147,210,254,.07),rgba(186,230,255,.04));
+  border:1px solid rgba(147,210,254,.18);border-radius:14px;color:#BAE6FD;
+  box-shadow:0 8px 32px rgba(0,180,255,.07);
+}
+[data-theme="light"] .d15 .sc{
+  background:rgba(255,255,255,.88);border:1px solid rgba(147,197,253,.38);
+  border-radius:14px;color:#0C4A6E;box-shadow:0 4px 20px rgba(14,165,233,.07);
+}
+[data-theme="dark"] .d15 .ic{background:rgba(147,210,254,.1);color:#7DD3FC}
+[data-theme="light"] .d15 .ic{background:rgba(14,165,233,.08);color:#0284C7}
+[data-theme="dark"] .d15 .vl{color:#38BDF8}
+[data-theme="light"] .d15 .vl{color:#0369A1}
+[data-theme="dark"] .d15 .cb{
+  background:rgba(147,210,254,.04);border:1px solid rgba(147,210,254,.13);
+  border-radius:12px;color:#93C5FD;
+}
+[data-theme="light"] .d15 .cb{
+  background:rgba(255,255,255,.82);border:1px solid rgba(147,197,253,.28);
+  border-radius:12px;color:#0369A1;
+}
+
+/* ================================================================
+   DESIGN 16 — EDITORIAL SERIF · Libre Baskerville
+================================================================ */
+.d16{font-family:'Libre Baskerville',serif;border-radius:0}
+[data-theme="dark"] .d16{background:#0F0E0B;border-top:1px solid #5C5035;border-bottom:1px solid #5C5035}
+[data-theme="light"] .d16{background:#FAF7F0;border-top:1px solid #C8A86A;border-bottom:1px solid #C8A86A}
+[data-theme="dark"] .d16 .sc{
+  background:#1A1811;border:1px solid #5C5035;border-radius:2px;color:#F5DEB3;
+}
+[data-theme="light"] .d16 .sc{
+  background:#FFFEF5;border:1px solid #C8A86A;border-radius:2px;color:#3B2A1A;
+  box-shadow:2px 2px 8px rgba(139,90,43,.07);
+}
+[data-theme="dark"] .d16 .ic{background:rgba(200,168,106,.08);color:#C8A86A;border-radius:1px}
+[data-theme="light"] .d16 .ic{background:rgba(139,90,43,.06);color:#7A5C2E;border-radius:1px}
+[data-theme="dark"] .d16 .vl{font-style:italic;color:#C8A86A}
+[data-theme="light"] .d16 .vl{font-style:italic;color:#6B4226}
+[data-theme="dark"] .d16 .cb{
+  background:#1A1811;border:1px solid rgba(92,80,53,.45);border-radius:2px;color:#C8A86A;
+}
+[data-theme="light"] .d16 .cb{
+  background:#FFFEF5;border:1px solid rgba(200,168,106,.4);border-radius:2px;color:#6B4226;
+}
+
+/* ================================================================
+   DESIGN 17 — HOLOGRAPHIC · Exo 2
+================================================================ */
+.d17{font-family:'Exo 2',sans-serif;border-radius:18px;position:relative;overflow:hidden}
+.d17::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(135deg,rgba(255,107,157,.04),rgba(196,77,255,.04),rgba(77,159,255,.04),rgba(77,255,180,.04));
+  animation:holo 5s linear infinite alternate;
+}
+@keyframes holo{from{opacity:.5}to{opacity:1}}
+[data-theme="dark"] .d17{background:linear-gradient(135deg,#08081A,#120A20,#080C14)}
+[data-theme="light"] .d17{background:linear-gradient(135deg,#F6F0FF,#FFF0F8,#F0F8FF)}
+[data-theme="dark"] .d17 .sc{
+  background:linear-gradient(155deg,#12122A,#1A1030);border-radius:14px;color:#E8E0FF;
+  position:relative;border:1px solid transparent;
+  background-clip:padding-box;
+}
+[data-theme="dark"] .d17 .sc::before{
+  content:'';position:absolute;inset:-1px;
+  background:linear-gradient(135deg,#FF6B9D,#C44DFF,#4D9FFF,#4DFFB4);
+  border-radius:15px;z-index:-1;
+}
+[data-theme="light"] .d17 .sc{
+  background:rgba(255,255,255,.88);border-radius:14px;color:#2D1B69;
+  position:relative;border:1px solid transparent;
+}
+[data-theme="light"] .d17 .sc::before{
+  content:'';position:absolute;inset:-1px;
+  background:linear-gradient(135deg,#FF6B9D,#C44DFF,#4D9FFF,#4DFFB4);
+  border-radius:15px;z-index:-1;
+}
+[data-theme="dark"] .d17 .ic{background:rgba(196,77,255,.15);color:#E879F9}
+[data-theme="light"] .d17 .ic{background:rgba(196,77,255,.1);color:#9333EA}
+[data-theme="dark"] .d17 .cb{
+  background:rgba(255,255,255,.04);border:1px solid rgba(196,77,255,.22);
+  border-radius:13px;color:#C084FC;
+}
+[data-theme="light"] .d17 .cb{
+  background:rgba(255,255,255,.8);border:1px solid rgba(196,77,255,.18);
+  border-radius:13px;color:#7E22CE;
+}
+
+/* ================================================================
+   DESIGN 18 — CLAYMORPHISM · Nunito (bold)
+================================================================ */
+.d18{font-family:'Nunito',sans-serif;border-radius:32px}
+[data-theme="dark"] .d18{background:#12062A}
+[data-theme="light"] .d18{background:#FFF2FB}
+[data-theme="dark"] .d18 .sc{
+  background:linear-gradient(145deg,#2E1850,#1E1040);
+  border:2px solid rgba(236,72,153,.28);border-radius:28px;color:#F9A8D4;
+  box-shadow:0 8px 0 rgba(236,72,153,.3),0 14px 24px rgba(0,0,0,.4);
+}
+[data-theme="light"] .d18 .sc{
+  background:linear-gradient(145deg,#FFC8EC,#ECCAFF);
+  border:2px solid rgba(255,255,255,.5);border-radius:28px;color:#4A1540;
+  box-shadow:0 8px 0 rgba(236,72,153,.22),0 14px 24px rgba(236,72,153,.1);
+}
+[data-theme="dark"] .d18 .ic{background:rgba(236,72,153,.15);color:#F472B6;border-radius:16px}
+[data-theme="light"] .d18 .ic{background:rgba(255,255,255,.45);color:#BE185D;border-radius:16px}
+[data-theme="dark"] .d18 .cb{
+  background:rgba(255,255,255,.05);border:2px solid rgba(236,72,153,.18);
+  border-radius:24px;color:#F9A8D4;box-shadow:0 5px 0 rgba(236,72,153,.14);
+}
+[data-theme="light"] .d18 .cb{
+  background:rgba(255,255,255,.68);border:2px solid rgba(255,255,255,.5);
+  border-radius:24px;color:#9D174D;box-shadow:0 5px 0 rgba(236,72,153,.18);
+}
+
+/* ================================================================
+   DESIGN 19 — VAPORWAVE 80s · DM Sans
+================================================================ */
+.d19{font-family:'DM Sans',sans-serif;border-radius:8px;position:relative;overflow:hidden}
+.d19::before{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:40%;pointer-events:none;
+  background:linear-gradient(0deg,transparent,transparent 30%,rgba(255,0,200,.03)70%,transparent);
+}
+[data-theme="dark"] .d19{
+  background:linear-gradient(135deg,#0D0221 0%,#1A0533 50%,#080D30 100%);
+  border:1px solid rgba(255,0,200,.28);
+}
+[data-theme="light"] .d19{
+  background:linear-gradient(135deg,#F2E8FF 0%,#FFE8FE 50%,#E8ECFF 100%);
+  border:1px solid rgba(255,0,200,.18);
+}
+[data-theme="dark"] .d19 .sc{
+  background:linear-gradient(145deg,rgba(255,0,200,.06),rgba(0,200,255,.04));
+  border:1px solid rgba(255,0,200,.38);border-radius:6px;color:#FF80FF;
+  box-shadow:0 0 18px rgba(255,0,200,.12),0 0 50px rgba(0,200,255,.06);
+}
+[data-theme="light"] .d19 .sc{
+  background:linear-gradient(145deg,rgba(255,0,200,.05),rgba(0,200,255,.03));
+  border:1px solid rgba(255,0,200,.22);border-radius:6px;color:#7B0099;
+  box-shadow:0 4px 20px rgba(255,0,200,.08);
+}
+[data-theme="dark"] .d19 .ic{background:rgba(0,200,255,.1);color:#00C8FF;border-radius:4px}
+[data-theme="light"] .d19 .ic{background:rgba(0,200,255,.07);color:#0088AA;border-radius:4px}
+[data-theme="dark"] .d19 .vl{color:#FF71CE;text-shadow:0 0 10px rgba(255,113,206,.5)}
+[data-theme="light"] .d19 .vl{color:#8B0060}
+[data-theme="dark"] .d19 .cb{
+  background:rgba(255,0,200,.04);border:1px solid rgba(255,0,200,.22);
+  border-radius:6px;color:#FF80FF;
+}
+[data-theme="light"] .d19 .cb{
+  background:rgba(255,255,255,.72);border:1px solid rgba(255,0,200,.14);
+  border-radius:6px;color:#8B005A;
+}
+
+/* ================================================================
+   DESIGN 20 — SKEUOMORPHIC · Lora
+================================================================ */
+.d20{font-family:'Lora',serif;border-radius:10px}
+[data-theme="dark"] .d20{
+  background:#1C1C1C;
+  background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.01)0px,rgba(255,255,255,.01)1px,transparent 1px,transparent 8px);
+  border:1px solid #4A4A4A;box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+}
+[data-theme="light"] .d20{
+  background:#E8E0D6;
+  background-image:repeating-linear-gradient(45deg,rgba(0,0,0,.018)0px,rgba(0,0,0,.018)1px,transparent 1px,transparent 8px);
+  border:1px solid #B8A898;box-shadow:0 2px 6px rgba(0,0,0,.1);
+}
+[data-theme="dark"] .d20 .sc{
+  background:linear-gradient(145deg,#2C2C2C,#1C1C1C);
+  border:1px solid #555;border-radius:8px;color:#E8DFD0;
+  box-shadow:0 5px 10px rgba(0,0,0,.5),0 1px 0 rgba(255,255,255,.04),inset 0 1px 0 rgba(255,255,255,.04);
+}
+[data-theme="light"] .d20 .sc{
+  background:linear-gradient(145deg,#F5EDE0,#E2D4C4);
+  border:1px solid #C0A888;border-radius:8px;color:#2A1F14;
+  box-shadow:0 5px 10px rgba(0,0,0,.12),0 1px 0 rgba(255,255,255,.6),inset 0 1px 0 rgba(255,255,255,.5);
+}
+[data-theme="dark"] .d20 .ic{
+  background:linear-gradient(145deg,#3A3A3A,#2A2A2A);color:#CD853F;
+  border-radius:6px;border:1px solid #555;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 2px 4px rgba(0,0,0,.4);
+}
+[data-theme="light"] .d20 .ic{
+  background:linear-gradient(145deg,#F0E4D0,#DECCA8);color:#8B5E3C;
+  border-radius:6px;border:1px solid #C0A080;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 2px 4px rgba(0,0,0,.1);
+}
+[data-theme="dark"] .d20 .vl{font-style:italic;color:#E0A060}
+[data-theme="light"] .d20 .vl{font-style:italic;color:#6B4226}
+[data-theme="dark"] .d20 .cb{
+  background:linear-gradient(145deg,#242424,#1A1A1A);
+  border:1px solid #444;border-radius:6px;color:#A09080;
+  box-shadow:inset 0 2px 5px rgba(0,0,0,.4),0 1px 0 rgba(255,255,255,.03);
+}
+[data-theme="light"] .d20 .cb{
+  background:linear-gradient(145deg,#EDE2D4,#DDD0BE);
+  border:1px solid #BCA898;border-radius:6px;color:#5A4030;
+  box-shadow:inset 0 2px 5px rgba(0,0,0,.07),0 1px 0 rgba(255,255,255,.5);
+}
+
+/* Responsive */
+@media(max-width:1200px){.dr{grid-template-columns:1fr 1fr 1fr}}
+</style>
+</head>
+<body>
+
+<div class="toggle-wrap">
+  <button class="theme-btn" onclick="toggleTheme()">
+    <svg id="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none">
+      <circle cx="12" cy="12" r="5"/>
+      <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+      <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+    </svg>
+    <svg id="ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+    </svg>
+    <span id="t-lbl">Light Mode</span>
+  </button>
+</div>
+
+<h1 class="pg-title">20 Dashboard Design Systems</h1>
+<div id="app"></div>
+
+<script>
+Chart.defaults.font.size = 10;
+const charts = {};
+
+const ROWS = [
+  {n:1, style:"Glassmorphism",    font:"Inter",             metric:"$48,290", name:"Revenue",       sub:"vs last month",     trend:"+12.4%",up:true, icon:"trend"},
+  {n:2, style:"Neumorphism",      font:"Poppins",           metric:"24,891",  name:"Active Users",  sub:"Daily average",     trend:"+8.7%", up:true, icon:"users"},
+  {n:3, style:"Brutalism",        font:"Space Grotesk",     metric:"1,204",   name:"Conversions",   sub:"This week",         trend:"-3.2%", up:false,icon:"check"},
+  {n:4, style:"Material You",     font:"Roboto",            metric:"$9,340",  name:"Ad Spend",      sub:"Monthly budget",    trend:"+21.0%",up:true, icon:"dollar"},
+  {n:5, style:"Cyberpunk Neon",   font:"Orbitron",          metric:"98.2%",   name:"Uptime",        sub:"Last 30 days",      trend:"+0.4%", up:true, icon:"shield"},
+  {n:6, style:"Luxury Minimal",   font:"Playfair Display",  metric:"$2,841",  name:"Avg Order",     sub:"Lifetime value",    trend:"+5.8%", up:true, icon:"dollar"},
+  {n:7, style:"Terminal",         font:"Fira Code",         metric:"17,443",  name:"API Calls",     sub:"Per hour avg",      trend:"+5.1%", up:true, icon:"bolt"},
+  {n:8, style:"Soft Candy",       font:"Nunito",            metric:"42.6%",   name:"Engagement",    sub:"Post reach",        trend:"+9.3%", up:true, icon:"heart"},
+  {n:9, style:"Corporate IBM",    font:"IBM Plex Sans",     metric:"8,102",   name:"New Signups",   sub:"This month",        trend:"+14.8%",up:true, icon:"users"},
+  {n:10,style:"Gradient Mesh",    font:"Montserrat",        metric:"$128K",   name:"Pipeline",      sub:"Open deals",        trend:"+31.2%",up:true, icon:"trend"},
+  {n:11,style:"Aurora",           font:"Raleway",           metric:"99.9%",   name:"SLA",           sub:"Service uptime",    trend:"+0.1%", up:true, icon:"shield"},
+  {n:12,style:"Swiss Minimal",    font:"Work Sans",         metric:"1,892",   name:"Open Tickets",  sub:"Support queue",     trend:"-220",  up:true, icon:"check"},
+  {n:13,style:"Memphis 90s",      font:"Fredoka One",       metric:"4.7★",    name:"App Rating",    sub:"App store",         trend:"+0.3★", up:true, icon:"star"},
+  {n:14,style:"Tokyo Night",      font:"Sora",              metric:"78,432",  name:"Daily Calls",   sub:"Per hour avg",      trend:"+6.5%", up:true, icon:"bolt"},
+  {n:15,style:"Arctic Frost",     font:"Karla",             metric:"$34,901", name:"MRR",           sub:"Monthly recurring", trend:"+18.2%",up:true, icon:"trend"},
+  {n:16,style:"Editorial Serif",  font:"Libre Baskerville", metric:"2,341",   name:"Articles Read", sub:"Daily sessions",    trend:"+44",   up:true, icon:"graph"},
+  {n:17,style:"Holographic",      font:"Exo 2",             metric:"91.4%",   name:"Retention",     sub:"90-day cohort",     trend:"+2.1%", up:true, icon:"users"},
+  {n:18,style:"Claymorphism",     font:"Nunito",            metric:"56,009",  name:"Impressions",   sub:"Organic reach",     trend:"+7.9%", up:true, icon:"heart"},
+  {n:19,style:"Vaporwave 80s",    font:"DM Sans",           metric:"14.2ms",  name:"Latency",       sub:"P99 response",      trend:"-1.8ms",up:true, icon:"bolt"},
+  {n:20,style:"Skeuomorphic",     font:"Lora",              metric:"3.8s",    name:"Page Load",     sub:"Avg load time",     trend:"-0.6s", up:true, icon:"graph"},
+];
+
+const ICONS = {
+  trend:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>`,
+  users:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0-3-3.85"/></svg>`,
+  check:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`,
+  dollar:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>`,
+  shield:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,
+  bolt:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+  graph:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>`,
+  heart:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`,
+  star:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
+};
+
+const PAL = {
+  dark:[
+    ['#818CF8','#A5B4FC','#C7D2FE','#6366F1','#4F46E5','#E0E7FF'],
+    ['#A78BFA','#C4B5FD','#8B5CF6','#7C3AED','#DDD6FE','#6D28D9'],
+    ['#FDE047','#FCD34D','#FBBF24','#F59E0B','#FEF08A','#EAB308'],
+    ['#D0BCFF','#CCC2DC','#B39DDB','#9C88CC','#7B5EA7','#9E8BC0'],
+    ['#22D3EE','#67E8F9','#00FFF5','#FF2D55','#FF6B9D','#A5F3FC'],
+    ['#D4A017','#C9A227','#F0C844','#B8960C','#FDE68A','#E6B830'],
+    ['#3FB950','#56D364','#4ADE80','#26A641','#7EE787','#2EA043'],
+    ['#F9A8D4','#F472B6','#EC4899','#DB2777','#FBCFE8','#BE185D'],
+    ['#78A9FF','#A6C8FF','#4589FF','#0F62FE','#0043CE','#001D6C'],
+    ['#C084FC','#E879F9','#D8B4FE','#A855F7','#7C3AED','#6D28D9'],
+    ['#34D399','#6EE7B7','#A7F3D0','#10B981','#059669','#047857'],
+    ['#EF4444','#F87171','#FCA5A5','#DC2626','#B91C1C','#991B1B'],
+    ['#F97316','#FCD34D','#E879F9','#22D3EE','#86EFAC','#FB923C'],
+    ['#7AA2F7','#BB9AF7','#9ECE6A','#7DCFFF','#FF9E64','#F7768E'],
+    ['#38BDF8','#7DD3FC','#BAE6FD','#0EA5E9','#0284C7','#0369A1'],
+    ['#C9A96E','#E8C87A','#DEB887','#B8960C','#FDE68A','#A07840'],
+    ['#C084FC','#F0ABFC','#818CF8','#34D399','#FB923C','#F472B6'],
+    ['#F472B6','#F9A8D4','#E879F9','#C084FC','#FBB6CE','#F43F5E'],
+    ['#FF71CE','#01CDFE','#B967FF','#05FFA1','#FF6B9D','#A78BFA'],
+    ['#CD853F','#DEB887','#F5DEB3','#D2691E','#A07850','#8B6348'],
+  ],
+  light:[
+    ['#4F46E5','#6366F1','#4338CA','#3730A3','#818CF8','#312E81'],
+    ['#7C3AED','#8B5CF6','#6D28D9','#5B21B6','#A78BFA','#4C1D95'],
+    ['#09090B','#1F2937','#374151','#4B5563','#111827','#030712'],
+    ['#6750A4','#4F378A','#7965AF','#3B2973','#9A82DB','#21005D'],
+    ['#0284C7','#0369A1','#0891B2','#0E7490','#38BDF8','#0C4A6E'],
+    ['#92701A','#B8860B','#7A5C12','#C9A227','#DBA520','#5A420A'],
+    ['#166534','#14532D','#15803D','#16A34A','#4ADE80','#052E16'],
+    ['#BE185D','#9D174D','#DB2777','#831843','#F9A8D4','#500724'],
+    ['#0043CE','#0F62FE','#001D6C','#0050E6','#4589FF','#000639'],
+    ['#5B21B6','#4C1D95','#6D28D9','#3B0764','#7C3AED','#2E1065'],
+    ['#047857','#065F46','#059669','#064E3B','#10B981','#022C22'],
+    ['#B91C1C','#991B1B','#DC2626','#7F1D1D','#EF4444','#450A0A'],
+    ['#C2410C','#D97706','#7C3AED','#0284C7','#16A34A','#EA580C'],
+    ['#4854C4','#2E7D32','#7B5EA7','#1565C0','#E65100','#C62828'],
+    ['#0369A1','#0284C7','#075985','#0C4A6E','#0EA5E9','#082F49'],
+    ['#7A5C12','#6B4C2A','#8B6914','#5A3E1E','#C9A96E','#3B2506'],
+    ['#7E22CE','#4F46E5','#A855F7','#059669','#D97706','#BE185D'],
+    ['#BE185D','#9D174D','#9333EA','#7E22CE','#EC4899','#881337'],
+    ['#7B0099','#0088AA','#4A007A','#006688','#8800AA','#004455'],
+    ['#6B4226','#5C3317','#8B5E3C','#4A2E15','#A07850','#3D2108'],
+  ]
+};
+
+function rnd(a,b){return Math.round(Math.random()*(b-a)+a)}
+
+function getTC(n){
+  const dark=document.documentElement.dataset.theme==='dark';
+  const alwaysDark=n===5;
+  const d=dark||alwaysDark;
+  return{
+    pal:PAL[dark?'dark':'light'][n-1],
+    grid:d?'rgba(255,255,255,.07)':'rgba(0,0,0,.07)',
+    tick:d?'rgba(255,255,255,.38)':'rgba(0,0,0,.38)',
+  };
+}
+
+function mkBar(p){
+  const lb=['Jan','Feb','Mar','Apr','May','Jun'];
+  return{labels:lb,datasets:[{
+    data:lb.map(()=>rnd(20,95)),
+    backgroundColor:p.slice(0,6).map(c=>c+'BB'),
+    borderColor:p.slice(0,6),borderWidth:1,borderRadius:6,
+  }]};
+}
+function mkDonut(p){
+  return{labels:['Core','Growth','Support','Other'],datasets:[{
+    data:[rnd(30,50),rnd(15,30),rnd(10,20),rnd(5,15)],
+    backgroundColor:p.slice(0,4),borderColor:'transparent',borderWidth:0,hoverOffset:6,
+  }]};
+}
+function mkPie(p){
+  return{labels:['Direct','Organic','Paid','Social'],datasets:[{
+    data:[rnd(25,45),rnd(20,35),rnd(15,25),rnd(5,20)],
+    backgroundColor:p.slice(0,4),borderColor:'transparent',borderWidth:0,hoverOffset:6,
+  }]};
+}
+function mkLine(p){
+  const lb=['W1','W2','W3','W4','W5','W6','W7','W8'];
+  return{labels:lb,datasets:[
+    {label:'A',data:lb.map(()=>rnd(30,90)),borderColor:p[0],backgroundColor:p[0]+'22',
+     fill:true,tension:.4,borderWidth:2,pointRadius:3,pointBackgroundColor:p[0]},
+    {label:'B',data:lb.map(()=>rnd(20,75)),borderColor:p[1]||p[0],backgroundColor:(p[1]||p[0])+'11',
+     fill:true,tension:.4,borderWidth:2,pointRadius:3,pointBackgroundColor:p[1]||p[0]},
+  ]};
+}
+
+function barOpts(g,t){
+  return{responsive:true,maintainAspectRatio:false,animation:{duration:500},
+    plugins:{legend:{display:false},tooltip:{enabled:true}},
+    scales:{
+      x:{grid:{color:g},ticks:{color:t,maxTicksLimit:6},border:{display:false}},
+      y:{grid:{color:g},ticks:{color:t,maxTicksLimit:4},border:{display:false}},
+    }};
+}
+function ringOpts(t){
+  return{responsive:true,maintainAspectRatio:false,animation:{duration:500},
+    plugins:{legend:{display:true,position:'right',labels:{color:t,boxWidth:8,padding:5,font:{size:9}}}},
+    cutout:'63%'};
+}
+function pieOpts(t){
+  return{responsive:true,maintainAspectRatio:false,animation:{duration:500},
+    plugins:{legend:{display:true,position:'right',labels:{color:t,boxWidth:8,padding:5,font:{size:9}}}}};
+}
+
+function buildCharts(n){
+  const{pal,grid,tick}=getTC(n);
+  ['bar','donut','pie','line'].forEach(t=>{
+    const id=`${t}-${n}`;
+    if(charts[id]){charts[id].destroy();delete charts[id];}
+  });
+  charts[`bar-${n}`]=new Chart(document.getElementById(`bar-${n}`),
+    {type:'bar',data:mkBar(pal),options:barOpts(grid,tick)});
+  charts[`donut-${n}`]=new Chart(document.getElementById(`donut-${n}`),
+    {type:'doughnut',data:mkDonut(pal),options:ringOpts(tick)});
+  charts[`pie-${n}`]=new Chart(document.getElementById(`pie-${n}`),
+    {type:'pie',data:mkPie(pal),options:pieOpts(tick)});
+  charts[`line-${n}`]=new Chart(document.getElementById(`line-${n}`),
+    {type:'line',data:mkLine(pal),options:barOpts(grid,tick)});
+}
+
+function rebuildAll(){ROWS.forEach(r=>buildCharts(r.n))}
+
+function toggleTheme(){
+  const h=document.documentElement;
+  const isDark=h.dataset.theme==='dark';
+  h.dataset.theme=isDark?'light':'dark';
+  document.getElementById('ico-sun').style.display=isDark?'block':'none';
+  document.getElementById('ico-moon').style.display=isDark?'none':'block';
+  document.getElementById('t-lbl').textContent=isDark?'Dark Mode':'Light Mode';
+  rebuildAll();
+}
+
+// Build DOM
+const app=document.getElementById('app');
+ROWS.forEach(row=>{
+  const{n,style,font,metric,name,sub,trend,up,icon}=row;
+  const el=document.createElement('div');
+  el.className=`dr d${n}`;
+  el.innerHTML=`
+    <span class="rl">Design ${String(n).padStart(2,'0')} &middot; ${style} &middot; ${font}</span>
+    <div class="sc">
+      <div class="ic">${ICONS[icon]}</div>
+      <div class="lb">${name}</div>
+      <div class="vl">${metric}</div>
+      <div class="sb">${sub}</div>
+      <div class="bd ${up?'bu':'bd2'}">${up?'▲':'▼'} ${trend}</div>
+    </div>
+    <div class="cb"><div class="ct">Bar &middot; Monthly</div><canvas id="bar-${n}"></canvas></div>
+    <div class="cb"><div class="ct">Donut &middot; Share</div><canvas id="donut-${n}"></canvas></div>
+    <div class="cb"><div class="ct">Pie &middot; Source</div><canvas id="pie-${n}"></canvas></div>
+    <div class="cb"><div class="ct">Line &middot; Trend</div><canvas id="line-${n}"></canvas></div>`;
+  app.appendChild(el);
+});
+
+requestAnimationFrame(()=>rebuildAll());
+</script>
+</body>
+</html>

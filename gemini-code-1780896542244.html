@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Motion Showcase</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* FONDO GRIS TEXTURIZADO DE DETRÁS (PANTALLA INICIAL DEL VIDEO) */
+        .video-canvas-bg {
+            background-color: #E2E8F0;
+            background-image: radial-gradient(circle at 50% 50%, #F8FAFC 0%, #CBD5E1 100%);
+        }
+
+        /* TRANSICIÓN SUAVE PARA LOS CAMBIOS DE COLOR DE LAS VARIANTES */
+        .color-transition {
+            transition: background-color 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* EL CONTENEDOR CENTRAL (LA TARJETA QUE SE EXPANDE RECTANGULARMENTE) */
+        #intro-card {
+            position: absolute;
+            z-index: 40;
+            /* Curva bezier custom para lograr el efecto látigo/estirado del video */
+            transition: width 1.1s cubic-bezier(0.85, 0, 0.15, 1), 
+                        height 1.1s cubic-bezier(0.85, 0, 0.15, 1), 
+                        border-radius 0.9s ease;
+            overflow: hidden;
+        }
+
+        /* ESTADO INICIAL: Caja pequeña en el centro (Minuto 0:01 del video) */
+        .size-initial {
+            width: 320px;
+            height: 190px;
+            border-radius: 24px;
+            box-shadow: 0 30px 60px -15px rgba(15, 23, 42, 0.3);
+        }
+
+        /* ESTADO EXPANDIDO: Se estira rectangularmente hasta absorber toda la pantalla */
+        .size-expanded {
+            width: 100vw !important;
+            height: 100vh !important;
+            border-radius: 0px !important;
+        }
+
+        /* ANIMACIÓN DE LATIDO DEL LOGO EN LA INTRO */
+        @keyframes logoPulse {
+            0%, 100% { transform: scale(1); filter: brightness(1); }
+            50% { transform: scale(1.04); filter: brightness(1.25); }
+        }
+        .animate-logo {
+            animation: logoPulse 1.6s infinite ease-in-out;
+        }
+
+        /* DESVANECIMIENTO DEL LOGO INICIAL AL EXPANDIRSE */
+        .fade-out-content {
+            opacity: 0;
+            transform: scale(0.85);
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            pointer-events: none;
+        }
+
+        /* ENTRADA DE LOS ELEMENTOS DE LA INTERFAZ DE USUARIO (UI) */
+        @keyframes uiEntrance {
+            0% { opacity: 0; transform: translateY(20px) scale(0.96); filter: blur(4px); }
+            100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+        }
+        .reveal-ui {
+            opacity: 0;
+            animation: uiEntrance 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        .delay-nav { animation-delay: 0.95s; }
+        .delay-sidebar { animation-delay: 1.05s; }
+        .delay-text { animation-delay: 0.9s; }
+        .delay-product { animation-delay: 0.8s; } /* El producto salta primero */
+        .delay-widgets { animation-delay: 1.1s; }
+    </style>
+</head>
+<body class="video-canvas-bg min-h-screen h-screen w-screen m-0 p-0 overflow-hidden font-sans relative flex items-center justify-center">
+
+    <div id="intro-card" class="size-initial bg-[#12093B] color-transition flex items-center justify-center">
+        
+        <div id="loader-content" class="absolute flex flex-col items-center space-y-3 z-50">
+            <img src="https://oniees.bybsalud.com/img/logo2.png" 
+                 class="w-20 h-auto object-contain animate-logo" alt="Logo Central">
+            <div class="w-8 h-[2px] bg-sky-400/30 rounded overflow-hidden relative">
+                <div class="absolute inset-0 bg-sky-400 -translate-x-full animate-[ping_1.5s_infinite]"></div>
+            </div>
+        </div>
+
+        <div id="main-interface" class="w-full h-full flex flex-col justify-between p-0 m-0 absolute inset-0 opacity-0 transition-opacity duration-300 pointer-events-none">
+            
+            <header class="reveal-ui delay-nav w-full px-8 py-5 flex justify-between items-center z-10">
+                <div class="flex items-center space-x-10">
+                    <img src="https://oniees.bybsalud.com/img/logo2.png" class="h-7 w-auto object-contain brightness-0 invert" alt="Navbar Logo">
+                    <nav class="hidden md:flex space-x-6 text-xs font-medium text-white/80">
+                        <a href="#" class="hover:text-white transition">Inicio</a>
+                        <a href="#" class="hover:text-white transition">Colección</a>
+                        <a href="#" class="hover:text-white transition">Beneficios</a>
+                    </nav>
+                </div>
+                <div class="flex items-center space-x-4 text-white text-xs">
+                    <button class="opacity-80 hover:opacity-100">ES/PEN</button>
+                    <button class="bg-white/10 backdrop-blur-md text-white font-semibold px-4 py-1.5 rounded-full hover:bg-white/20 transition border border-white/10">
+                        Catálogo
+                    </button>
+                </div>
+            </header>
+
+            <main class="w-full mx-auto px-8 grid grid-cols-1 lg:grid-cols-12 gap-4 items-center my-auto z-10 relative flex-1">
+                
+                <div class="reveal-ui delay-sidebar lg:col-span-1 flex lg:flex-col justify-start lg:justify-center items-center gap-4 py-2">
+                    <button class="p-2.5 bg-white/10 hover:bg-white/20 text-white rounded-full transition border border-white/5"><i data-lucide="home" class="w-4 h-4"></i></button>
+                    <button class="p-2.5 bg-white/10 hover:bg-white/20 text-white rounded-full transition border border-white/5"><i data-lucide="sparkles" class="w-4 h-4"></i></button>
+                    <button class="p-2.5 bg-white/10 hover:bg-white/20 text-white rounded-full transition border border-white/5"><i data-lucide="shopping-bag" class="w-4 h-4"></i></button>
+                </div>
+
+                <div class="reveal-ui delay-text lg:col-span-5 space-y-5 flex flex-col justify-center text-white">
+                    <h1 class="text-4xl lg:text-5xl font-serif font-bold leading-tight">
+                        Descubre tu <br><span class="italic font-normal text-sky-200">esencia natural</span>
+                    </h1>
+                    <p class="text-xs text-white/70 max-w-xs leading-relaxed">
+                        Protección inteligente y frescura avanzada adaptada perfectamente a la estructura de tu piel.
+                    </p>
+                    <div>
+                        <button class="bg-white text-slate-900 text-xs font-bold px-6 py-2.5 rounded-full hover:bg-sky-100 transition shadow-lg">
+                            Adquirir Ahora
+                        </button>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-3 flex justify-center items-center relative min-h-[340px]">
+                    <div class="reveal-ui delay-nav absolute inset-0 flex items-center justify-center opacity-5 pointer-events-none mix-blend-overlay">
+                        <img src="https://oniees.bybsalud.com/img/logo2.png" class="w-64 h-auto" alt="Watermark">
+                    </div>
+                    
+                    <div id="product-container" class="reveal-ui delay-product w-48 h-[330px] bg-gradient-to-b from-slate-950 to-blue-950 rounded-full border-4 border-sky-400 p-1.5 shadow-2xl flex flex-col justify-between items-center overflow-hidden text-center text-white">
+                        <div class="absolute top-0 inset-x-0 h-24 bg-white/10 backdrop-blur-sm border-b border-white/10 rounded-t-full"></div>
+                        
+                        <div class="pt-24 z-10 px-4 flex flex-col items-center justify-center flex-1 space-y-1">
+                            <img src="https://oniees.bybsalud.com/img/logo2.png" class="w-9 h-auto brightness-200 mb-1" alt="Product Logo">
+                            <h3 id="prod-title" class="text-sm font-serif font-bold leading-tight">Cuidado Esencial</h3>
+                            <div class="w-6 h-[1.5px] bg-sky-400 my-0.5"></div>
+                            <p id="prod-subtitle" class="text-[9px] uppercase tracking-widest text-sky-300">Skin Protect</p>
+                        </div>
+                        
+                        <div class="w-full bg-sky-400 text-slate-900 text-[9px] font-bold py-2.5 uppercase tracking-wider rounded-b-full z-10">
+                            Premium Edition
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reveal-ui delay-widgets lg:col-span-3 space-y-6 flex flex-col justify-center">
+                    <div class="space-y-2 text-white">
+                        <p class="text-xs font-bold uppercase tracking-wider text-white/50">Variantes:</p>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="changeVariant('orange')" class="flex items-center space-x-1.5 p-2 bg-white/10 hover:bg-white/20 rounded-xl transition text-left text-[11px] border border-transparent focus:border-white">
+                                <span>🍊</span> <span class="text-white/90">Glow Orange</span>
+                            </button>
+                            <button onclick="changeVariant('teal')" class="flex items-center space-x-1.5 p-2 bg-white/10 hover:bg-white/20 rounded-xl transition text-left text-[11px] border border-transparent focus:border-white">
+                                <span>🌿</span> <span class="text-white/90">Bio Mint</span>
+                            </button>
+                            <button onclick="changeVariant('blue')" class="flex items-center space-x-1.5 p-2 bg-white/10 hover:bg-white/20 rounded-xl transition text-left text-[11px] border border-transparent focus:border-white">
+                                <span>💧</span> <span class="text-white/90">Ocean Sky</span>
+                            </button>
+                            <button onclick="changeVariant('purple')" class="flex items-center space-x-1.5 p-2 bg-white/10 hover:bg-white/20 rounded-xl transition text-left text-[11px] border border-transparent focus:border-white">
+                                <span>🍇</span> <span class="text-white/90">Soft Berry</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="bg-white/5 backdrop-blur-md rounded-xl p-3 border border-white/10 flex justify-between items-center text-white">
+                        <div>
+                            <h4 class="font-bold text-xs">Acción Continua</h4>
+                            <p class="text-[10px] text-white/60">Probado clínicamente</p>
+                        </div>
+                        <div class="w-9 h-9 flex items-center justify-center bg-sky-400 text-slate-900 rounded-full text-[10px] font-bold">
+                            24h
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <footer class="reveal-ui delay-widgets w-full py-3 text-center text-[10px] text-white/40 z-10">
+                &copy; 2026 Interactive Rectangular Mask Concept
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // Variantes de color y contenido
+        const variants = {
+            orange: { bg: '#D97706', border: 'border-amber-400', label: 'bg-amber-400', title: 'Glow Orange Active', sub: 'Vitamin C + Control' },
+            teal: { bg: '#0D9488', border: 'border-teal-400', label: 'bg-teal-400', title: 'Bio Mint Refresh', sub: 'Natural Extract' },
+            blue: { bg: '#1E40AF', border: 'border-sky-400', label: 'bg-sky-400', title: 'Cuidado Esencial', sub: 'Skin Protect' },
+            purple: { bg: '#6B21A8', border: 'border-purple-400', label: 'bg-purple-400', title: 'Soft Berry Sweet', sub: 'Sensitive Care' }
+        };
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const introCard = document.getElementById('intro-card');
+            const loaderContent = document.getElementById('loader-content');
+            const mainInterface = document.getElementById('main-interface');
+
+            // Color inicial idéntico a la variante por defecto al abrirse
+            introCard.style.backgroundColor = variants.orange.bg;
+
+            // 1. Duración del estado inicial (1.3 segundos)
+            setTimeout(() => {
+                // Desvanecer el logo y loader pequeño del centro primero
+                loaderContent.classList.add('fade-out-content');
+
+                // 2. Transición Rectangular: Cambiamos las clases para expandir anchura, altura y quitar bordes curvos
+                introCard.classList.remove('size-initial');
+                introCard.classList.add('size-expanded');
+
+                // 3. Habilitamos la visibilidad de la UI interna para que sus animaciones inicien en cascada
+                setTimeout(() => {
+                    mainInterface.classList.remove('opacity-0');
+                    mainInterface.classList.add('opacity-100');
+                    mainInterface.classList.remove('pointer-events-none'); // Permite interacción
+                }, 150); // Un pequeño retraso para sincronizar con la apertura
+
+            }, 1400);
+        });
+
+        // CONTROLADORES DE INTERACTIVIDAD DE COLORES
+        function changeVariant(key) {
+            const variant = variants[key];
+            
+            // Cambia el fondo del contenedor maestro estirado
+            document.getElementById('intro-card').style.backgroundColor = variant.bg;
+
+            // Micro-animación física en el envase del producto
+            const product = document.getElementById('product-container');
+            product.style.transform = 'scale(0.93) translateY(8px)';
+            product.style.transition = 'all 0.18s ease';
+            
+            setTimeout(() => {
+                product.style.transform = 'scale(1) translateY(0)';
+                document.getElementById('prod-title').innerText = variant.title;
+                document.getElementById('prod-subtitle').innerText = variant.sub;
+                
+                // Actualiza los bordes y el fondo inferior del envase
+                product.className = product.className.replace(/border-[a-z]+-\d+/g, variant.border);
+                const stickLabel = product.querySelector('div:last-child');
+                stickLabel.className = stickLabel.className.replace(/bg-[a-z]+-\d+/g, variant.label);
+            }, 180);
+        }
+    </script>
+</body>
+</html>
