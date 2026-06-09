@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Loading Screen | Sistema</title>
+    <!-- Tailwind CSS + Bootstrap Icons + PrimeIcons -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/primeicons@7.0.0/primeicons.css">
+    <style>
+        /* Animaciones personalizadas */
+        @keyframes bounce-in {
+            0% {
+                opacity: 0;
+                transform: scale(0.3) translateY(100px);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.05) translateY(-10px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        @keyframes ping-slow {
+            0%, 100% {
+                transform: scale(1) rotate(45deg);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.2) rotate(45deg);
+                opacity: 0.5;
+            }
+        }
+
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fade-in-stagger {
+            0% {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 0.1; transform: scale(1); }
+            50% { opacity: 0.2; transform: scale(1.1); }
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Clases de animación */
+        .animate-bounce-in {
+            animation: bounce-in 1s ease-out;
+        }
+
+        .animate-ping-slow {
+            animation: ping-slow 2s ease-in-out infinite;
+        }
+
+        .animate-fade-in-delay {
+            animation: fade-in 0.8s ease-out 0.3s both;
+        }
+
+        .animate-fade-in-stagger {
+            animation: fade-in-stagger 0.6s ease-out both;
+        }
+
+        .animate-pulse-slow {
+            animation: pulse-slow 4s ease-in-out infinite;
+        }
+
+        .animate-spin {
+            animation: spin 1s linear infinite;
+        }
+
+        .animate-pulse {
+            animation: pulse-slow 2s ease-in-out infinite;
+        }
+
+        /* Transición de desvanecimiento */
+        .fade-enter-active,
+        .fade-leave-active {
+            transition: all 0.8s ease;
+        }
+
+        .fade-enter-from,
+        .fade-leave-to {
+            opacity: 0;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div id="app"></div>
+
+    <script>
+        class LoadingScreen {
+            constructor(config) {
+                this.show = config.show || false;
+                this.duration = config.duration || 6000;
+                this.theme = config.theme || 'dark';
+                this.onComplete = config.onComplete || (() => {});
+                
+                this.countdown = Math.ceil(this.duration / 1000);
+                this.internalShow = false;
+                this.elapsedTime = 0;
+                
+                this.matrixInterval = null;
+                this.countdownInterval = null;
+                this.columns = [];
+                this.startTime = 0;
+                
+                this.container = null;
+                this.canvas = null;
+                
+                this.init();
+            }
+            
+            get themeClasses() {
+                if (this.theme === 'light') {
+                    return {
+                        background: 'bg-gradient-to-br from-slate-100 to-blue-50',
+                        text: 'text-slate-800',
+                        subtitle: 'text-blue-600',
+                        orb1: 'bg-blue-200/40',
+                        orb2: 'bg-indigo-200/40',
+                        orb3: 'bg-cyan-100/30',
+                        logoBg: 'bg-blue-300/30',
+                        logoBorder: 'bg-white/80 border-slate-200',
+                        logoIcon: 'text-blue-500',
+                        progressBg: 'bg-slate-200',
+                        progressBar: 'bg-gradient-to-r from-blue-500 to-cyan-500',
+                        counter: 'text-slate-600',
+                        status: 'text-slate-700',
+                        statusIcon1: 'text-green-500',
+                        statusIcon2: 'text-blue-500',
+                        statusIcon3: 'text-cyan-500',
+                        statusIcon4: 'text-amber-500'
+                    };
+                } else {
+                    return {
+                        background: 'bg-gradient-to-br from-slate-900 to-indigo-900',
+                        text: 'text-white',
+                        subtitle: 'text-blue-200',
+                        orb1: 'bg-blue-500/10',
+                        orb2: 'bg-indigo-500/10',
+                        orb3: 'bg-cyan-500/5',
+                        logoBg: 'bg-blue-400/20',
+                        logoBorder: 'bg-white/5 border-white/20',
+                        logoIcon: 'text-blue-300',
+                        progressBg: 'bg-white/10',
+                        progressBar: 'bg-gradient-to-r from-blue-400 to-cyan-400',
+                        counter: 'text-blue-200',
+                        status: 'text-blue-200',
+                        statusIcon1: 'text-green-400',
+                        statusIcon2: 'text-blue-300',
+                        statusIcon3: 'text-cyan-400',
+                        statusIcon4: 'text-amber-400'
+                    };
+                }
+            }
+            
+            get progressWidth() {
+                if (this.duration === 0) return 0;
+                return Math.min((this.elapsedTime / this.duration) * 100, 100);
+            }
+            
+            init() {
+                this.render();
+                if (this.show) {
+                    this.showLoading();
+                }
+            }
+            
+            render() {
+                const app = document.getElementById('app');
+                const classes = this.themeClasses;
+                const canvasOpacity = this.theme === 'dark' ? 0.7 : 0.5;
+                
+                this.container = document.createElement('div');
+                this.container.className = `fixed inset-0 z-[9999] flex items-center justify-center transition-all duration-800 ${classes.background}`;
+                this.container.style.transition = 'all 0.8s ease';
+                
+                if (!this.internalShow) {
+                    this.container.style.opacity = '0';
+                    this.container.style.transform = 'scale(1.1)';
+                    this.container.style.pointerEvents = 'none';
+                }
+                
+                this.container.innerHTML = `
+                    <canvas class="absolute inset-0 w-full h-full pointer-events-none" style="opacity: ${canvasOpacity};"></canvas>
+                    
+                    <div class="absolute inset-0 overflow-hidden">
+                        <div class="absolute -top-40 -right-40 w-80 h-80 rounded-full blur-3xl animate-pulse-slow ${classes.orb1}"></div>
+                        <div class="absolute -bottom-40 -left-40 w-80 h-80 rounded-full blur-3xl animate-pulse-slow ${classes.orb2}" style="animation-delay: 2s;"></div>
+                        <div class="absolute top-1/4 left-1/4 w-60 h-60 rounded-full blur-3xl animate-pulse-slow ${classes.orb3}" style="animation-delay: 4s;"></div>
+                    </div>
+                    
+                    <div class="relative z-10 text-center space-y-8 ${classes.text}">
+                        <div class="relative mx-auto w-32 h-32">
+                            <div class="absolute inset-0 rounded-3xl transform rotate-45 animate-ping-slow ${classes.logoBg}"></div>
+                            <div class="absolute inset-2 rounded-2xl backdrop-blur-sm border flex items-center justify-center ${classes.logoBorder}">
+                                <i class="bi bi-shield-check text-4xl animate-pulse ${classes.logoIcon}"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <h1 class="text-4xl md:text-5xl font-black tracking-tight animate-bounce-in">INGRESANDO AL SISTEMA</h1>
+                            <p class="text-xl font-light animate-fade-in-delay ${classes.subtitle}">Preparando tu experiencia personalizada</p>
+                        </div>
+                        
+                        <div class="w-64 mx-auto space-y-4">
+                            <div class="w-full h-2 rounded-full overflow-hidden ${classes.progressBg}">
+                                <div class="h-full rounded-full transition-all duration-100 ease-linear ${classes.progressBar}" style="width: 0%;"></div>
+                            </div>
+                            <div class="flex justify-between items-center text-sm ${classes.counter}">
+                                <span>Inicializando...</span>
+                                <span class="font-mono font-bold countdown-display">${this.countdown}s</span>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-2 text-sm ${classes.status}">
+                            <div class="flex items-center justify-center space-x-2 animate-fade-in-stagger">
+                                <i class="pi pi-check-circle text-base ${classes.statusIcon1}"></i>
+                                <span>Credenciales verificadas</span>
+                            </div>
+                            <div class="flex items-center justify-center space-x-2 animate-fade-in-stagger" style="animation-delay: 0.5s;">
+                                <i class="pi pi-cog animate-spin text-base ${classes.statusIcon2}"></i>
+                                <span>Cargando módulos del sistema</span>
+                            </div>
+                            <div class="flex items-center justify-center space-x-2 animate-fade-in-stagger" style="animation-delay: 1s;">
+                                <i class="pi pi-database text-base ${classes.statusIcon3}"></i>
+                                <span>Conectando con base de datos</span>
+                            </div>
+                            <div class="flex items-center justify-center space-x-2 animate-fade-in-stagger" style="animation-delay: 1.5s;">
+                                <i class="pi pi-lock text-base ${classes.statusIcon4}"></i>
+                                <span>Estableciendo conexión segura</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                this.canvas = this.container.querySelector('canvas');
+                app.appendChild(this.container);
+                
+                // Guardar referencias
+                this.progressBar = this.container.querySelector('.h-full.rounded-full');
+                this.countdownSpan = this.container.querySelector('.countdown-display');
+            }
+            
+            initializeMatrix() {
+                if (!this.canvas) return;
+                
+                const canvas = this.canvas;
+                const ctx = canvas.getContext('2d');
+                if (!ctx) return;
+                
+                canvas.height = window.innerHeight;
+                canvas.width = window.innerWidth;
+                
+                ctx.font = '14px "Courier New", monospace';
+                ctx.textBaseline = 'top';
+                
+                const columnCount = Math.ceil(canvas.width / 10);
+                this.columns = Array(columnCount).fill(1);
+                
+                if (this.matrixInterval) {
+                    clearInterval(this.matrixInterval);
+                }
+                
+                this.matrixInterval = setInterval(() => {
+                    if (!ctx || !this.internalShow) return;
+                    
+                    ctx.fillStyle = this.theme === 'dark' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.05)';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    
+                    ctx.fillStyle = this.theme === 'dark' ? '#00ffff' : '#0066cc';
+                    
+                    this.columns.forEach((value, index) => {
+                        const character = String.fromCharCode(0x30A0 + Math.random() * 96);
+                        ctx.fillText(character, index * 10, value);
+                        
+                        if (value > canvas.height + Math.random() * 10000) {
+                            this.columns[index] = 0;
+                        } else {
+                            this.columns[index] = value + 10;
+                        }
+                    });
+                }, 33);
+            }
+            
+            startCountdown() {
+                console.log('🚀 LoadingScreen iniciando countdown...', this.duration, 'ms');
+                this.startTime = Date.now();
+                this.elapsedTime = 0;
+                
+                if (this.progressBar) {
+                    this.progressBar.style.width = '0%';
+                }
+                
+                this.countdownInterval = setInterval(() => {
+                    const currentTime = Date.now();
+                    this.elapsedTime = currentTime - this.startTime;
+                    this.countdown = Math.max(0, Math.ceil((this.duration - this.elapsedTime) / 1000));
+                    
+                    if (this.countdownSpan) {
+                        this.countdownSpan.textContent = `${this.countdown}s`;
+                    }
+                    
+                    if (this.progressBar) {
+                        this.progressBar.style.width = `${this.progressWidth}%`;
+                    }
+                    
+                    if (this.elapsedTime >= this.duration) {
+                        console.log('✅ Countdown completado, cerrando LoadingScreen...');
+                        this.cleanup();
+                        this.internalShow = false;
+                        this.startExitAnimation();
+                    }
+                }, 50);
+            }
+            
+            startExitAnimation() {
+                if (this.container) {
+                    this.container.style.opacity = '0';
+                    this.container.style.transform = 'scale(1.1)';
+                    setTimeout(() => {
+                        this.container.style.pointerEvents = 'none';
+                        this.onComplete();
+                    }, 800);
+                }
+            }
+            
+            cleanup() {
+                if (this.countdownInterval) {
+                    clearInterval(this.countdownInterval);
+                    this.countdownInterval = null;
+                }
+                if (this.matrixInterval) {
+                    clearInterval(this.matrixInterval);
+                    this.matrixInterval = null;
+                }
+                if (this.canvas) {
+                    const ctx = this.canvas.getContext('2d');
+                    if (ctx) {
+                        ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                    }
+                }
+                this.elapsedTime = 0;
+            }
+            
+            showLoading() {
+                this.cleanup();
+                this.internalShow = true;
+                this.countdown = Math.ceil(this.duration / 1000);
+                this.elapsedTime = 0;
+                
+                if (this.container) {
+                    this.container.style.opacity = '1';
+                    this.container.style.transform = 'scale(1)';
+                    this.container.style.pointerEvents = 'auto';
+                    
+                    if (this.progressBar) this.progressBar.style.width = '0%';
+                    if (this.countdownSpan) this.countdownSpan.textContent = `${this.countdown}s`;
+                }
+                
+                setTimeout(() => {
+                    this.initializeMatrix();
+                    this.startCountdown();
+                }, 100);
+            }
+            
+            hide() {
+                if (this.internalShow) {
+                    this.startExitAnimation();
+                }
+            }
+            
+            destroy() {
+                this.cleanup();
+                if (this.container && this.container.parentNode) {
+                    this.container.parentNode.removeChild(this.container);
+                }
+            }
+            
+            handleResize = () => {
+                if (this.internalShow && this.canvas) {
+                    this.initializeMatrix();
+                }
+            }
+        }
+        
+        // Inicializar la pantalla de carga
+        const loadingScreen = new LoadingScreen({
+            show: true,
+            duration: 6000,
+            theme: 'light', // 'dark' o 'light'
+            onComplete: () => {
+                console.log('✅ Loading complete - Sistema listo');
+                // Mostrar mensaje de finalización
+                const completeMsg = document.createElement('div');
+                completeMsg.className = 'fixed inset-0 flex items-center justify-center bg-gradient-to-br from-slate-900 to-indigo-900 z-50 transition-opacity duration-500';
+                completeMsg.innerHTML = `
+                    <div class="text-center text-white">
+                        <i class="bi bi-check-circle-fill text-6xl text-green-400 mb-4 animate-bounce-in"></i>
+                        <h1 class="text-4xl font-bold">SISTEMA LISTO</h1>
+                        <p class="mt-4 text-blue-300">Bienvenido a tu dashboard</p>
+                    </div>
+                `;
+                document.body.appendChild(completeMsg);
+                setTimeout(() => {
+                    completeMsg.style.opacity = '0';
+                    setTimeout(() => completeMsg.remove(), 500);
+                }, 2000);
+            }
+        });
+        
+        window.addEventListener('resize', () => loadingScreen.handleResize());
+    </script>
+</body>
+</html>

@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>OMEGA OPERATOR | CENTRO DE COMANDO</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-container": "#effbff",
+                    "inverse-surface": "#2b3137",
+                    "surface-container-low": "#eef4fc",
+                    "on-secondary-container": "#5c647a",
+                    "surface-bright": "#f6f9ff",
+                    "on-secondary": "#ffffff",
+                    "outline-variant": "#c4c7c9",
+                    "on-secondary-fixed-variant": "#3f465c",
+                    "on-primary": "#ffffff",
+                    "primary-fixed-dim": "#c4c7c9",
+                    "on-surface-variant": "#444749",
+                    "on-background": "#161c22",
+                    "on-tertiary-fixed": "#001f26",
+                    "tertiary-fixed-dim": "#4cd7f6",
+                    "surface-dim": "#d4dbe2",
+                    "background": "#f6f9ff",
+                    "primary": "#5c5f61",
+                    "on-tertiary-fixed-variant": "#004e5c",
+                    "on-primary-fixed": "#191c1e",
+                    "error": "#ba1a1a",
+                    "tertiary": "#00687a",
+                    "surface-container-high": "#e3e9f1",
+                    "primary-container": "#f7f9fb",
+                    "primary-fixed": "#e0e3e5",
+                    "on-surface": "#161c22",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container": "#e8eef6",
+                    "error-container": "#ffdad6",
+                    "on-primary-fixed-variant": "#444749",
+                    "on-primary-container": "#6f7274",
+                    "on-tertiary": "#ffffff",
+                    "inverse-primary": "#c4c7c9",
+                    "surface-variant": "#dde3eb",
+                    "on-error-container": "#93000a",
+                    "outline": "#747779",
+                    "secondary-fixed-dim": "#bec6e0",
+                    "secondary-fixed": "#dae2fd",
+                    "surface": "#f6f9ff",
+                    "surface-container-highest": "#dde3eb",
+                    "on-error": "#ffffff",
+                    "on-secondary-fixed": "#131b2e",
+                    "secondary": "#565e74",
+                    "surface-tint": "#5c5f61",
+                    "on-tertiary-container": "#007d93",
+                    "secondary-container": "#dae2fd",
+                    "inverse-on-surface": "#ebf1f9",
+                    "tertiary-fixed": "#acedff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "lg": "48px",
+                    "xs": "4px",
+                    "sm": "12px",
+                    "base": "8px",
+                    "margin-mobile": "16px",
+                    "margin-desktop": "64px",
+                    "gutter": "24px",
+                    "xl": "80px",
+                    "md": "24px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Space Grotesk"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "headline-xl": ["Space Grotesk"],
+                    "headline-md": ["Space Grotesk"],
+                    "headline-lg-mobile": ["Space Grotesk"],
+                    "mono-tech": ["Space Grotesk"]
+            },
+            "fontSize": {
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "mono-tech": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 0.5px solid;
+            border-image: linear-gradient(to bottom right, rgba(255,255,255,0.8), rgba(6, 182, 212, 0.2)) 1;
+            box-shadow: 4px 4px 20px rgba(15, 23, 42, 0.03), -4px -4px 20px rgba(255, 255, 255, 0.8);
+        }
+        .neomorph-inset {
+            box-shadow: inset 2px 2px 5px rgba(15, 23, 42, 0.05), inset -2px -2px 5px rgba(255, 255, 255, 0.8);
+        }
+        .cyber-border {
+            border-bottom: 1px solid rgba(0, 104, 122, 0.1);
+            position: relative;
+        }
+        .cyber-border::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 40px;
+            height: 1px;
+            background: #00687a;
+            box-shadow: 0 0 8px #4cd7f6;
+        }
+        .terminal-scroll::-webkit-scrollbar {
+            width: 2px;
+        }
+        .terminal-scroll::-webkit-scrollbar-thumb {
+            background: rgba(0, 104, 122, 0.2);
+        }
+        @keyframes scan-line {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(400%); }
+        }
+        .scan-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(to right, transparent, rgba(76, 215, 246, 0.4), transparent);
+            animation: scan-line 4s linear infinite;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-x-hidden">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-50 bg-surface/70 backdrop-blur-md border-b border-outline-variant/30 shadow-sm flex justify-between items-center px-margin-desktop py-base">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed" style="font-variation-settings: 'FILL' 1;">security</span>
+<h1 class="font-headline-md text-headline-md text-on-surface tracking-tighter uppercase">OMEGA OPERATOR</h1>
+</div>
+<div class="hidden md:flex items-center gap-lg">
+<nav class="flex gap-md">
+<a class="text-tertiary font-bold font-label-sm text-label-sm hover:bg-tertiary-container/50 transition-colors px-4 py-2 rounded-lg" href="#">SYSTEM</a>
+<a class="text-on-secondary-container font-label-sm text-label-sm hover:bg-tertiary-container/50 transition-colors px-4 py-2 rounded-lg" href="#">NODES</a>
+<a class="text-on-secondary-container font-label-sm text-label-sm hover:bg-tertiary-container/50 transition-colors px-4 py-2 rounded-lg" href="#">LOGS</a>
+</nav>
+<div class="flex items-center gap-sm cursor-pointer active:scale-95 duration-200">
+<div class="text-right">
+<p class="font-label-sm text-label-sm font-bold text-on-surface">OP-LEVEL-09</p>
+<p class="text-[10px] text-tertiary uppercase tracking-widest">Omega Auth</p>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface-container-high border border-outline-variant flex items-center justify-center overflow-hidden">
+<img alt="Operator Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6c2y-oJGBK3IG8wMo4PsEKEOCRrbDM7tiVGVjaZLjaxCeR-z47o3WZE94SHTh1bg1oKDY0QGkY666wp7HWYBaX7ZbrKVK3qol71ZFRdRQ0iMqcmLwmxt5JckxVX34Uw9H9ZGttXq1EUMC3QUsIqICYiG3v9w_CINK3IY4kN37Zy9f88enwCn8C7sLrwc8iHTRnunM3nS59Vjpt8fRZkKv-lqw-qAIYth2HXALjzmS-_GzthwklxkK_0lf8uwasUcF2cTmGZiohCw"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Navigation Drawer (Side) -->
+<aside class="hidden md:flex h-screen w-80 fixed left-0 top-0 z-40 flex-col py-md px-sm bg-surface-container-lowest/80 backdrop-blur-xl border-r border-outline-variant/20 shadow-md transition-transform duration-500 ease-out pt-24">
+<div class="mb-xl px-sm">
+<div class="flex items-center gap-sm mb-base">
+<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+<span class="font-mono-tech text-mono-tech text-on-tertiary-fixed-variant tracking-widest uppercase">System Online</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">OP-LEVEL-09</h2>
+<p class="font-body-md text-body-md text-on-secondary-container opacity-70">Authorization: LEVEL OMEGA</p>
+</div>
+<nav class="flex flex-col gap-xs">
+<div class="text-on-tertiary-container bg-tertiary-container/40 border-r-2 border-tertiary flex items-center gap-sm p-sm transition-all cursor-pointer">
+<span class="material-symbols-outlined text-tertiary">analytics</span>
+<span class="font-body-md text-body-md">System Health</span>
+</div>
+<div class="text-on-secondary-container flex items-center gap-sm p-sm hover:bg-surface-container-high transition-all cursor-pointer">
+<span class="material-symbols-outlined">hub</span>
+<span class="font-body-md text-body-md">Security Nodes</span>
+</div>
+<div class="text-on-secondary-container flex items-center gap-sm p-sm hover:bg-surface-container-high transition-all cursor-pointer">
+<span class="material-symbols-outlined">terminal</span>
+<span class="font-body-md text-body-md">Log Stream</span>
+</div>
+<div class="text-on-secondary-container flex items-center gap-sm p-sm hover:bg-surface-container-high transition-all cursor-pointer">
+<span class="material-symbols-outlined">verified_user</span>
+<span class="font-body-md text-body-md">User Auth</span>
+</div>
+<div class="text-on-secondary-container flex items-center gap-sm p-sm hover:bg-surface-container-high transition-all cursor-pointer">
+<span class="material-symbols-outlined">account_tree</span>
+<span class="font-body-md text-body-md">Protocol X</span>
+</div>
+</nav>
+<div class="mt-auto p-sm bg-surface-container/50 rounded-xl neomorph-inset">
+<p class="font-mono-tech text-xs text-on-secondary-container mb-xs">SERVER UPTIME</p>
+<p class="font-mono-tech text-lg text-tertiary font-bold tabular-nums">428:12:44:09</p>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="md:ml-80 px-margin-mobile md:px-margin-desktop py-lg min-h-screen">
+<!-- Welcome & Header -->
+<div class="mb-xl text-center md:text-left relative overflow-hidden p-8 rounded-3xl">
+
+<p class="font-mono-tech text-tertiary uppercase tracking-[0.3em] mb-xs">Operativo de Campo</p>
+<h2 class="font-headline-xl text-headline-xl text-on-surface mb-sm">CENTRO DE COMANDO</h2>
+<div class="h-1 w-24 bg-gradient-to-right from-tertiary to-transparent rounded-full mx-auto md:mx-0"></div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Section 1: Estado del Núcleo (Stability Gauge) -->
+<section class="lg:col-span-5 glass-panel rounded-3xl p-md flex flex-col items-center justify-center relative overflow-hidden min-h-[400px]">
+<div class="scan-effect"></div>
+<div class="w-full cyber-border pb-base mb-lg">
+<h3 class="font-headline-md text-headline-md text-on-surface">Estado del Núcleo</h3>
+</div>
+<div class="relative flex items-center justify-center">
+<!-- Progress Circle -->
+<svg class="w-64 h-64 transform -rotate-90">
+<circle class="text-surface-container-highest" cx="128" cy="128" fill="transparent" r="110" stroke="currentColor" stroke-width="4"></circle>
+<circle class="text-tertiary drop-shadow-[0_0_10px_rgba(0,104,122,0.4)]" cx="128" cy="128" fill="transparent" r="110" stroke="currentColor" stroke-dasharray="691.15" stroke-dashoffset="11" stroke-width="8"></circle>
+</svg>
+<div class="absolute text-center">
+<span class="font-headline-xl text-headline-xl text-tertiary">98.4<span class="text-headline-md">%</span></span>
+<p class="font-mono-tech text-on-secondary-container tracking-widest uppercase">Estabilidad</p>
+</div>
+</div>
+<div class="grid grid-cols-3 w-full mt-lg gap-sm">
+<div class="neomorph-inset p-sm rounded-xl text-center">
+<p class="text-[10px] text-on-secondary-container">TEMP</p>
+<p class="font-mono-tech font-bold text-tertiary">32°C</p>
+</div>
+<div class="neomorph-inset p-sm rounded-xl text-center">
+<p class="text-[10px] text-on-secondary-container">LOAD</p>
+<p class="font-mono-tech font-bold text-tertiary">14%</p>
+</div>
+<div class="neomorph-inset p-sm rounded-xl text-center">
+<p class="text-[10px] text-on-secondary-container">VOLT</p>
+<p class="font-mono-tech font-bold text-tertiary">1.2V</p>
+</div>
+</div>
+</section>
+<!-- Section 2: Nodos Activos -->
+<section class="lg:col-span-7 glass-panel rounded-3xl p-md">
+<div class="w-full cyber-border pb-base mb-md flex justify-between items-end">
+<h3 class="font-headline-md text-headline-md text-on-surface">Nodos Activos</h3>
+<span class="font-mono-tech text-xs text-tertiary">12/12 ONLINE</span>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-md">
+<!-- Node Card Loop (Simulated) -->
+<div class="p-base rounded-2xl bg-surface-container-lowest border border-outline-variant/30 flex flex-col items-center group hover:border-tertiary/50 transition-colors cursor-crosshair">
+<div class="w-full flex justify-between mb-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+<span class="text-[8px] font-mono-tech opacity-40">ALPHA-01</span>
+</div>
+<span class="material-symbols-outlined text-4xl text-on-secondary-container group-hover:text-tertiary transition-colors">dns</span>
+<p class="font-label-sm text-label-sm mt-sm">NODO_A1</p>
+</div>
+<!-- Node 2 -->
+<div class="p-base rounded-2xl bg-surface-container-lowest border border-outline-variant/30 flex flex-col items-center group hover:border-tertiary/50 transition-colors cursor-crosshair">
+<div class="w-full flex justify-between mb-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+<span class="text-[8px] font-mono-tech opacity-40">ALPHA-02</span>
+</div>
+<span class="material-symbols-outlined text-4xl text-on-secondary-container group-hover:text-tertiary transition-colors">hub</span>
+<p class="font-label-sm text-label-sm mt-sm">NODO_A2</p>
+</div>
+<!-- Node 3 -->
+<div class="p-base rounded-2xl bg-surface-container-lowest border border-outline-variant/30 flex flex-col items-center group hover:border-tertiary/50 transition-colors cursor-crosshair">
+<div class="w-full flex justify-between mb-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+<span class="text-[8px] font-mono-tech opacity-40">BETA-01</span>
+</div>
+<span class="material-symbols-outlined text-4xl text-on-secondary-container group-hover:text-tertiary transition-colors">router</span>
+<p class="font-label-sm text-label-sm mt-sm">NODO_B1</p>
+</div>
+<!-- Node 4 -->
+<div class="p-base rounded-2xl bg-surface-container-lowest border border-outline-variant/30 flex flex-col items-center group hover:border-tertiary/50 transition-colors cursor-crosshair">
+<div class="w-full flex justify-between mb-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+<span class="text-[8px] font-mono-tech opacity-40">BETA-02</span>
+</div>
+<span class="material-symbols-outlined text-4xl text-on-secondary-container group-hover:text-tertiary transition-colors">memory</span>
+<p class="font-label-sm text-label-sm mt-sm">NODO_B2</p>
+</div>
+<!-- More nodes -->
+<div class="p-base rounded-2xl bg-surface-container-lowest border border-outline-variant/30 flex flex-col items-center opacity-60">
+<span class="material-symbols-outlined text-4xl text-on-secondary-container">security</span>
+<p class="font-label-sm text-label-sm mt-sm">FIREWALL_X</p>
+</div>
+<div class="p-base rounded-2xl bg-surface-container-lowest border border-outline-variant/30 flex flex-col items-center opacity-60">
+<span class="material-symbols-outlined text-4xl text-on-secondary-container">cloud_sync</span>
+<p class="font-label-sm text-label-sm mt-sm">SYNC_SRV</p>
+</div>
+<div class="p-base rounded-2xl bg-surface-container-lowest border border-outline-variant/30 flex flex-col items-center opacity-60">
+<span class="material-symbols-outlined text-4xl text-on-secondary-container">database</span>
+<p class="font-label-sm text-label-sm mt-sm">DB_STORAGE</p>
+</div>
+<div class="p-base rounded-2xl bg-surface-container-lowest border border-outline-variant/30 flex flex-col items-center opacity-60">
+<span class="material-symbols-outlined text-4xl text-on-secondary-container">settings_input_antenna</span>
+<p class="font-label-sm text-label-sm mt-sm">SAT_LINK</p>
+</div>
+</div>
+<div class="mt-lg relative h-48 rounded-2xl overflow-hidden neomorph-inset">
+<img class="w-full h-full object-cover opacity-40" data-alt="A high-tech digital mapping interface displayed on a frosted glass surface. The map shows a stylized blue grid of a global network with pulsing cyan node indicators and thin connection lines. The aesthetic is extremely clean and futuristic, lit by soft ambient light that emphasizes the depth and translucency of the dashboard panels." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9hNoJ9svTx39c8LhJi4OvwA7MNZCbYanZQkrZ3dz8pbWyv8aSV3tmwQmBtaXfwrg4PDMxS_38GzeD4yIbux5Ilflqs1n84Sn-8KBFrLISjS8-o6bRiO02OlHEBS7WD90NPZIuIHa-zljsegy8vTTMMFExDTxeUzpY_j03nf_0WV2z9B3XCpZNAUJv7lSA4afRghiIrrfTvrxpTLz2DwCXTGJGc8BY1kE-St-tnDihp6df-csH2NcDwO9pPzQi9DP78PYDSNHHJb8"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background to-transparent flex items-end p-md">
+<p class="font-mono-tech text-xs text-on-secondary-container bg-white/50 backdrop-blur-md px-4 py-2 rounded-full border border-white/40">UBICACIÓN GLOBAL: CLUSTER-09 ACTIVE</p>
+</div>
+</div>
+</section>
+<!-- Section 3: Flujo de Datos Encriptados -->
+<section class="lg:col-span-8 glass-panel rounded-3xl p-md">
+<div class="w-full cyber-border pb-base mb-md flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-on-surface">Flujo de Datos Encriptados</h3>
+<div class="flex gap-xs">
+<span class="w-3 h-3 rounded-full bg-error-container"></span>
+<span class="w-3 h-3 rounded-full bg-secondary-container"></span>
+<span class="w-3 h-3 rounded-full bg-tertiary-container"></span>
+</div>
+</div>
+<div class="neomorph-inset bg-[#0d1117] rounded-xl p-md h-[250px] overflow-y-auto terminal-scroll font-mono-tech text-xs leading-relaxed">
+<div class="text-tertiary-fixed-dim space-y-1" id="terminal-content">
+<p>&gt; Initializing Aetheric Protocol...</p>
+<p class="text-on-tertiary">&gt; AUTH_LEVEL: OMEGA verified.</p>
+<p class="text-secondary-fixed-dim">&gt; [LOG] Packet 0x3F2 incoming from Alpha-01</p>
+<p class="text-secondary-fixed-dim">&gt; [LOG] Encrypting stream with AES-4096 Quantum</p>
+<p class="text-on-secondary-fixed">&gt; Handshake established at 14.2ms latency</p>
+<p class="text-tertiary-fixed-dim">&gt; &gt;&gt; DATA: 88 1A 34 FE CC 01 22 90 04 B1</p>
+<p class="text-tertiary-fixed-dim">&gt; &gt;&gt; DATA: AA 00 11 2F DD E3 44 91 00 C1</p>
+<p class="text-error">&gt; WARNING: Minor flux detected in Node Beta-02</p>
+<p class="text-secondary-fixed-dim">&gt; [LOG] Automatic recalibration initiated...</p>
+<p class="text-on-tertiary">&gt; Recalibration successful. Stability 98.4%.</p>
+</div>
+</div>
+</section>
+<!-- Section 4: Acciones de Protocolo -->
+<section class="lg:col-span-4 glass-panel rounded-3xl p-md flex flex-col justify-between">
+<div>
+<div class="w-full cyber-border pb-base mb-md">
+<h3 class="font-headline-md text-headline-md text-on-surface">Acciones de Protocolo</h3>
+</div>
+<p class="font-body-md text-body-md text-on-secondary-container mb-lg">Gestión de respuesta inmediata para el centro de operaciones.</p>
+</div>
+<div class="space-y-md">
+<button class="w-full flex items-center justify-between p-md bg-tertiary text-on-tertiary rounded-2xl shadow-lg hover:shadow-cyan-500/20 active:scale-95 transition-all group">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-3xl group-hover:rotate-45 transition-transform">radar</span>
+<span class="font-headline-md text-headline-md tracking-tight">Escaneo Total</span>
+</div>
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+<button class="w-full flex items-center justify-between p-md bg-surface-container-lowest border border-error/30 text-error rounded-2xl hover:bg-error-container/30 active:scale-95 transition-all group">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-3xl group-hover:scale-110 transition-transform">lock_reset</span>
+<span class="font-headline-md text-headline-md tracking-tight">Bloqueo de Emergencia</span>
+</div>
+<span class="material-symbols-outlined">emergency_home</span>
+</button>
+</div>
+<div class="mt-lg pt-md border-t border-outline-variant/30">
+<div class="flex items-center justify-between opacity-60">
+<span class="font-mono-tech text-[10px]">AUTH_MODE: BIOMETRIC_RETAINED</span>
+<span class="material-symbols-outlined text-sm">fingerprint</span>
+</div>
+</div>
+</section>
+</div>
+<!-- Footer Spacer -->
+<div class="h-xl"></div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="lg:hidden fixed bottom-0 w-full z-50 bg-surface/80 backdrop-blur-lg border-t border-outline-variant/30 shadow-lg flex justify-around items-center h-16 px-margin-mobile">
+<div class="text-tertiary flex flex-col items-center bg-tertiary-container/30 rounded-xl px-4 py-1 transition-transform active:scale-90">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-sm text-label-sm">Status</span>
+</div>
+<div class="text-on-secondary-container flex flex-col items-center hover:text-tertiary transition-transform active:scale-90">
+<span class="material-symbols-outlined">security_update_good</span>
+<span class="font-label-sm text-label-sm">Shield</span>
+</div>
+<div class="text-on-secondary-container flex flex-col items-center hover:text-tertiary transition-transform active:scale-90">
+<span class="material-symbols-outlined">lock</span>
+<span class="font-label-sm text-label-sm">Vault</span>
+</div>
+<div class="text-on-secondary-container flex flex-col items-center hover:text-tertiary transition-transform active:scale-90">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-sm text-label-sm">Settings</span>
+</div>
+</nav>
+<script>
+        // Terminal Simulation Logic
+        const terminalContent = document.getElementById('terminal-content');
+        const messages = [
+            "> Requesting payload from Core-01...",
+            "> Response OK. Integrity check: Valid.",
+            "> [TRACE] Unknown ping detected from subnet 10.0.0.4",
+            "> [TRACE] Protocol Omega filtering unauthorized signal.",
+            "> All nodes reporting stability optimal.",
+            "> Encryption rotation in T-minus 40 seconds.",
+            "> >> PACKET_DUMP: 0F E3 A1 22 C9 88",
+            "> System synchronization complete."
+        ];
+
+        function addMessage() {
+            const msg = messages[Math.floor(Math.random() * messages.length)];
+            const p = document.createElement('p');
+            p.className = 'text-secondary-fixed-dim animate-pulse';
+            p.textContent = msg;
+            terminalContent.appendChild(p);
+            
+            if (terminalContent.children.length > 50) {
+                terminalContent.removeChild(terminalContent.firstChild);
+            }
+            
+            const container = terminalContent.parentElement;
+            container.scrollTop = container.scrollHeight;
+        }
+
+        setInterval(addMessage, 3000);
+
+        // Interaction for buttons
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const ripple = document.createElement('span');
+                ripple.className = 'absolute inset-0 bg-white/20 rounded-2xl pointer-events-none animate-ping';
+                this.style.position = 'relative';
+                this.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 1000);
+            });
+        });
+    </script>
+</body></html>

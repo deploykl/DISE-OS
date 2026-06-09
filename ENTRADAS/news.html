@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SECURE_ACCESS_PROTOCOL</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Space+Grotesk:wght@300..700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary": "#005ac2",
+                    "secondary": "#006876",
+                    "tertiary": "#904a4d",
+                    "surface": "#f7f9fb",
+                    "surface-dim": "#d8dadc",
+                    "surface-bright": "#f7f9fb",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-low": "#f2f4f6",
+                    "surface-container": "#eceef0",
+                    "surface-container-high": "#e6e8ea",
+                    "surface-container-highest": "#e0e2e4",
+                    "on-surface": "#191c1e",
+                    "on-surface-variant": "#41484d",
+                    "outline": "#71787d",
+                    "outline-variant": "#c1c8cd",
+                    "background": "#f7f9fb",
+                    "on-background": "#191c1e",
+                    "accent-cyan": "#00f0ff"
+            },
+            "fontFamily": {
+                    "body-md": ["Inter"],
+                    "code-md": ["JetBrains Mono"],
+                    "label-caps": ["JetBrains Mono"],
+                    "headline-lg": ["Space Grotesk"],
+                    "code-sm": ["JetBrains Mono"],
+                    "headline-md": ["Space Grotesk"]
+            },
+            "fontSize": {
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "code-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-caps": ["11px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "code-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        @keyframes shake {
+            0%, 100% { transform: translate(0, 0); }
+            10%, 30%, 50%, 70%, 90% { transform: translate(-4px, 0); }
+            20%, 40%, 60%, 80% { transform: translate(4px, 0); }
+        }
+        .animate-shake { animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both; }
+        
+        .scanline {
+            background: linear-gradient(to bottom, transparent 50%, rgba(0, 240, 255, 0.03) 50.5%, transparent 51%);
+            background-size: 100% 4px;
+            pointer-events: none;
+        }
+
+        .grid-bg {
+            background-image: radial-gradient(circle, #00f0ff15 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        .gate-layer {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 2000ms cubic-bezier(0.65, 0, 0.35, 1);
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.1);
+        }
+
+        .gate-layer.active {
+            opacity: 1;
+        }
+
+        /* Improved sliding door feel */
+        .gate-v { transform: translateY(-100%); }
+        .gate-v:nth-child(even) { transform: translateY(100%); }
+        .gate-h { transform: translateX(-100%); }
+        .gate-h:nth-child(even) { transform: translateX(100%); }
+
+        .gate-v.expand { transform: translateY(0); }
+        .gate-h.expand { transform: translateX(0); }
+
+        .glow-edge {
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.2), inset 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        #particle-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 30;
+        }
+
+        .terminal-scroll {
+            scrollbar-width: none;
+        }
+        .terminal-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(128px); }
+        }
+        
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface overflow-hidden font-body-md h-screen w-full flex flex-col">
+<!-- Grid and Scanline -->
+<div class="absolute inset-0 grid-bg opacity-40"></div>
+<div class="absolute inset-0 scanline z-10"></div>
+<!-- UI Shell (TopAppBar) -->
+<header class="fixed top-0 w-full bg-white/70 backdrop-blur-xl border-b border-outline-variant/30 shadow-sm flex items-center justify-between px-6 h-16 w-full z-50">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">security</span>
+<h1 class="font-code-md text-code-md uppercase tracking-widest text-on-surface font-bold">SECURE_ACCESS_PROTOCOL</h1>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer active:scale-95">terminal</span>
+</header>
+<!-- Main Command Center Canvas -->
+<main class="relative flex-1 flex flex-col items-center justify-center p-6 mt-16 z-20">
+<!-- Particle Effects Canvas -->
+<canvas id="particle-canvas"></canvas>
+<!-- Cyber Gate Sliding Door Layers -->
+<div class="absolute inset-0 overflow-hidden pointer-events-none" id="gate-container">
+<div class="gate-layer gate-v glow-edge z-0"></div>
+<div class="gate-layer gate-v glow-edge z-0"></div>
+<div class="gate-layer gate-h glow-edge z-0"></div>
+<div class="gate-layer gate-h glow-edge z-0"></div>
+</div>
+<!-- Lock UI -->
+<div class="relative z-40 transition-all duration-1000" id="lock-screen">
+<div class="group cursor-pointer flex flex-col items-center gap-8" id="lock-unit">
+<!-- Lock Icon Group (Metallic Look) -->
+<div class="relative">
+<div class="absolute -inset-8 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-all"></div>
+<div class="relative w-32 h-32 flex items-center justify-center border border-outline-variant/50 rounded-3xl bg-white shadow-[0_10px_40px_rgba(0,0,0,0.05)] overflow-hidden group-active:scale-95 transition-transform">
+<!-- Polished porcelain / metallic shine overlay -->
+<div class="absolute inset-0 bg-gradient-to-tr from-white via-slate-50/50 to-primary/5"></div>
+<!-- Scanning line -->
+<div class="absolute top-0 left-0 w-full h-1 bg-accent-cyan shadow-[0_0_10px_#00f0ff] animate-[scan_2s_linear_infinite]"></div>
+<span class="relative material-symbols-outlined text-[64px] text-primary" id="lock-icon" style="font-variation-settings: 'FILL' 1; text-shadow: 0 0 20px rgba(0, 90, 194, 0.2);">lock</span>
+</div>
+</div>
+<!-- Text & Instruction -->
+<div class="text-center space-y-2">
+<p class="font-code-sm text-code-sm text-on-surface-variant uppercase tracking-widest font-bold">Estado: Restringido</p>
+<h2 class="font-headline-md text-headline-md text-on-surface uppercase font-bold tracking-tight">Autenticación Requerida</h2>
+<p class="text-on-surface-variant/70 font-body-md">Mantén pulsado para iniciar el protocolo de desbloqueo</p>
+</div>
+</div>
+</div>
+<!-- Access Granted UI -->
+<div class="hidden fixed inset-0 z-50 bg-white/95 backdrop-blur-3xl flex flex-col p-6 items-center justify-center gap-8 opacity-0 transition-opacity duration-1000" id="success-screen">
+<div class="w-full max-w-sm space-y-8">
+<div class="flex items-center gap-4 text-primary">
+<span class="material-symbols-outlined text-[48px]">check_circle</span>
+<div>
+<h3 class="font-headline-md text-headline-md uppercase font-bold text-on-surface">Acceso Concedido</h3>
+<p class="font-code-sm text-code-sm text-on-surface-variant">ID_SESION: 0x8F92_LIGHT_CORE</p>
+</div>
+</div>
+<!-- Progress Bar -->
+<div class="space-y-3">
+<div class="flex justify-between font-code-sm text-code-sm font-bold text-on-surface-variant">
+<span>INICIALIZANDO NÚCLEO...</span>
+<span id="progress-pct">0%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary shadow-[0_0_10px_rgba(0,90,194,0.3)] w-0 transition-all duration-300" id="progress-bar"></div>
+</div>
+</div>
+<!-- Terminal Logs -->
+<div class="bg-surface-container-low border border-outline-variant/30 p-5 rounded-xl h-48 overflow-y-auto terminal-scroll font-code-sm text-code-sm text-on-surface-variant">
+<div class="space-y-2" id="terminal-content">
+<p class="text-primary font-bold">[INFO] Iniciando secuencia de descifrado...</p>
+</div>
+</div>
+<button class="w-full py-4 bg-primary text-white font-code-md uppercase tracking-widest rounded-xl hover:bg-primary/90 shadow-lg shadow-primary/20 active:scale-95 transition-all" onclick="window.location.reload()">
+                    Entrar al Sistema
+                </button>
+</div>
+</div>
+</main>
+<!-- Bottom Info -->
+<footer class="fixed bottom-0 w-full p-6 flex justify-between items-center z-40 bg-surface/50 backdrop-blur-sm">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 bg-primary animate-pulse rounded-full"></div>
+<span class="font-code-sm text-code-sm text-on-surface-variant font-bold">SISTEMA_ACTIVO</span>
+</div>
+<span class="font-code-sm text-code-sm text-on-surface-variant/50">V2.4.0_CORE_LIT</span>
+</footer>
+<script>
+        const lockUnit = document.getElementById('lock-unit');
+        const lockIcon = document.getElementById('lock-icon');
+        const gateContainer = document.getElementById('gate-container');
+        const layers = Array.from(gateContainer.children);
+        const lockScreen = document.getElementById('lock-screen');
+        const successScreen = document.getElementById('success-screen');
+        const progressBar = document.getElementById('progress-bar');
+        const progressPct = document.getElementById('progress-pct');
+        const terminalContent = document.getElementById('terminal-content');
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let particles = [];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = (Math.random() - 0.5) * 8;
+                this.speedY = (Math.random() - 0.5) * 8;
+                this.color = '#005ac2';
+                this.alpha = 1;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.alpha -= 0.02;
+            }
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        function spawnParticles(x, y) {
+            for (let i = 0; i < 40; i++) {
+                particles.push(new Particle(x, y));
+            }
+            animateParticles();
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles = particles.filter(p => p.alpha > 0);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            if (particles.length > 0) {
+                requestAnimationFrame(animateParticles);
+            }
+        }
+
+        const logs = [
+            "Validando firma biométrica...",
+            "Protocolo de luz estelar activo...",
+            "Sincronizando con Cyber-Sentinel...",
+            "Limpiando caché de seguridad...",
+            "Acceso ROOT autenticado.",
+            "Cargando entorno visual claro...",
+            "Puertas lógicas abiertas.",
+            "Sesión iniciada correctamente."
+        ];
+
+        function addLog(text) {
+            const p = document.createElement('p');
+            p.className = "text-on-surface-variant border-l-2 border-primary/30 pl-3 py-1";
+            p.textContent = `> ${text}`;
+            terminalContent.appendChild(p);
+            terminalContent.parentElement.scrollTop = terminalContent.parentElement.scrollHeight;
+        }
+
+        async function triggerUnlockSequence() {
+            lockUnit.classList.add('animate-shake');
+            
+            await new Promise(r => setTimeout(r, 600));
+            
+            lockIcon.textContent = 'lock_open';
+            lockIcon.style.color = '#00f0ff';
+            const rect = lockIcon.getBoundingClientRect();
+            spawnParticles(rect.left + rect.width/2, rect.top + rect.height/2);
+
+            // Expansion sequence (2000ms duration defined in CSS)
+            for (let i = 0; i < layers.length; i++) {
+                const layer = layers[i];
+                layer.classList.add('active');
+                // Small staggered start but the animation itself is long
+                await new Promise(r => setTimeout(r, 150));
+                layer.classList.add('expand');
+            }
+
+            // Wait for heavy doors to "slide"
+            await new Promise(r => setTimeout(r, 2000));
+
+            lockScreen.style.opacity = '0';
+            lockScreen.style.transform = 'scale(0.95)';
+
+            await new Promise(r => setTimeout(r, 500));
+            
+            successScreen.classList.remove('hidden');
+            setTimeout(() => {
+                successScreen.style.opacity = '1';
+            }, 50);
+
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.floor(Math.random() * 4) + 1;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                }
+                progressBar.style.width = `${progress}%`;
+                progressPct.textContent = `${progress}%`;
+                
+                if (progress % 12 < 4 && logs.length > 0) {
+                    addLog(logs.shift());
+                }
+            }, 80);
+        }
+
+        let holdTimer;
+        lockUnit.addEventListener('mousedown', () => {
+            holdTimer = setTimeout(triggerUnlockSequence, 1000);
+            lockUnit.style.scale = "0.95";
+        });
+        lockUnit.addEventListener('mouseup', () => {
+            clearTimeout(holdTimer);
+            lockUnit.style.scale = "1";
+        });
+        lockUnit.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            holdTimer = setTimeout(triggerUnlockSequence, 1000);
+            lockUnit.style.scale = "0.95";
+        });
+        lockUnit.addEventListener('touchend', () => {
+            clearTimeout(holdTimer);
+            lockUnit.style.scale = "1";
+        });
+    </script>
+</body></html>

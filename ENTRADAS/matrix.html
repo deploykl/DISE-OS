@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Matrix Loading Screen | Sistema</title>
+    <!-- Tailwind CSS + Bootstrap Icons + PrimeIcons -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/primeicons@7.0.0/primeicons.css">
+    <style>
+        /* Animaciones personalizadas */
+        @keyframes bounce-in {
+            0% {
+                opacity: 0;
+                transform: scale(0.3) translateY(100px);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.05) translateY(-10px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        @keyframes ping-slow {
+            0%, 100% {
+                transform: scale(1) rotate(45deg);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.2) rotate(45deg);
+                opacity: 0.5;
+            }
+        }
+
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fade-in-stagger {
+            0% {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes scan-line {
+            0% {
+                transform: translateY(-100%);
+                opacity: 1;
+            }
+            70% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 0.1; transform: scale(1); }
+            50% { opacity: 0.2; transform: scale(1.1); }
+        }
+
+        .animate-bounce-in {
+            animation: bounce-in 1s ease-out;
+        }
+
+        .animate-ping-slow {
+            animation: ping-slow 2s ease-in-out infinite;
+        }
+
+        .animate-fade-in-delay {
+            animation: fade-in 0.8s ease-out 0.3s both;
+        }
+
+        .animate-fade-in-stagger {
+            animation: fade-in-stagger 0.6s ease-out both;
+        }
+
+        .animate-scan-line {
+            animation: scan-line 1s ease-out forwards;
+        }
+
+        .animate-pulse-slow {
+            animation: pulse-slow 4s ease-in-out infinite;
+        }
+
+        /* Transición de salida */
+        .matrix-exit-leave-active {
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .matrix-exit-leave-to {
+            opacity: 0;
+        }
+
+        /* Para el canvas */
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div id="app"></div>
+
+    <script>
+        // Simulación del componente Vue en vanilla JS
+        class LoadingScreen {
+            constructor(config) {
+                this.show = config.show || false;
+                this.duration = config.duration || 6000;
+                this.theme = config.theme || 'dark';
+                this.onComplete = config.onComplete || (() => {});
+                
+                this.countdown = Math.ceil(this.duration / 1000);
+                this.internalShow = false;
+                this.elapsedTime = 0;
+                this.isExiting = false;
+                this.showScanLine = false;
+                
+                this.matrixInterval = null;
+                this.countdownInterval = null;
+                this.columns = [];
+                this.startTime = 0;
+                
+                this.container = null;
+                this.canvas = null;
+                
+                this.init();
+            }
+            
+            get themeClasses() {
+                if (this.theme === 'light') {
+                    return {
+                        background: 'bg-gradient-to-br from-slate-100 to-blue-50',
+                        text: 'text-slate-800',
+                        subtitle: 'text-blue-600',
+                        orb1: 'bg-blue-200/40',
+                        orb2: 'bg-indigo-200/40',
+                        orb3: 'bg-cyan-100/30',
+                        logoBg: 'bg-blue-300/30',
+                        logoBorder: 'bg-white/80 border-slate-200',
+                        logoIcon: 'text-blue-500',
+                        progressBg: 'bg-slate-200',
+                        progressBar: 'bg-gradient-to-r from-blue-500 to-cyan-500',
+                        counter: 'text-slate-600',
+                        status: 'text-slate-700',
+                        statusIcon1: 'text-green-500',
+                        statusIcon2: 'text-blue-500',
+                        statusIcon3: 'text-cyan-500',
+                        statusIcon4: 'text-amber-500'
+                    };
+                } else {
+                    return {
+                        background: 'bg-gradient-to-br from-slate-900 to-indigo-900',
+                        text: 'text-white',
+                        subtitle: 'text-blue-200',
+                        orb1: 'bg-blue-500/10',
+                        orb2: 'bg-indigo-500/10',
+                        orb3: 'bg-cyan-500/5',
+                        logoBg: 'bg-blue-400/20',
+                        logoBorder: 'bg-white/5 border-white/20',
+                        logoIcon: 'text-blue-300',
+                        progressBg: 'bg-white/10',
+                        progressBar: 'bg-gradient-to-r from-blue-400 to-cyan-400',
+                        counter: 'text-blue-200',
+                        status: 'text-blue-200',
+                        statusIcon1: 'text-green-400',
+                        statusIcon2: 'text-blue-300',
+                        statusIcon3: 'text-cyan-400',
+                        statusIcon4: 'text-amber-400'
+                    };
+                }
+            }
+            
+            get progressWidth() {
+                if (this.duration === 0) return 0;
+                return Math.min((this.elapsedTime / this.duration) * 100, 100);
+            }
+            
+            init() {
+                this.render();
+                if (this.show) {
+                    this.showLoading();
+                }
+            }
+            
+            render() {
+                const app = document.getElementById('app');
+                const classes = this.themeClasses;
+                
+                this.container = document.createElement('div');
+                this.container.className = `fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden transition-all duration-800 ${classes.background}`;
+                this.container.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+                
+                if (!this.internalShow) {
+                    this.container.style.opacity = '0';
+                    this.container.style.pointerEvents = 'none';
+                }
+                
+                this.container.innerHTML = `
+                    <canvas class="absolute inset-0 w-full h-full pointer-events-none transition-opacity duration-1000" style="opacity: 1;"></canvas>
+                    
+                    <div class="absolute inset-0 z-10 transition-opacity duration-1000 opacity-0 ${this.theme === 'dark' ? 'bg-gradient-to-t from-black via-transparent to-transparent' : 'bg-gradient-to-t from-white via-transparent to-transparent'}"></div>
+                    
+                    <div class="absolute inset-0 overflow-hidden transition-opacity duration-1000 opacity-100">
+                        <div class="absolute -top-40 -right-40 w-80 h-80 rounded-full blur-3xl animate-pulse-slow ${classes.orb1}"></div>
+                        <div class="absolute -bottom-40 -left-40 w-80 h-80 rounded-full blur-3xl animate-pulse-slow ${classes.orb2}" style="animation-delay: 2s;"></div>
+                        <div class="absolute top-1/4 left-1/4 w-60 h-60 rounded-full blur-3xl animate-pulse-slow ${classes.orb3}" style="animation-delay: 4s;"></div>
+                    </div>
+                    
+                    <div class="relative z-20 text-center space-y-8 transition-all duration-1000 opacity-100 scale-100 blur-0 ${classes.text}">
+                        <div class="relative mx-auto w-32 h-32">
+                            <div class="absolute inset-0 rounded-3xl transform rotate-45 animate-ping-slow ${classes.logoBg}"></div>
+                            <div class="absolute inset-2 rounded-2xl backdrop-blur-sm border flex items-center justify-center ${classes.logoBorder}">
+                                <i class="bi bi-shield-check text-4xl animate-pulse ${classes.logoIcon}"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <h1 class="text-4xl md:text-5xl font-black tracking-tight animate-bounce-in">INGRESANDO AL SISTEMA</h1>
+                            <p class="text-xl font-light animate-fade-in-delay ${classes.subtitle}">Preparando tu experiencia personalizada</p>
+                        </div>
+                        
+                        <div class="w-64 mx-auto space-y-4">
+                            <div class="w-full h-2 rounded-full overflow-hidden ${classes.progressBg}">
+                                <div class="h-full rounded-full transition-all duration-100 ease-linear ${classes.progressBar}" style="width: 0%;"></div>
+                            </div>
+                            <div class="flex justify-between items-center text-sm ${classes.counter}">
+                                <span>Inicializando...</span>
+                                <span class="font-mono font-bold">${this.countdown}s</span>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-2 text-sm ${classes.status}">
+                            <div class="flex items-center justify-center space-x-2 animate-fade-in-stagger">
+                                <i class="pi pi-check-circle text-base ${classes.statusIcon1}"></i>
+                                <span>Credenciales verificadas</span>
+                            </div>
+                            <div class="flex items-center justify-center space-x-2 animate-fade-in-stagger" style="animation-delay: 0.5s;">
+                                <i class="pi pi-cog animate-spin text-base ${classes.statusIcon2}"></i>
+                                <span>Cargando módulos del sistema</span>
+                            </div>
+                            <div class="flex items-center justify-center space-x-2 animate-fade-in-stagger" style="animation-delay: 1s;">
+                                <i class="pi pi-database text-base ${classes.statusIcon3}"></i>
+                                <span>Conectando con base de datos</span>
+                            </div>
+                            <div class="flex items-center justify-center space-x-2 animate-fade-in-stagger" style="animation-delay: 1.5s;">
+                                <i class="pi pi-lock text-base ${classes.statusIcon4}"></i>
+                                <span>Estableciendo conexión segura</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="absolute inset-0 z-30 pointer-events-none hidden scan-line-container ${this.theme === 'dark' ? 'bg-gradient-to-b from-cyan-500/30 via-transparent to-transparent' : 'bg-gradient-to-b from-blue-500/30 via-transparent to-transparent'}">
+                        <div class="w-full h-1 bg-gradient-to-r from-transparent via-current to-transparent animate-scan-line"></div>
+                    </div>
+                `;
+                
+                this.canvas = this.container.querySelector('canvas');
+                app.appendChild(this.container);
+                
+                // Guardar referencias a elementos dinámicos
+                this.progressBar = this.container.querySelector('.progress-bar-fill, [class*="progressBar"]') || this.container.querySelector('[class*="bg-gradient-to-r"]');
+                this.countdownSpan = this.container.querySelector('.font-mono.font-bold');
+                this.exitBackdrop = this.container.querySelector('.absolute.inset-0.z-10');
+                this.orbContainer = this.container.querySelector('.absolute.inset-0.overflow-hidden');
+                this.scanLineContainer = this.container.querySelector('.scan-line-container');
+                this.mainContent = this.container.querySelector('.relative.z-20');
+            }
+            
+            initializeMatrix() {
+                if (!this.canvas) return;
+                
+                const canvas = this.canvas;
+                const ctx = canvas.getContext('2d');
+                if (!ctx) return;
+                
+                canvas.height = window.innerHeight;
+                canvas.width = window.innerWidth;
+                
+                ctx.font = '14px "Courier New", monospace';
+                ctx.textBaseline = 'top';
+                
+                this.columns = [];
+                const columnCount = Math.ceil(canvas.width / 14);
+                for (let i = 0; i < columnCount; i++) {
+                    this.columns[i] = 1;
+                }
+                
+                if (this.matrixInterval) {
+                    clearInterval(this.matrixInterval);
+                }
+                
+                this.matrixInterval = setInterval(() => {
+                    if (!this.canvas || !ctx || this.isExiting) return;
+                    
+                    ctx.fillStyle = this.theme === 'dark' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.05)';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    
+                    ctx.fillStyle = this.theme === 'dark' ? '#00ffff' : '#0066cc';
+                    
+                    this.columns.forEach((value, index) => {
+                        const char = String.fromCharCode(0x30A0 + Math.random() * 96);
+                        const x = index * 14;
+                        const y = value * 12;
+                        
+                        ctx.fillText(char, x, y);
+                        
+                        if (y > canvas.height + Math.random() * 10000) {
+                            this.columns[index] = 0;
+                        } else {
+                            this.columns[index] = value + 1;
+                        }
+                    });
+                }, 35);
+            }
+            
+            startCountdown() {
+                this.startTime = Date.now();
+                this.elapsedTime = 0;
+                this.isExiting = false;
+                this.showScanLine = false;
+                
+                if (this.scanLineContainer) {
+                    this.scanLineContainer.classList.add('hidden');
+                }
+                
+                this.countdownInterval = setInterval(() => {
+                    const currentTime = Date.now();
+                    this.elapsedTime = currentTime - this.startTime;
+                    
+                    const remaining = Math.max(0, this.duration - this.elapsedTime);
+                    this.countdown = Math.ceil(remaining / 1000);
+                    
+                    if (this.countdownSpan) {
+                        this.countdownSpan.textContent = `${this.countdown}s`;
+                    }
+                    
+                    const progressBarElement = this.container.querySelector('[class*="progressBar"], [class*="bg-gradient-to-r"]');
+                    if (progressBarElement && progressBarElement !== this.progressBar) {
+                        this.progressBar = progressBarElement;
+                    }
+                    if (this.progressBar) {
+                        this.progressBar.style.width = `${this.progressWidth}%`;
+                    }
+                    
+                    const matrixDuration = this.duration - 500;
+                    if (this.elapsedTime >= matrixDuration && !this.isExiting) {
+                        this.startExitAnimation();
+                    }
+                    
+                    if (this.elapsedTime >= this.duration) {
+                        if (this.countdownInterval) {
+                            clearInterval(this.countdownInterval);
+                            this.countdownInterval = null;
+                        }
+                        this.finalizeExit();
+                    }
+                }, 50);
+            }
+            
+            startExitAnimation() {
+                if (this.isExiting) return;
+                
+                this.isExiting = true;
+                this.showScanLine = true;
+                
+                if (this.scanLineContainer) {
+                    this.scanLineContainer.classList.remove('hidden');
+                }
+                
+                if (this.exitBackdrop) {
+                    this.exitBackdrop.classList.add('opacity-100');
+                    this.exitBackdrop.classList.remove('opacity-0');
+                }
+                
+                if (this.orbContainer) {
+                    this.orbContainer.classList.add('opacity-0');
+                }
+                
+                if (this.mainContent) {
+                    this.mainContent.classList.add('opacity-0', 'scale-95', 'blur-sm');
+                    this.mainContent.classList.remove('opacity-100', 'scale-100', 'blur-0');
+                }
+                
+                if (this.canvas) {
+                    this.canvas.style.opacity = '0';
+                }
+                
+                setTimeout(() => {
+                    this.finalizeExit();
+                }, 600);
+            }
+            
+            finalizeExit() {
+                this.cleanup();
+                
+                if (this.container) {
+                    this.container.style.opacity = '0';
+                    setTimeout(() => {
+                        this.internalShow = false;
+                        if (this.container) {
+                            this.container.style.pointerEvents = 'none';
+                        }
+                        this.onComplete();
+                    }, 800);
+                }
+            }
+            
+            cleanup() {
+                if (this.countdownInterval) {
+                    clearInterval(this.countdownInterval);
+                    this.countdownInterval = null;
+                }
+                if (this.matrixInterval) {
+                    clearInterval(this.matrixInterval);
+                    this.matrixInterval = null;
+                }
+                if (this.canvas) {
+                    const ctx = this.canvas.getContext('2d');
+                    if (ctx) {
+                        ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                    }
+                }
+                this.columns = [];
+            }
+            
+            showLoading() {
+                this.cleanup();
+                this.internalShow = true;
+                this.countdown = Math.ceil(this.duration / 1000);
+                this.isExiting = false;
+                this.showScanLine = false;
+                this.elapsedTime = 0;
+                
+                if (this.container) {
+                    this.container.style.opacity = '1';
+                    this.container.style.pointerEvents = 'auto';
+                    
+                    const exitBackdrop = this.container.querySelector('.absolute.inset-0.z-10');
+                    if (exitBackdrop) exitBackdrop.classList.add('opacity-0');
+                    
+                    const orbContainer = this.container.querySelector('.absolute.inset-0.overflow-hidden');
+                    if (orbContainer) orbContainer.classList.remove('opacity-0');
+                    
+                    const mainContent = this.container.querySelector('.relative.z-20');
+                    if (mainContent) {
+                        mainContent.classList.add('opacity-100', 'scale-100', 'blur-0');
+                        mainContent.classList.remove('opacity-0', 'scale-95', 'blur-sm');
+                    }
+                    
+                    if (this.canvas) this.canvas.style.opacity = '1';
+                }
+                
+                setTimeout(() => {
+                    this.initializeMatrix();
+                    this.startCountdown();
+                }, 100);
+            }
+            
+            hide() {
+                if (this.internalShow && !this.isExiting) {
+                    this.startExitAnimation();
+                }
+            }
+            
+            destroy() {
+                this.cleanup();
+                if (this.container && this.container.parentNode) {
+                    this.container.parentNode.removeChild(this.container);
+                }
+            }
+            
+            handleResize = () => {
+                if (this.internalShow && !this.isExiting && this.canvas) {
+                    this.initializeMatrix();
+                }
+            }
+        }
+        
+        // Inicializar la pantalla de carga
+        const loadingScreen = new LoadingScreen({
+            show: true,
+            duration: 6000,
+            theme: 'dark',
+            onComplete: () => {
+                console.log('✅ Loading complete - Redirigiendo al dashboard...');
+                // Aquí puedes redirigir o mostrar el contenido principal
+                // window.location.href = '/dashboard';
+                document.body.innerHTML += '<div class="fixed inset-0 flex items-center justify-center bg-gradient-to-br from-emerald-900 to-slate-900 z-50"><div class="text-center text-white"><h1 class="text-4xl font-bold">Dashboard Principal</h1><p class="mt-4">La carga ha finalizado correctamente</p></div></div>';
+                setTimeout(() => {
+                    const tempDiv = document.querySelector('.fixed.inset-0.flex.items-center.justify-center');
+                    if (tempDiv) tempDiv.remove();
+                }, 3000);
+            }
+        });
+        
+        window.addEventListener('resize', () => loadingScreen.handleResize());
+    </script>
+</body>
+</html>

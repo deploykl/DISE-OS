@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Efecto Onda</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #1a1a2e;
+            min-height: 100vh;
+        }
+
+        @keyframes aparecerIcono {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes mantenerIcono {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes desaparecerIcono {
+            to {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        @keyframes expandirOnda {
+            from {
+                clip-path: circle(0% at 50% 50%);
+            }
+            to {
+                clip-path: circle(150% at 50% 50%);
+            }
+        }
+
+        @keyframes mostrarContenido {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .icono {
+            animation: aparecerIcono 0.6s ease-out forwards,
+                       mantenerIcono 4.4s 0.6s ease-out forwards,
+                       desaparecerIcono 0.5s 5s ease-out forwards;
+        }
+
+        .onda {
+            animation: expandirOnda 3s ease-in-out forwards;
+            animation-delay: 5s;
+            clip-path: circle(0% at 50% 50%);
+        }
+
+        .mostrar {
+            opacity: 0;
+            animation: mostrarContenido 1s ease-out forwards;
+        }
+
+        .d1 { animation-delay: 5.5s; }
+        .d2 { animation-delay: 6.2s; }
+        .d3 { animation-delay: 6.9s; }
+        .d4 { animation-delay: 7.6s; }
+        .d5 { animation-delay: 8.3s; }
+
+        .fondo-cover {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .capa-onda {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #ffffff;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icono-centro {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 30;
+        }
+    </style>
+</head>
+<body>
+    <!-- Fondo inicial -->
+    <div class="fondo-cover"></div>
+
+    <!-- Capa blanca que se expande como onda -->
+    <div class="capa-onda onda">
+        <div class="max-w-6xl w-full px-8 py-16">
+            <!-- Título principal -->
+            <div class="text-center mb-16 mostrar d1">
+                <h1 class="text-6xl font-bold text-gray-800 mb-4">Bienvenido</h1>
+                <p class="text-2xl text-gray-600">Esto aparece dentro de la onda</p>
+            </div>
+
+            <!-- Grid de contenido -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-gray-50 p-8 rounded-2xl mostrar d2">
+                    <div class="text-5xl mb-4">🚀</div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-3">Rápido</h3>
+                    <p class="text-gray-600">Contenido que aparece mientras la onda se expande.</p>
+                </div>
+
+                <div class="bg-gray-50 p-8 rounded-2xl mostrar d3">
+                    <div class="text-5xl mb-4">💡</div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-3">Inteligente</h3>
+                    <p class="text-gray-600">Todo se revela poco a poco con la expansión.</p>
+                </div>
+
+                <div class="bg-gray-50 p-8 rounded-2xl mostrar d4">
+                    <div class="text-5xl mb-4">🎯</div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-3">Preciso</h3>
+                    <p class="text-gray-600">La onda muestra el contenido progresivamente.</p>
+                </div>
+            </div>
+
+            <!-- Botón -->
+            <div class="text-center mt-16 mostrar d5">
+                <button class="bg-purple-600 text-white px-8 py-4 rounded-full text-xl font-semibold hover:bg-purple-700 transition">
+                    Comenzar Ahora
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Icono -->
+    <div class="icono-centro">
+        <svg class="w-24 h-24 text-white icono" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+        </svg>
+    </div>
+</body>
+</html>

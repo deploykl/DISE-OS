@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Loading Screen | Dashboard Bienvenida</title>
+    <!-- Tailwind CSS v3 + CDN + Fuente sistema moderna -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Pequeño override para personalizar animaciones extendidas -->
+    <style>
+        /* === ANIMACIONES COMPLETAS (basadas en el diseño original) === */
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes ping-slow {
+            0% { transform: scale(1); opacity: 0.4; }
+            50% { transform: scale(1.3); opacity: 0.1; }
+            100% { transform: scale(1.6); opacity: 0; }
+        }
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 0.1; transform: scale(1); }
+            50% { opacity: 0.2; transform: scale(1.1); }
+        }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        @keyframes type-blink {
+            0%, 100% { opacity: 1; height: 3px; }
+            50% { opacity: 0.3; height: 8px; }
+        }
+        @keyframes scan-line {
+            0% { transform: translateY(-100%); opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+        @keyframes fade-in {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slide-down {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* utilidades personalizadas */
+        .animate-spin-slow { animation: spin-slow 3s linear infinite; }
+        .animate-ping-slow { animation: ping-slow 2s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+        .animate-pulse-slow { animation: pulse-slow 4s ease-in-out infinite; }
+        .animate-pulse-slower { animation: pulse-slow 6s ease-in-out infinite reverse; }
+        .animate-shimmer { animation: shimmer 1.5s ease-in-out infinite; }
+        .animate-type1 { animation: type-blink 1s ease-in-out infinite; }
+        .animate-type2 { animation: type-blink 1s ease-in-out infinite 0.2s; }
+        .animate-type3 { animation: type-blink 1s ease-in-out infinite 0.4s; }
+        .animate-scan-line { animation: scan-line 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+        .animate-fade-in { animation: fade-in 0.5s ease-out; }
+        .animate-slide-down { animation: slide-down 0.4s ease-out; }
+
+        /* efecto adicional para grid personalizada */
+        .bg-grid-pattern {
+            background-image: linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        /* transiciones para el contenedor principal y efectos */
+        .loading-transition {
+            transition: opacity 500ms cubic-bezier(0.4, 0, 0.2, 1), transform 500ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .backdrop-transition {
+            transition: background-color 500ms ease, backdrop-filter 500ms ease;
+        }
+        .progress-bar-fill {
+            transition: width 100ms linear;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- OVERLAY PRINCIPAL DE CARGA -->
+    <div id="loadingOverlay" class="fixed inset-0 z-[9999] flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+        
+        <!-- Grid de fondo (opacidad controlada) -->
+        <div class="absolute inset-0 overflow-hidden opacity-10 pointer-events-none">
+            <div class="absolute inset-0 bg-grid-pattern"></div>
+        </div>
+
+        <!-- Círculos decorativos animados -->
+        <div class="absolute inset-0 pointer-events-none">
+            <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl animate-pulse-slow"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl animate-pulse-slower"></div>
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl"></div>
+        </div>
+
+        <!-- Capa de desvanecimiento de salida (backdrop-blur al final) -->
+        <div id="exitBackdrop" class="absolute inset-0 z-10 transition-all duration-500 pointer-events-none bg-transparent backdrop-blur-none"></div>
+
+        <!-- CONTENEDOR PRINCIPAL (con animación de fade/scale al salir) -->
+        <div id="mainContent" class="relative z-20 text-center space-y-8 transition-all duration-500 max-w-md w-full mx-6 opacity-100 scale-100">
+            
+            <!-- Logo / Icono principal -->
+            <div class="relative mx-auto w-24 h-24">
+                <!-- Anillo exterior -->
+                <div class="absolute inset-0 rounded-full border-2 border-blue-500/30 animate-ping-slow"></div>
+                <!-- Círculo central con gradiente y animación spin -->
+                <div class="absolute inset-0 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 shadow-lg shadow-blue-500/25 animate-spin-slow">
+                    <div class="absolute inset-1 rounded-full bg-slate-900 flex items-center justify-center">
+                   <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+          d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+          d="M12 15a3 3 0 100-6 3 3 0 000 6z"/>
+</svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bienvenida personalizada (datos simulados: nombre y apellido desde JS) -->
+            <div class="space-y-3">
+                <div class="flex flex-col items-center gap-1">
+                    <span class="text-sm font-mono tracking-wider text-blue-400 uppercase animate-fade-in">Bienvenido/a</span>
+                    <h1 id="fullNameDisplay" class="text-3xl font-bold tracking-tight bg-gradient-to-r from-blue-400 via-cyan-400 to-purple-400 bg-clip-text text-transparent">
+                        Cargando...
+                    </h1>
+                </div>
+                <p class="text-sm font-mono tracking-wider text-slate-400">
+                    <span id="progressPercent">0</span>% COMPLETADO
+                </p>
+            </div>
+
+            <!-- Barra de progreso tipo terminal -->
+            <div class="space-y-3">
+                <div class="relative w-full h-1 bg-slate-700/30 rounded-full overflow-hidden">
+                    <div id="progressBarFill" class="absolute inset-y-0 left-0 bg-gradient-to-r from-blue-500 via-cyan-500 to-blue-500 transition-all duration-100" style="width: 0%;">
+                        <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer"></div>
+                    </div>
+                </div>
+                <div class="flex justify-center items-center gap-3 font-mono text-xs text-slate-500">
+                    <span class="inline-block w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                    <span>PREPARANDO TU ESPACIO</span>
+                    <span id="countdownSeconds" class="text-blue-400">4s</span>
+                </div>
+            </div>
+
+            <!-- Terminal de estado con checkpoints animados -->
+            <div class="mt-6 text-left font-mono text-xs space-y-1.5 p-4 rounded-lg border bg-slate-800/50 border-slate-700">
+                <!-- Linea 1 - siempre visible -->
+                <div class="flex items-center gap-2 animate-slide-down">
+                    <span class="text-green-500">&#10148;</span>
+                    <span class="text-slate-400">_</span>
+                    <span class="text-blue-400" id="greetingMessage">Hola Usuario, estamos preparando todo...</span>
+                    <div class="flex gap-0.5">
+                        <div class="w-1 h-3 bg-blue-500 animate-type1"></div>
+                        <div class="w-1 h-3 bg-blue-500 animate-type2"></div>
+                        <div class="w-1 h-3 bg-blue-500 animate-type3"></div>
+                    </div>
+                </div>
+                <!-- Checkpoints según progreso -->
+                <div id="stepSesion" class="flex items-center gap-2 transition-opacity duration-300 opacity-0">
+                    <span class="text-green-500">&#10003;</span>
+                    <span class="text-slate-400">Sesion iniciada como <span id="stepNameHighlight" class="text-blue-400">--</span></span>
+                </div>
+                <div id="stepPerfil" class="flex items-center gap-2 transition-opacity duration-300 opacity-0">
+                    <span class="text-green-500">&#10003;</span>
+                    <span class="text-slate-400">Cargando tu perfil y preferencias</span>
+                </div>
+                <div id="stepConexion" class="flex items-center gap-2 transition-opacity duration-300 opacity-0">
+                    <span class="text-green-500">&#10003;</span>
+                    <span class="text-slate-400">Conexion segura establecida</span>
+                </div>
+                <div id="stepRedirect" class="flex items-center gap-2 transition-opacity duration-300 opacity-0">
+                    <span class="text-green-500">&#10003;</span>
+                    <span class="text-slate-400">Redirigiendo al panel principal...</span>
+                </div>
+            </div>
+
+            <!-- Footer con información del usuario -->
+            <div class="pt-4 text-[10px] font-mono space-y-1 text-slate-600">
+                <div class="flex justify-center gap-2">
+                    <span>&#8212;</span>
+                    <span>Bienvenido a tu Dashboard</span>
+                    <span>&#8212;</span>
+                </div>
+                <div id="userFooter" class="tracking-wider flex justify-center gap-2">
+                    <span>ID: --</span>
+                    <span>&#10022;</span>
+                    <span>--</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Línea de escaneo final que aparece en la salida -->
+        <div id="scanLine" class="absolute inset-0 z-30 pointer-events-none overflow-hidden hidden">
+            <div class="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-cyan-500/30 via-blue-500/20 to-transparent animate-scan-line"></div>
+        </div>
+    </div>
+
+    <script>
+        // ---------- CONFIGURACIÓN DEL COMPONENTE (SIMULA PROPS) ----------
+        // Datos de usuario simulados: en entorno real se obtendrían del backend.
+        // Se respeta la lógica: 'name' y 'apellidos' (o solo nombre)
+        const userData = {
+            id: 12873,
+            name: "Carlos",
+            apellidos: "Mendoza Rivera",
+            email: "carlos.mendoza@ejemplo.com"
+        };
+
+        // Parámetros equivalentes a @props del componente original:
+        const config = {
+            show: true,           // Muestra la pantalla de carga
+            duration: 4000,      // 4 segundos de duración total
+            theme: "dark",       // Tema oscuro (por defecto)
+            user: userData       // objeto usuario con name/apellidos
+        };
+
+        // --- Lógica de normalización de nombres (igual al original Blade) ---
+        let userName = config.user ? (config.user.name || '') : '';
+        let userLastname = config.user ? (config.user.apellidos || '') : '';
+        let fullName = (userName + ' ' + userLastname).trim();
+        let firstName = userName !== '' ? (userName.split(' ')[0] || userName) : '';
+
+        if (fullName === '') {
+            fullName = 'Visitante';
+            firstName = 'Usuario';
+        }
+
+        // Variables del estado reactivo manual
+        let startTime = null;
+        let animationFrameId = null;
+        let exitTimer = null;
+        let isExiting = false;
+        let progress = 0;
+        let durationMs = config.duration; // 4000ms
+        let countdownInterval = null;
+        
+        // Elementos DOM
+        const overlay = document.getElementById('loadingOverlay');
+        const mainContent = document.getElementById('mainContent');
+        const exitBackdrop = document.getElementById('exitBackdrop');
+        const scanLineDiv = document.getElementById('scanLine');
+        const progressFill = document.getElementById('progressBarFill');
+        const progressPercentSpan = document.getElementById('progressPercent');
+        const countdownSpan = document.getElementById('countdownSeconds');
+        const fullNameHeader = document.getElementById('fullNameDisplay');
+        const greetingMsgSpan = document.getElementById('greetingMessage');
+        const stepSesion = document.getElementById('stepSesion');
+        const stepPerfil = document.getElementById('stepPerfil');
+        const stepConexion = document.getElementById('stepConexion');
+        const stepRedirect = document.getElementById('stepRedirect');
+        const stepNameHighlight = document.getElementById('stepNameHighlight');
+        const userFooterSpan = document.getElementById('userFooter');
+        
+        // Actualizar textos con datos del usuario
+        fullNameHeader.innerText = fullName;
+        greetingMsgSpan.innerText = `Hola ${firstName}, estamos preparando todo...`;
+        if (stepNameHighlight) stepNameHighlight.innerText = fullName;
+        // Footer: ID y email
+        if (userFooterSpan) {
+            const userId = config.user?.id ?? '-';
+            const userEmail = config.user?.email ?? '';
+            userFooterSpan.innerHTML = `<span>ID: ${userId}</span><span>&#10022;</span><span>${userEmail}</span>`;
+        }
+        
+        // Función para actualizar porcentaje y checkpoints según progreso (0-100)
+        function updateProgressUI(percent) {
+            progressFill.style.width = `${percent}%`;
+            progressPercentSpan.innerText = Math.floor(percent);
+            
+            // Control de pasos de terminal según progreso (como el original)
+            if (percent >= 20) {
+                stepSesion.classList.remove('opacity-0');
+                stepSesion.classList.add('opacity-100');
+            } else {
+                stepSesion.classList.add('opacity-0');
+                stepSesion.classList.remove('opacity-100');
+            }
+            if (percent >= 40) {
+                stepPerfil.classList.remove('opacity-0');
+                stepPerfil.classList.add('opacity-100');
+            } else {
+                stepPerfil.classList.add('opacity-0');
+                stepPerfil.classList.remove('opacity-100');
+            }
+            if (percent >= 60) {
+                stepConexion.classList.remove('opacity-0');
+                stepConexion.classList.add('opacity-100');
+            } else {
+                stepConexion.classList.add('opacity-0');
+                stepConexion.classList.remove('opacity-100');
+            }
+            if (percent >= 80) {
+                stepRedirect.classList.remove('opacity-0');
+                stepRedirect.classList.add('opacity-100');
+            } else {
+                stepRedirect.classList.add('opacity-0');
+                stepRedirect.classList.remove('opacity-100');
+            }
+        }
+        
+        // Actualizar contador en pantalla (segundos restantes)
+        function updateCountdownDisplay(remainingSeconds) {
+            countdownSpan.innerText = `${remainingSeconds}s`;
+        }
+        
+        // Iniciar proceso de salida (cuando termina la carga)
+        function startExit() {
+            if (isExiting) return;
+            isExiting = true;
+            
+            // Detener bucle de actualización y contador
+            if (animationFrameId) cancelAnimationFrame(animationFrameId);
+            if (countdownInterval) clearInterval(countdownInterval);
+            
+            // Activar el efecto de escaneo (línea de escaneo final)
+            scanLineDiv.classList.remove('hidden');
+            scanLineDiv.classList.add('block');
+            
+            // Aplicar desvanecimiento del backdrop (efecto blur + oscurecimiento)
+            exitBackdrop.classList.add('bg-black/20', 'backdrop-blur-sm');
+            
+            // Animar contenido principal: fade-out + scale-down
+            mainContent.classList.add('opacity-0', 'scale-95');
+            mainContent.classList.remove('opacity-100', 'scale-100');
+            
+            // Disparar evento personalizado "loading-complete" (opcional)
+            window.dispatchEvent(new CustomEvent('loading-complete'));
+            
+            // Después de 600ms (igual al original) ocultar el overlay por completo
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                // Opcional: se podría eliminar el overlay o redirigir, pero así queda invisible.
+                console.log('Pantalla de carga finalizada - Redirigiendo al panel principal...');
+                // Aquí se podría añadir redirección o mostrar otro contenido, pero dejamos que el componente cumpla su ciclo.
+                // Si se desea simular cambio de vista, descomentar: window.location.href = "/dashboard";
+            }, 600);
+        }
+        
+        // Bucle de progreso (cada ~16ms) usando requestAnimationFrame
+        function startLoadingProgress() {
+            startTime = Date.now();
+            let previousTimestamp = null;
+            
+            function step(nowMs) {
+                if (isExiting) return;
+                const elapsed = Date.now() - startTime;
+                let newProgress = Math.min(100, (elapsed / durationMs) * 100);
+                progress = newProgress;
+                updateProgressUI(progress);
+                
+                // Calcular segundos restantes
+                const remainingMs = Math.max(0, durationMs - elapsed);
+                const remainingSeconds = Math.ceil(remainingMs / 1000);
+                updateCountdownDisplay(remainingSeconds);
+                
+                if (elapsed >= durationMs) {
+                    // Carga completada, iniciar salida
+                    startExit();
+                    return;
+                }
+                animationFrameId = requestAnimationFrame(step);
+            }
+            
+            // Arrancar animación
+            animationFrameId = requestAnimationFrame(step);
+            
+            // También mantener un intervalo para asegurar limpieza y control extra, pero principal es requestFrame
+            // No necesario extra, pero garantizamos que se actualiza bien.
+        }
+        
+        // Inicialización completa
+        function initLoadingScreen() {
+            if (!config.show) {
+                overlay.style.display = 'none';
+                return;
+            }
+            // Reiniciar estados visuales
+            isExiting = false;
+            progress = 0;
+            updateProgressUI(0);
+            updateCountdownDisplay(Math.ceil(durationMs / 1000));
+            mainContent.classList.add('opacity-100', 'scale-100');
+            mainContent.classList.remove('opacity-0', 'scale-95');
+            exitBackdrop.classList.remove('bg-black/20', 'backdrop-blur-sm');
+            scanLineDiv.classList.add('hidden');
+            scanLineDiv.classList.remove('block');
+            // Asegurar pasos iniciales
+            stepSesion.classList.add('opacity-0');
+            stepPerfil.classList.add('opacity-0');
+            stepConexion.classList.add('opacity-0');
+            stepRedirect.classList.add('opacity-0');
+            stepSesion.classList.remove('opacity-100');
+            stepPerfil.classList.remove('opacity-100');
+            stepConexion.classList.remove('opacity-100');
+            stepRedirect.classList.remove('opacity-100');
+            
+            // Iniciar el progreso
+            startLoadingProgress();
+        }
+        
+        // Ejecutar cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', () => {
+            initLoadingScreen();
+        });
+        
+        // Si se necesita soporte para modificar props dinámicamente (por si se llama nuevamente)
+        // pero conforme al comportamiento original, solo se muestra inicialmente.
+        
+        // Opcional: reiniciar la pantalla en caso de que se quiera mostrar nuevamente?
+        // Se deja funcionalidad completa.
+    </script>
+
+    <!-- NOTA: Todas las animaciones y el comportamiento del componente siguen fielmente el diseño 
+         original de Laravel con Alpine, pero implementado en vanilla JS + Tailwind. 
+         El layout incluye grid decorativo, círculos, barra tipo terminal, efecto de escaneo, 
+         cuenta regresiva y transición de salida suave, exactamente como en el código proporcionado. 
+         La información del usuario se simula, pero se puede integrar con cualquier backend real -->
+</body>
+</html>
