@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>10 Tarjetas Elegantes Premium</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config = { darkMode: 'class' };</script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
+<style>
+  :root { color-scheme: light; }
+  body { font-family: 'Inter', system-ui, sans-serif; }
+  .font-display { font-family: 'Fraunces', serif; }
+
+  .card {
+    transition: transform .25s cubic-bezier(.22,1,.36,1), box-shadow .25s ease, border-color .25s ease;
+  }
+  .card:hover { transform: translateY(-3px); box-shadow: 0 16px 32px -12px rgba(15,23,42,0.12); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card, .ring-fg, .bar { transition: none !important; animation: none !important; }
+  }
+
+  /* Circular rings */
+  .ring { transform: rotate(-90deg); }
+  .ring circle { fill: none; stroke-width: 6; stroke-linecap: round; }
+
+  /* Animated sparkline draw */
+  .draw { stroke-dasharray: 300; stroke-dashoffset: 300; animation: draw 1.4s ease forwards; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+
+  /* Equalizer bars */
+  .eq span { animation: eq 1s ease-in-out infinite; }
+  @keyframes eq {
+    0%, 100% { transform: scaleY(.3); }
+    50% { transform: scaleY(1); }
+  }
+
+  /* Toggle */
+  .toggle-dot { transition: transform .2s ease; }
+  .toggle:checked + .toggle-track .toggle-dot { transform: translateX(20px); }
+  .toggle:checked + .toggle-track { background-color: #0F172A; }
+
+  /* Dark theme */
+  html { transition: background-color .3s ease; }
+  .dark body, .dark .bg-\[\#F8F7F4\] { background-color: #0B0E14; }
+  .dark .bg-white { background-color: #161B26; }
+  .dark .border-slate-200\/70, .dark .border-slate-200, .dark .border-slate-100 { border-color: #262E40; }
+  .dark .border-dashed.border-slate-200 { border-color: #262E40; }
+  .dark .text-slate-900 { color: #F1F5F9; }
+  .dark .text-slate-800 { color: #E2E8F0; }
+  .dark .text-slate-700 { color: #CBD5E1; }
+  .dark .text-slate-600 { color: #94A3B8; }
+  .dark .text-slate-500 { color: #94A3B8; }
+  .dark .text-slate-400 { color: #64748B; }
+  .dark .text-slate-300 { color: #475569; }
+  .dark .bg-slate-50 { background-color: #1C2230; }
+  .dark .bg-slate-100 { background-color: #232A3B; }
+  .dark .bg-slate-200 { background-color: #2A3142; }
+  .dark .card:hover { box-shadow: 0 16px 32px -14px rgba(0,0,0,0.6); }
+  .dark .bg-gradient-to-br.from-sky-50,
+  .dark .bg-gradient-to-br.from-amber-50,
+  .dark .bg-gradient-to-br.from-amber-50.to-white { --tw-gradient-from: #1C2230 var(--tw-gradient-from-position); --tw-gradient-to: #161B26 var(--tw-gradient-to-position); }
+  .dark .to-white { --tw-gradient-to: #161B26 var(--tw-gradient-to-position); }
+  .dark input::placeholder { color: #475569; }
+  .dark .bg-slate-50.rounded-xl { background-color: #1C2230; }
+
+  /* Theme toggle button */
+  .theme-toggle { position: relative; width: 52px; height: 28px; border-radius: 9999px; background: #E2E8F0; transition: background-color .25s ease; }
+  .dark .theme-toggle { background: #2A3142; }
+  .theme-toggle .knob { position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 9999px; background: #fff; display: flex; align-items: center; justify-content: center; transition: transform .25s cubic-bezier(.22,1,.36,1); color: #F59E0B; }
+  .dark .theme-toggle .knob { transform: translateX(24px); background: #0F172A; color: #93C5FD; }
+
+  /* Ported component effects: glass profile, product, blog, pricing */
+  .fx-profile:hover { transform: translateY(-8px); box-shadow: 0 24px 48px -16px rgba(99,102,241,0.28); border-color: rgba(99,102,241,0.25); }
+  .fx-profile .fx-avatar { transition: transform .6s ease, box-shadow .4s ease; }
+  .fx-profile:hover .fx-avatar { transform: rotate(360deg) scale(1.06); box-shadow: 0 0 0 3px #6366f1, 0 0 16px rgba(99,102,241,0.5); }
+  .fx-profile .fx-social { transition: background-color .3s ease, color .3s ease, transform .3s ease, box-shadow .3s ease; }
+  .fx-profile .fx-social:hover { background: #6366f1; color: #fff; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(99,102,241,0.4); }
+
+  .fx-product:hover { transform: translateY(-8px); box-shadow: 0 24px 48px -16px rgba(244,63,94,0.22); border-color: rgba(244,63,94,0.25); }
+  .fx-product .fx-image { transition: transform .6s cubic-bezier(.15,.85,.45,1); }
+  .fx-product:hover .fx-image { transform: scale(1.1) rotate(-3deg); }
+  .fx-product .fx-glow { position: absolute; top: 50%; left: 50%; width: 150px; height: 150px; transform: translate(-50%,-50%); border-radius: 50%; background: radial-gradient(circle, #f43f5e 0%, rgba(244,63,94,0) 70%); filter: blur(28px); opacity: .15; transition: opacity .5s ease; pointer-events: none; }
+  .fx-product:hover .fx-glow { opacity: .35; }
+  .fx-product .fx-cart { transition: background-color .3s ease, color .3s ease, transform .3s ease, box-shadow .3s ease; }
+  .fx-product .fx-cart:hover { background: #f43f5e; color: #fff; transform: translateY(-2px); box-shadow: 0 6px 18px rgba(244,63,94,0.35); }
+  .fx-product .wishlist-btn { transition: all .3s ease; }
+  .fx-product .wishlist-btn.active { background: #f43f5e; color: #fff; box-shadow: 0 4px 12px rgba(244,63,94,0.4); }
+  .fx-product .wishlist-btn:hover { transform: scale(1.1); }
+
+  .fx-blog:hover { transform: translateY(-8px); box-shadow: 0 24px 48px -16px rgba(16,185,129,0.22); border-color: rgba(16,185,129,0.25); }
+  .fx-blog .fx-image { transition: transform .7s cubic-bezier(.15,.85,.45,1); }
+  .fx-blog:hover .fx-image { transform: scale(1.1) rotate(1deg); }
+  .fx-blog .fx-title { background-image: linear-gradient(to right, #10b981, #10b981); background-size: 0% 2px; background-repeat: no-repeat; background-position: left bottom; transition: background-size .3s ease, color .3s ease; }
+  .fx-blog:hover .fx-title { color: #10b981; background-size: 100% 2px; }
+  .fx-blog .like-btn.liked { color: #ff3366; font-weight: 600; }
+  .fx-blog .like-btn.liked i { animation: heartBeat .3s ease; }
+  @keyframes heartBeat { 0% { transform: scale(1); } 50% { transform: scale(1.3); } 100% { transform: scale(1); } }
+  .fx-blog .read-more:hover i { transform: translateX(4px); }
+  .fx-blog .read-more i { transition: transform .3s cubic-bezier(.2,.8,.2,1); }
+
+  .fx-pricing:hover { transform: translateY(-8px); box-shadow: 0 24px 48px -16px rgba(99,102,241,0.45); border-color: rgba(99,102,241,0.4); }
+</style>
+</head>
+<body class="bg-[#F8F7F4] min-h-screen p-6 md:p-10">
+
+<div class="max-w-[1800px] mx-auto">
+  <div class="flex items-start justify-between gap-4 mb-1">
+    <div>
+      <p class="text-xs font-semibold text-amber-600 tracking-[0.2em] uppercase mb-2">Colección Premium</p>
+      <h1 class="font-display text-3xl md:text-4xl font-semibold text-slate-900 mb-1">Tarjetas Elegantes</h1>
+    </div>
+    <button id="theme-toggle" class="theme-toggle cursor-pointer flex-shrink-0 mt-1" aria-label="Cambiar tema claro/oscuro" aria-pressed="false">
+      <span class="knob"><i data-lucide="sun" class="w-3.5 h-3.5"></i></span>
+    </button>
+  </div>
+  <p class="text-slate-500 mb-8 text-sm">34 diseños refinados con detalles sutiles, tipografía editorial y micro-interacciones</p>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5">
+
+    <!-- 1. Premium card / chip -->
+    <div class="card relative overflow-hidden rounded-3xl p-6 text-white bg-[#10131A] cursor-pointer">
+      <div class="absolute -right-10 -top-10 w-40 h-40 rounded-full bg-amber-400/10 blur-2xl"></div>
+      <div class="absolute -left-16 bottom-0 w-48 h-48 rounded-full bg-indigo-400/10 blur-3xl"></div>
+      <div class="relative flex items-center justify-between mb-8">
+        <span class="font-display text-lg tracking-wide">Aurum</span>
+        <div class="w-9 h-6 rounded-md bg-gradient-to-br from-amber-300 to-amber-500"></div>
+      </div>
+      <p class="relative text-xs text-white/50 uppercase tracking-[0.2em] mb-1">Saldo disponible</p>
+      <h2 class="relative font-display text-3xl font-semibold mb-6">$48,920.00</h2>
+      <div class="relative flex items-center justify-between text-xs text-white/60">
+        <span class="tracking-widest">4129 •••• •••• 0098</span>
+        <span class="font-medium">12/29</span>
+      </div>
+    </div>
+
+    <!-- 2. Weather -->
+    <div class="card rounded-3xl p-6 bg-gradient-to-br from-sky-50 to-white border border-slate-200/70 cursor-pointer">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <p class="text-xs font-semibold text-sky-500 uppercase tracking-[0.2em] mb-1">Lima, Perú</p>
+          <h2 class="font-display text-4xl font-semibold text-slate-900">22°</h2>
+          <p class="text-sm text-slate-500 mt-1">Parcialmente nublado</p>
+        </div>
+        <div class="w-14 h-14 rounded-2xl bg-white shadow-sm border border-slate-100 flex items-center justify-center text-sky-500">
+          <i data-lucide="cloud-sun" class="w-7 h-7"></i>
+        </div>
+      </div>
+      <div class="grid grid-cols-4 gap-2 text-center">
+        <div><p class="text-xs text-slate-400">Lun</p><p class="text-sm font-semibold text-slate-700 mt-1">21°</p></div>
+        <div><p class="text-xs text-slate-400">Mar</p><p class="text-sm font-semibold text-slate-700 mt-1">23°</p></div>
+        <div><p class="text-xs text-slate-400">Mié</p><p class="text-sm font-semibold text-slate-700 mt-1">20°</p></div>
+        <div><p class="text-xs text-slate-400">Jue</p><p class="text-sm font-semibold text-slate-700 mt-1">24°</p></div>
+      </div>
+    </div>
+
+    <!-- 3. Crypto price + sparkline -->
+    <div class="card rounded-3xl p-6 bg-white border border-slate-200/70 cursor-pointer">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center">
+          <i data-lucide="bitcoin" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <p class="text-sm font-semibold text-slate-800">Bitcoin</p>
+          <p class="text-xs text-slate-400">BTC / USD</p>
+        </div>
+        <span class="ml-auto inline-flex items-center gap-1 text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
+          <i data-lucide="arrow-up-right" class="w-3 h-3"></i> 3.2%
+        </span>
+      </div>
+      <h2 class="font-display text-2xl font-semibold text-slate-900 mb-3">$67,248.55</h2>
+      <svg viewBox="0 0 240 60" class="w-full h-14">
+        <path class="draw" d="M0,40 L20,38 L40,45 L60,30 L80,35 L100,20 L120,28 L140,15 L160,22 L180,10 L200,18 L220,8 L240,14"
+              fill="none" stroke="#6366f1" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <!-- 4. Music player -->
+    <div class="card rounded-3xl p-6 bg-white border border-slate-200/70 cursor-pointer">
+      <div class="flex items-center gap-4">
+        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-rose-200 via-amber-100 to-indigo-200 flex-shrink-0"></div>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm font-semibold text-slate-800 truncate">Nocturne en Re menor</p>
+          <p class="text-xs text-slate-400 truncate">Claire de Lune · Ensamble</p>
+        </div>
+        <div class="eq flex items-end gap-0.5 h-6 text-indigo-500">
+          <span class="w-1 h-full bg-current rounded-full" style="animation-delay:0s"></span>
+          <span class="w-1 h-full bg-current rounded-full" style="animation-delay:.15s"></span>
+          <span class="w-1 h-full bg-current rounded-full" style="animation-delay:.3s"></span>
+        </div>
+      </div>
+      <div class="mt-5">
+        <div class="w-full h-1 bg-slate-100 rounded-full overflow-hidden">
+          <div class="h-full w-1/3 bg-slate-800 rounded-full"></div>
+        </div>
+        <div class="flex justify-between text-xs text-slate-400 mt-1.5">
+          <span>1:24</span><span>3:58</span>
+        </div>
+      </div>
+      <div class="flex items-center justify-center gap-6 mt-4 text-slate-700">
+        <button aria-label="Anterior" class="cursor-pointer hover:text-slate-900 transition-colors"><i data-lucide="skip-back" class="w-5 h-5"></i></button>
+        <button aria-label="Reproducir" class="cursor-pointer w-10 h-10 rounded-full bg-slate-900 text-white flex items-center justify-center hover:bg-slate-700 transition-colors"><i data-lucide="play" class="w-4 h-4"></i></button>
+        <button aria-label="Siguiente" class="cursor-pointer hover:text-slate-900 transition-colors"><i data-lucide="skip-forward" class="w-5 h-5"></i></button>
+      </div>
+    </div>
+
+    <!-- 5. Calendar / event -->
+    <div class="card rounded-3xl p-6 bg-white border border-slate-200/70 cursor-pointer">
+      <div class="flex items-center justify-between mb-5">
+        <p class="text-xs font-semibold text-slate-400 uppercase tracking-[0.2em]">Próximo evento</p>
+        <i data-lucide="calendar-days" class="w-4 h-4 text-slate-300"></i>
+      </div>
+      <div class="flex items-center gap-4">
+        <div class="w-14 h-14 rounded-2xl bg-rose-50 text-rose-500 flex flex-col items-center justify-center flex-shrink-0">
+          <span class="text-xs font-medium uppercase -mb-0.5">Jun</span>
+          <span class="font-display text-xl font-semibold leading-none">24</span>
+        </div>
+        <div>
+          <p class="text-sm font-semibold text-slate-800">Revisión de diseño</p>
+          <p class="text-xs text-slate-400 mt-0.5">10:00 — 11:30 AM</p>
+        </div>
+      </div>
+      <div class="flex -space-x-2 mt-5">
+        <div class="w-8 h-8 rounded-full bg-amber-100 border-2 border-white flex items-center justify-center text-[11px] font-semibold text-amber-700">LS</div>
+        <div class="w-8 h-8 rounded-full bg-indigo-100 border-2 border-white flex items-center justify-center text-[11px] font-semibold text-indigo-700">MA</div>
+        <div class="w-8 h-8 rounded-full bg-emerald-100 border-2 border-white flex items-center justify-center text-[11px] font-semibold text-emerald-700">+3</div>
+      </div>
+    </div>
+
+    <!-- 6. Profile card -->
+    <div class="card rounded-3xl p-6 bg-white border border-slate-200/70 text-center cursor-pointer">
+      <div class="w-16 h-16 mx-auto rounded-full bg-gradient-to-br from-indigo-200 to-rose-200 flex items-center justify-center font-display text-xl font-semibold text-slate-700">LS</div>
+      <h2 class="font-display text-lg font-semibold text-slate-900 mt-3">Luis Salas</h2>
+      <p class="text-xs text-slate-400">Diseñador de Producto</p>
+      <div class="grid grid-cols-3 gap-2 mt-5 text-center">
+        <div>
+          <p class="font-display text-lg font-semibold text-slate-900">128</p>
+          <p class="text-[11px] text-slate-400 uppercase tracking-wider">Proyectos</p>
+        </div>
+        <div class="border-x border-slate-100">
+          <p class="font-display text-lg font-semibold text-slate-900">4.9</p>
+          <p class="text-[11px] text-slate-400 uppercase tracking-wider">Rating</p>
+        </div>
+        <div>
+          <p class="font-display text-lg font-semibold text-slate-900">2.1k</p>
+          <p class="text-[11px] text-slate-400 uppercase tracking-wider">Seguidores</p>
+        </div>
+      </div>
+      <button class="cursor-pointer mt-5 w-full bg-slate-900 hover:bg-slate-700 transition-colors text-white text-sm font-medium rounded-xl py-2.5">Seguir</button>
+    </div>
+
+    
+    <!-- 8. Review / rating -->
+    <div class="card rounded-3xl p-6 bg-white border border-slate-200/70 cursor-pointer">
+      <div class="flex items-center justify-between mb-4">
+        <p class="text-xs font-semibold text-slate-400 uppercase tracking-[0.2em]">Satisfacción</p>
+        <i data-lucide="quote" class="w-4 h-4 text-slate-300"></i>
+      </div>
+      <div class="flex items-end gap-2 mb-2">
+        <h2 class="font-display text-3xl font-semibold text-slate-900">4.9</h2>
+        <div class="flex gap-0.5 mb-1.5 text-amber-400">
+          <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+          <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+          <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+          <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+          <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+        </div>
+      </div>
+      <p class="text-sm text-slate-500 leading-relaxed">"Un servicio impecable, atención al detalle excepcional y resultados que superan lo prometido."</p>
+      <p class="text-xs text-slate-400 mt-3">— 482 reseñas verificadas</p>
+    </div>
+
+    <!-- 9. Location / map -->
+    <div class="card rounded-3xl overflow-hidden bg-white border border-slate-200/70 cursor-pointer">
+      <div class="relative h-28 bg-gradient-to-br from-emerald-50 to-sky-50">
+        <svg class="absolute inset-0 w-full h-full opacity-40" viewBox="0 0 200 100" preserveAspectRatio="none">
+          <path d="M0,60 C40,40 80,80 120,50 C160,20 180,60 200,40" stroke="#94a3b8" stroke-width="1" fill="none"/>
+          <path d="M0,80 C50,70 90,30 140,70 C170,90 190,50 200,70" stroke="#94a3b8" stroke-width="1" fill="none"/>
+        </svg>
+        <div class="absolute inset-0 flex items-center justify-center">
+          <div class="w-9 h-9 rounded-full bg-rose-500 text-white flex items-center justify-center shadow-lg ring-4 ring-white/60">
+            <i data-lucide="map-pin" class="w-4 h-4"></i>
+          </div>
+        </div>
+      </div>
+      <div class="p-5">
+        <p class="text-sm font-semibold text-slate-800">Oficina Central</p>
+        <p class="text-xs text-slate-400 mt-0.5">Av. Javier Prado 1234, San Isidro</p>
+        <div class="flex items-center gap-1.5 mt-3 text-xs text-emerald-600 font-medium">
+          <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Abierto ahora · cierra 6:00 PM
+        </div>
+      </div>
+    </div>
+
+    <!-- 10. Settings / preferences -->
+    <div class="card rounded-3xl p-6 bg-white border border-slate-200/70 cursor-pointer">
+      <p class="text-xs font-semibold text-slate-400 uppercase tracking-[0.2em] mb-5">Preferencias</p>
+      <div class="space-y-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <i data-lucide="moon" class="w-4 h-4 text-slate-400"></i>
+            <span class="text-sm text-slate-700">Modo oscuro</span>
+          </div>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" class="toggle sr-only peer">
+            <span class="toggle-track w-10 h-6 bg-slate-200 rounded-full peer-checked:bg-slate-900 transition-colors duration-200 relative">
+              <span class="toggle-dot absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow peer-checked:translate-x-4"></span>
+            </span>
+          </label>
+        </div>
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <i data-lucide="bell-ring" class="w-4 h-4 text-slate-400"></i>
+            <span class="text-sm text-slate-700">Notificaciones</span>
+          </div>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" checked class="toggle sr-only peer">
+            <span class="toggle-track w-10 h-6 bg-slate-200 rounded-full peer-checked:bg-slate-900 transition-colors duration-200 relative">
+              <span class="toggle-dot absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow peer-checked:translate-x-4"></span>
+            </span>
+          </label>
+        </div>
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <i data-lucide="globe" class="w-4 h-4 text-slate-400"></i>
+            <span class="text-sm text-slate-700">Idioma</span>
+          </div>
+          <span class="text-xs font-medium text-slate-500 flex items-center gap-1">Español <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 11. Subscription plan -->
+    <div class="card rounded-3xl p-6 bg-white border border-slate-200/70 cursor-pointer">
+      <div class="flex items-center justify-between mb-4">
+        <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-full">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Plan Pro
+        </span>
+        <i data-lucide="crown" class="w-4 h-4 text-amber-400"></i>
+      </div>
+      <div class="flex items-end gap-1 mb-4">
+        <span class="font-display text-3xl font-semibold text-slate-900">$24</span>
+        <span class="text-sm text-slate-400 mb-1">/ mes</span>
+      </div>
+      <ul class="space-y-2 text-sm text-slate-600">
+        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500"></i> Proyectos ilimitados</li>
+        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500"></i> Soporte prioritario</li>
+        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500"></i> Exportación avanzada</li>
+      </ul>
+      <button class="cursor-pointer mt-5 w-full bg-slate-900 hover:bg-slate-700 transition-colors text-white text-sm font-medium rounded-xl py-2.5">Actualizar plan</button>
+    </div>
+
+    <!-- 12. Savings goal -->
+    <div class="card rounded-3xl p-6 bg-white border border-slate-200/70 cursor-pointer">
+      <p class="text-xs font-semibold text-slate-400 uppercase tracking-[0.2em] mb-1">Meta de ahorro</p>
+      <h2 class="font-display text-2xl font-semibold text-slate-900 mb-4">$3,400 <span class="text-sm text-slate-400 font-sans font-normal">/ $5,000</span></h2>
+      <div class="relative h-2.5 bg-slate-100 rounded-full overflow-hidden">
+        <div class="absolute inset-y-0 left-0 bg-gradient-to-r from-emerald-400 to-emerald-500 rounded-full" style="width:68%"></div>
+      </div>
+      <div class="flex justify-between text-xs text-slate-400 mt-2">
+        <span>$0</span><span>68% completado</span><span>$5k</span>
+      </div>
+    </div>
+
+    <!-- 13. Inbox summary -->
+    <div class="card rounded-3xl p-6 bg-white border border-slate-200/70 cursor-pointer">
+      <div class="flex items-center justify-between mb-4">
+        <p class="text-xs font-semibold text-slate-400 uppercase tracking-[0.2em]">Bandeja de entrada</p>
+        <span class="text-xs font-semibold text-white bg-rose-500 rounded-full px-2 py-0.5">4 nuevos</span>
+      </div>
+      <ul class="space-y-3">
+        <li class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center text-[11px] font-semibold flex-shrink-0">MA</div>
+          <div class="flex-1 min-w-0">
+            <p class="text-sm font-medium text-slate-800 truncate">María Alva</p>
+            <p class="text-xs text-slate-400 truncate">Propuesta de diseño revisada y lista</p>
+          </div>
+          <span class="text-xs text-slate-300 flex-shrink-0">2m</span>
+        </li>
+        <li class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-[11px] font-semibold flex-shrink-0">JP</div>
+          <div class="flex-1 min-w-0">
+            <p class="text-sm font-medium text-slate-800 truncate">Jorge Paredes</p>
+            <p class="text-xs text-slate-400 truncate">Confirmación de reunión mañana</p>
+          </div>
+          <span class="text-xs text-slate-300 flex-shrink-0">1h</span>
+        </li>
+        <li class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center text-[11px] font-semibold flex-shrink-0">CR</div>
+          <div class="flex-1 min-w-0">
+            <p class="text-sm font-medium text-slate-800 truncate">Camila Ríos</p>
+            <p class="text-xs text-slate-400 truncate">Factura adjunta del mes de mayo</p>
+          </div>
+          <span class="text-xs text-slate-300 flex-shrink-0">3h</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- 14. Boarding pass -->
+    <div class="card rounded-3xl bg-white border border-slate-200/70 overflow-hidden cursor-pointer">
+      <div class="p-6 pb-4">
+        <div class="flex items-center justify-between mb-4">
+          <p class="text-xs font-semibold text-slate-400 uppercase tracking-[0.2em]">Tarjeta de embarque</p>
+          <i data-lucide="plane" class="w-4 h-4 text-indigo-400"></i>
+        </div>
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="font-display text-2xl font-semibold text-slate-900">LIM</p>
+            <p class="text-xs text-slate-400">Lima</p>
+          </div>
+          <i data-lucide="arrow-right" class="w-4 h-4 text-slate-300"></i>
+          <div class="text-right">
+            <p class="font-display text-2xl font-semibold text-slate-900">CUZ</p>
+            <p class="text-xs text-slate-400">Cusco</p>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-dashed border-slate-200 px-6 py-3 flex justify-between text-xs text-slate-500">
+        <span>Puerta B12</span><span>Asiento 14A</span><span>08:45 AM</span>
+      </div>
+    </div>
+
+    <!-- 15. Stock portfolio -->
+    <div class="card rounded-3xl p-6 bg-white border border-slate-200/70 cursor-pointer">
+      <p class="text-xs font-semibold text-slate-400 uppercase tracking-[0.2em] mb-4">Portafolio</p>
+      <ul class="space-y-3.5">
+        <li class="flex items-center justify-between">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center text-[10px] font-bold">AAPL</div>
+            <span class="text-sm text-slate-700">Apple Inc.</span>
+          </div>
+          <div class="text-right">
+            <p class="text-sm font-semibold text-slate-800">$192.30</p>
+            <p class="text-xs text-emerald-500">+1.2%</p>
+          </div>
+        </li>
+        <li class="flex items-center justify-between">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-rose-500 text-white flex items-center justify-center text-[10px] font-bold">TSLA</div>
+            <span class="text-sm text-slate-700">Tesla Inc.</span>
+          </div>
+          <div class="text-right">
+            <p class="text-sm font-semibold text-slate-800">$178.45</p>
+            <p class="text-xs text-rose-500">-0.8%</p>
+          </div>
+        </li>
+        <li class="flex items-center justify-between">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-emerald-500 text-white flex items-center justify-center text-[10px] font-bold">NVDA</div>
+            <span class="text-sm text-slate-700">Nvidia Corp.</span>
+          </div>
+          <div class="text-right">
+            <p class="text-sm font-semibold text-slate-800">$924.10</p>
+            <p class="text-xs text-emerald-500">+2.6%</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- 16. Video call -->
+    <div class="card rounded-3xl p-6 bg-gradient-to-br from-indigo-950 to-slate-900 text-white cursor-pointer">
+      <div class="flex items-center justify-between mb-4">
+        <span class="inline-flex items-center gap-1.5 text-xs font-medium bg-white/10 px-2.5 py-1 rounded-full">
+          <span class="w-1.5 h-1.5 rounded-full bg-rose-400 animate-pulse"></span> En vivo · 12:04
+        </span>
+        <i data-lucide="more-horizontal" class="w-4 h-4 text-white/50"></i>
+      </div>
+      <div class="flex -space-x-3 mb-4">
+        <div class="w-9 h-9 rounded-full bg-indigo-400 ring-2 ring-indigo-950 flex items-center justify-center text-[11px] font-semibold">LS</div>
+        <div class="w-9 h-9 rounded-full bg-amber-400 ring-2 ring-indigo-950 flex items-center justify-center text-[11px] font-semibold text-slate-900">MA</div>
+        <div class="w-9 h-9 rounded-full bg-emerald-400 ring-2 ring-indigo-950 flex items-center justify-center text-[11px] font-semibold text-slate-900">JP</div>
+        <div class="w-9 h-9 rounded-full bg-white/10 ring-2 ring-indigo-950 flex items-center justify-center text-[11px] font-semibold">+2</div>
+      </div>
+      <p class="text-sm font-semibold">Sincronización semanal</p>
+      <p class="text-xs text-white/50 mt-0.5">5 participantes</p>
+      <div class="flex items-center gap-3 mt-5">
+        <button class="cursor-pointer flex-1 bg-white/10 hover:bg-white/20 transition-colors rounded-xl py-2.5 text-sm font-medium flex items-center justify-center gap-2"><i data-lucide="mic" class="w-4 h-4"></i> Silenciar</button>
+        <button aria-label="Colgar" class="cursor-pointer w-11 h-11 rounded-xl bg-rose-500 hover:bg-rose-600 transition-colors flex items-center justify-center"><i data-lucide="phone-off" class="w-4 h-4"></i></button>
+      </div>
+    </div>
+
+    <!-- 17. Shipping tracker -->
+    <div class="card rounded-3xl p-6 bg-white border border-slate-200/70 cursor-pointer">
+      <div class="flex items-center justify-between mb-5">
+        <p class="text-xs font-semibold text-slate-400 uppercase tracking-[0.2em]">Pedido #4821</p>
+        <i data-lucide="package" class="w-4 h-4 text-slate-300"></i>
+      </div>
+      <div class="space-y-0">
+        <div class="flex gap-3">
+          <div class="flex flex-col items-center">
+            <div class="w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center"><i data-lucide="check" class="w-3 h-3 text-white"></i></div>
+            <div class="w-px flex-1 bg-emerald-200 my-1"></div>
+          </div>
+          <div class="pb-4">
+            <p class="text-sm font-medium text-slate-800">Pedido confirmado</p>
+            <p class="text-xs text-slate-400">12 Jun, 09:14</p>
+          </div>
+        </div>
+        <div class="flex gap-3">
+          <div class="flex flex-col items-center">
+            <div class="w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center"><i data-lucide="check" class="w-3 h-3 text-white"></i></div>
+            <div class="w-px flex-1 bg-slate-200 my-1"></div>
+          </div>
+          <div class="pb-4">
+            <p class="text-sm font-medium text-slate-800">Enviado</p>
+            <p class="text-xs text-slate-400">12 Jun, 18:40</p>
+          </div>
+        </div>
+        <div class="flex gap-3">
+          <div class="flex flex-col items-center">
+            <div class="w-5 h-5 rounded-full bg-indigo-500 flex items-center justify-center"><i data-lucide="truck" class="w-3 h-3 text-white"></i></div>
+            <div class="w-px flex-1 bg-slate-200 my-1"></div>
+          </div>
+          <div class="pb-4">
+            <p class="text-sm font-medium text-slate-800">En camino</p>
+            <p class="text-xs text-slate-400">Llega hoy, ~5:00 PM</p>
+          </div>
+        </div>
+        <div class="flex gap-3">
+          <div class="flex flex-col items-center">
+            <div class="w-5 h-5 rounded-full bg-slate-100 flex items-center justify-center"><i data-lucide="home" class="w-3 h-3 text-slate-400"></i></div>
+          </div>
+          <div>
+            <p class="text-sm font-medium text-slate-400">Entregado</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 18. Newsletter -->
+    <div class="card rounded-3xl p-6 bg-gradient-to-br from-amber-50 to-white border border-slate-200/70 cursor-pointer">
+      <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center mb-4">
+        <i data-lucide="mail" class="w-5 h-5"></i>
+      </div>
+      <h2 class="font-display text-lg font-semibold text-slate-900 mb-1">Mantente al día</h2>
+      <p class="text-sm text-slate-500 mb-4">Recibe novedades de producto y artículos exclusivos cada semana.</p>
+      <form class="flex gap-2" onsubmit="return false">
+        <label for="newsletter-email" class="sr-only">Correo electrónico</label>
+        <input id="newsletter-email" type="email" required placeholder="tu@correo.com"
+               class="flex-1 min-w-0 rounded-xl border border-slate-200 px-3 py-2.5 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400">
+        <button type="submit" class="cursor-pointer bg-slate-900 hover:bg-slate-700 transition-colors text-white text-sm font-medium rounded-xl px-4">Unirme</button>
+      </form>
+    </div>
+
+    <!-- 19. Chat preview -->
+    <div class="card rounded-3xl p-6 bg-white border border-slate-200/70 cursor-pointer">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="relative">
+          <div class="w-9 h-9 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs font-semibold">DS</div>
+          <span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-400 ring-2 ring-white"></span>
+        </div>
+        <div>
+          <p class="text-sm font-semibold text-slate-800">Diego Soto</p>
+          <p class="text-xs text-emerald-500">En línea</p>
+        </div>
+        <i data-lucide="phone" class="w-4 h-4 text-slate-300 ml-auto"></i>
+      </div>
+      <div class="space-y-2">
+        <div class="bg-slate-100 rounded-2xl rounded-bl-md px-3.5 py-2 text-sm text-slate-700 max-w-[80%]">¿Tienes los mockups actualizados?</div>
+        <div class="bg-slate-900 text-white rounded-2xl rounded-br-md px-3.5 py-2 text-sm max-w-[80%] ml-auto">Sí, te los comparto en un momento ✅</div>
+        <div class="bg-slate-100 rounded-2xl rounded-bl-md px-3.5 py-2 text-sm text-slate-700 max-w-[80%]">Perfecto, gracias</div>
+      </div>
+    </div>
+
+    <!-- 20. Device battery -->
+    <div class="card rounded-3xl p-6 bg-white border border-slate-200/70 cursor-pointer">
+      <div class="flex items-center justify-between mb-5">
+        <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center">
+          <i data-lucide="battery-charging" class="w-5 h-5"></i>
+        </div>
+        <span class="text-xs font-medium text-slate-400">Cargando</span>
+      </div>
+      <h2 class="font-display text-3xl font-semibold text-slate-900 mb-3">84%</h2>
+      <div class="flex items-center gap-1">
+        <div class="flex-1 h-4 rounded-md border-2 border-slate-200 p-0.5">
+          <div class="h-full bg-emerald-500 rounded-sm" style="width:84%"></div>
+        </div>
+        <div class="w-1.5 h-2 rounded-r-sm bg-slate-200"></div>
+      </div>
+      <p class="text-xs text-slate-400 mt-2">Tiempo restante: 2h 30m</p>
+    </div>
+
+    <!-- 21. Recipe -->
+    <div class="card rounded-3xl overflow-hidden bg-white border border-slate-200/70 cursor-pointer">
+      <div class="h-28 bg-gradient-to-br from-orange-100 via-amber-50 to-rose-100 flex items-center justify-center">
+        <i data-lucide="utensils" class="w-8 h-8 text-orange-400"></i>
+      </div>
+      <div class="p-5">
+        <h2 class="font-display text-lg font-semibold text-slate-900">Risotto de hongos</h2>
+        <div class="flex items-center gap-4 mt-2 text-xs text-slate-500">
+          <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3.5 h-3.5"></i> 35 min</span>
+          <span class="flex items-center gap-1"><i data-lucide="flame" class="w-3.5 h-3.5"></i> Intermedio</span>
+          <span class="flex items-center gap-1 text-amber-500"><i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i> 4.8</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 22. Reading progress -->
+    <div class="card rounded-3xl p-6 bg-white border border-slate-200/70 cursor-pointer">
+      <div class="flex items-center gap-4 mb-4">
+        <div class="w-12 h-16 rounded-lg bg-gradient-to-br from-indigo-200 to-indigo-400 flex-shrink-0"></div>
+        <div>
+          <h2 class="font-display text-base font-semibold text-slate-900">El nombre del viento</h2>
+          <p class="text-xs text-slate-400 mt-0.5">Patrick Rothfuss</p>
+        </div>
+      </div>
+      <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+        <div class="h-full bg-indigo-500 rounded-full" style="width:57%"></div>
+      </div>
+      <div class="flex justify-between text-xs text-slate-400 mt-2">
+        <span>Página 184</span><span>57% · 320 pág.</span>
+      </div>
+    </div>
+
+    <!-- 23. Heart rate -->
+    <div class="card rounded-3xl p-6 bg-white border border-slate-200/70 cursor-pointer">
+      <div class="flex items-center justify-between mb-3">
+        <div class="w-10 h-10 rounded-xl bg-rose-100 text-rose-500 flex items-center justify-center">
+          <i data-lucide="heart-pulse" class="w-5 h-5"></i>
+        </div>
+        <span class="text-xs font-medium text-slate-400">En reposo</span>
+      </div>
+      <h2 class="font-display text-3xl font-semibold text-slate-900 mb-1">72 <span class="text-sm font-sans font-normal text-slate-400">bpm</span></h2>
+      <svg viewBox="0 0 240 50" class="w-full h-12 mt-2">
+        <path class="draw" d="M0,25 L40,25 L50,10 L60,40 L70,25 L100,25 L110,12 L120,38 L130,25 L240,25"
+              fill="none" stroke="#f43f5e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <!-- 24. Invoice -->
+    <div class="card rounded-3xl p-6 bg-white border border-slate-200/70 cursor-pointer">
+      <div class="flex items-center justify-between mb-4">
+        <p class="text-xs font-semibold text-slate-400 uppercase tracking-[0.2em]">Factura #0091</p>
+        <span class="inline-flex items-center gap-1 text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
+          <i data-lucide="check-circle-2" class="w-3 h-3"></i> Pagada
+        </span>
+      </div>
+      <h2 class="font-display text-3xl font-semibold text-slate-900 mb-1">$1,250.00</h2>
+      <p class="text-xs text-slate-400 mb-5">Pagada el 10 de junio, 2026</p>
+      <button class="cursor-pointer w-full border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-colors text-slate-700 text-sm font-medium rounded-xl py-2.5 flex items-center justify-center gap-2">
+        <i data-lucide="download" class="w-4 h-4"></i> Descargar PDF
+      </button>
+    </div>
+
+    <!-- 25. Skills -->
+    <div class="card rounded-3xl p-6 bg-white border border-slate-200/70 cursor-pointer">
+      <p class="text-xs font-semibold text-slate-400 uppercase tracking-[0.2em] mb-4">Habilidades principales</p>
+      <div class="flex flex-wrap gap-2">
+        <span class="text-xs font-medium text-indigo-700 bg-indigo-50 px-3 py-1.5 rounded-full">Diseño UI/UX</span>
+        <span class="text-xs font-medium text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-full">Tailwind CSS</span>
+        <span class="text-xs font-medium text-amber-700 bg-amber-50 px-3 py-1.5 rounded-full">Branding</span>
+        <span class="text-xs font-medium text-rose-700 bg-rose-50 px-3 py-1.5 rounded-full">Prototipado</span>
+        <span class="text-xs font-medium text-sky-700 bg-sky-50 px-3 py-1.5 rounded-full">Figma</span>
+        <span class="text-xs font-medium text-slate-700 bg-slate-100 px-3 py-1.5 rounded-full">Motion</span>
+      </div>
+    </div>
+
+    <!-- 26. Activity timeline -->
+    <div class="card rounded-3xl p-6 bg-white border border-slate-200/70 cursor-pointer">
+      <p class="text-xs font-semibold text-slate-400 uppercase tracking-[0.2em] mb-4">Actividad reciente</p>
+      <ul class="space-y-4">
+        <li class="flex gap-3">
+          <div class="w-8 h-8 rounded-full bg-indigo-50 text-indigo-500 flex items-center justify-center flex-shrink-0"><i data-lucide="file-plus" class="w-4 h-4"></i></div>
+          <div>
+            <p class="text-sm text-slate-700"><span class="font-medium">Nuevo documento</span> creado</p>
+            <p class="text-xs text-slate-400">Hace 10 minutos</p>
+          </div>
+        </li>
+        <li class="flex gap-3">
+          <div class="w-8 h-8 rounded-full bg-emerald-50 text-emerald-500 flex items-center justify-center flex-shrink-0"><i data-lucide="user-plus" class="w-4 h-4"></i></div>
+          <div>
+            <p class="text-sm text-slate-700"><span class="font-medium">Camila</span> se unió al equipo</p>
+            <p class="text-xs text-slate-400">Hace 2 horas</p>
+          </div>
+        </li>
+        <li class="flex gap-3">
+          <div class="w-8 h-8 rounded-full bg-amber-50 text-amber-500 flex items-center justify-center flex-shrink-0"><i data-lucide="message-square" class="w-4 h-4"></i></div>
+          <div>
+            <p class="text-sm text-slate-700">Nuevo comentario en <span class="font-medium">Proyecto Aurum</span></p>
+            <p class="text-xs text-slate-400">Hace 5 horas</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- 27. Currency converter -->
+    <div class="card rounded-3xl p-6 bg-white border border-slate-200/70 cursor-pointer">
+      <p class="text-xs font-semibold text-slate-400 uppercase tracking-[0.2em] mb-4">Conversor de moneda</p>
+      <div class="space-y-2">
+        <div class="flex items-center justify-between bg-slate-50 rounded-xl px-4 py-3">
+          <div>
+            <p class="text-xs text-slate-400">Envías</p>
+            <p class="font-display text-xl font-semibold text-slate-900">250.00</p>
+          </div>
+          <span class="text-sm font-semibold text-slate-500">USD</span>
+        </div>
+        <div class="flex justify-center -my-1 relative z-10">
+          <div class="cursor-pointer w-8 h-8 rounded-full bg-white border border-slate-200 shadow-sm flex items-center justify-center text-slate-500 hover:rotate-180 transition-transform duration-300">
+            <i data-lucide="repeat" class="w-3.5 h-3.5"></i>
+          </div>
+        </div>
+        <div class="flex items-center justify-between bg-slate-50 rounded-xl px-4 py-3">
+          <div>
+            <p class="text-xs text-slate-400">Recibes</p>
+            <p class="font-display text-xl font-semibold text-slate-900">231.18</p>
+          </div>
+          <span class="text-sm font-semibold text-slate-500">EUR</span>
+        </div>
+      </div>
+      <p class="text-xs text-slate-400 mt-3 text-center">1 USD = 0.9247 EUR</p>
+    </div>
+
+    <!-- 28. Photo gallery -->
+    <div class="card rounded-3xl p-6 bg-white border border-slate-200/70 cursor-pointer">
+      <div class="flex items-center justify-between mb-4">
+        <p class="text-xs font-semibold text-slate-400 uppercase tracking-[0.2em]">Galería</p>
+        <span class="text-xs text-slate-400">32 fotos</span>
+      </div>
+      <div class="grid grid-cols-3 gap-2">
+        <div class="aspect-square rounded-xl bg-gradient-to-br from-sky-200 to-sky-300"></div>
+        <div class="aspect-square rounded-xl bg-gradient-to-br from-amber-200 to-rose-200"></div>
+        <div class="aspect-square rounded-xl bg-gradient-to-br from-emerald-200 to-emerald-300"></div>
+        <div class="aspect-square rounded-xl bg-gradient-to-br from-indigo-200 to-indigo-300"></div>
+        <div class="aspect-square rounded-xl bg-gradient-to-br from-rose-200 to-orange-200"></div>
+        <div class="aspect-square rounded-xl bg-slate-900 text-white flex items-center justify-center text-sm font-semibold">+27</div>
+      </div>
+    </div>
+
+    <!-- 29. Account security -->
+    <div class="card rounded-3xl p-6 bg-white border border-slate-200/70 cursor-pointer">
+      <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center mb-4">
+        <i data-lucide="shield-check" class="w-5 h-5"></i>
+      </div>
+      <h2 class="font-display text-lg font-semibold text-slate-900 mb-1">Cuenta protegida</h2>
+      <p class="text-sm text-slate-500 mb-4">Tu seguridad está al día.</p>
+      <ul class="space-y-2 text-sm text-slate-600">
+        <li class="flex items-center justify-between">
+          <span>Contraseña segura</span>
+          <i data-lucide="check" class="w-4 h-4 text-emerald-500"></i>
+        </li>
+        <li class="flex items-center justify-between">
+          <span>Verificación en dos pasos</span>
+          <i data-lucide="check" class="w-4 h-4 text-emerald-500"></i>
+        </li>
+        <li class="flex items-center justify-between">
+          <span>Correo de recuperación</span>
+          <i data-lucide="check" class="w-4 h-4 text-emerald-500"></i>
+        </li>
+      </ul>
+    </div>
+
+    <!-- 30. Quick stats grid -->
+    <div class="card rounded-3xl p-6 bg-white border border-slate-200/70 cursor-pointer">
+      <p class="text-xs font-semibold text-slate-400 uppercase tracking-[0.2em] mb-4">Resumen rápido</p>
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-500 flex items-center justify-center mb-2"><i data-lucide="eye" class="w-4 h-4"></i></div>
+          <p class="font-display text-xl font-semibold text-slate-900">24.5k</p>
+          <p class="text-xs text-slate-400">Visitas</p>
+        </div>
+        <div>
+          <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-500 flex items-center justify-center mb-2"><i data-lucide="mouse-pointer-click" class="w-4 h-4"></i></div>
+          <p class="font-display text-xl font-semibold text-slate-900">3,108</p>
+          <p class="text-xs text-slate-400">Clics</p>
+        </div>
+        <div>
+          <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-500 flex items-center justify-center mb-2"><i data-lucide="percent" class="w-4 h-4"></i></div>
+          <p class="font-display text-xl font-semibold text-slate-900">12.7%</p>
+          <p class="text-xs text-slate-400">Conversión</p>
+        </div>
+        <div>
+          <div class="w-8 h-8 rounded-lg bg-rose-50 text-rose-500 flex items-center justify-center mb-2"><i data-lucide="clock" class="w-4 h-4"></i></div>
+          <p class="font-display text-xl font-semibold text-slate-900">4m 12s</p>
+          <p class="text-xs text-slate-400">Tiempo medio</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 31. Glass profile -->
+    <div class="card fx-profile relative overflow-hidden rounded-3xl p-6 bg-white border border-slate-200/70 cursor-pointer">
+      <div class="absolute -right-12 -top-12 w-40 h-40 rounded-full bg-indigo-300/20 blur-3xl"></div>
+      <div class="absolute -left-12 bottom-0 w-40 h-40 rounded-full bg-rose-300/20 blur-3xl"></div>
+      <div class="relative flex flex-col items-center text-center">
+        <div class="relative">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200" alt="Foto de perfil de Elena Rostova" class="fx-avatar w-16 h-16 rounded-full object-cover ring-4 ring-white shadow-sm">
+          <span class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-emerald-400 ring-2 ring-white"></span>
+        </div>
+        <h2 class="font-display text-lg font-semibold text-slate-900 mt-3">Elena Rostova</h2>
+        <p class="text-xs text-slate-400">Diseñadora UI/UX &amp; Artista 3D</p>
+        <div class="grid grid-cols-3 gap-2 w-full mt-4">
+          <div><p class="font-display text-base font-semibold text-slate-900">14.2K</p><p class="text-[11px] text-slate-400 uppercase tracking-wider">Seguidores</p></div>
+          <div class="border-x border-slate-100"><p class="font-display text-base font-semibold text-slate-900">182</p><p class="text-[11px] text-slate-400 uppercase tracking-wider">Proyectos</p></div>
+          <div><p class="font-display text-base font-semibold text-slate-900">2.4K</p><p class="text-[11px] text-slate-400 uppercase tracking-wider">Likes</p></div>
+        </div>
+        <div class="flex items-center gap-2 mt-4">
+          <a href="#" aria-label="Dribbble" class="fx-social cursor-pointer w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-500"><i data-lucide="dribbble" class="w-4 h-4"></i></a>
+          <a href="#" aria-label="GitHub" class="fx-social cursor-pointer w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-500"><i data-lucide="github" class="w-4 h-4"></i></a>
+          <a href="#" aria-label="LinkedIn" class="fx-social cursor-pointer w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-500"><i data-lucide="linkedin" class="w-4 h-4"></i></a>
+          <a href="#" aria-label="Twitter" class="fx-social cursor-pointer w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-500"><i data-lucide="twitter" class="w-4 h-4"></i></a>
+        </div>
+        <div class="flex gap-2 w-full mt-5">
+          <button class="cursor-pointer flex-1 border border-slate-200 hover:bg-slate-50 transition-colors text-slate-700 text-sm font-medium rounded-xl py-2.5 flex items-center justify-center gap-2"><i data-lucide="mail" class="w-4 h-4"></i> Mensaje</button>
+          <button class="follow-btn cursor-pointer flex-1 bg-slate-900 hover:bg-slate-700 transition-colors text-white text-sm font-medium rounded-xl py-2.5">Seguir</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 32. Product card -->
+    <div class="card fx-product rounded-3xl overflow-hidden bg-white border border-slate-200/70 cursor-pointer">
+      <div class="relative h-40 bg-slate-50">
+        <div class="fx-glow"></div>
+        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=600" alt="Audífonos Studio Pro X1 en color negro" class="fx-image relative w-full h-full object-cover">
+        <span class="absolute top-3 left-3 text-[11px] font-semibold text-white bg-rose-500 px-2 py-1 rounded-full">15% OFF</span>
+        <button class="wishlist-btn cursor-pointer absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 flex items-center justify-center text-slate-500" aria-label="Añadir a deseos" aria-pressed="false">
+          <i data-lucide="heart" class="w-4 h-4"></i>
+        </button>
+      </div>
+      <div class="p-5">
+        <p class="text-[11px] font-semibold text-indigo-500 uppercase tracking-[0.2em] mb-1">Audífonos Wireless</p>
+        <h2 class="font-display text-lg font-semibold text-slate-900">Studio Pro X1</h2>
+        <div class="flex items-center gap-1.5 mt-1.5 mb-3">
+          <div class="flex gap-0.5 text-amber-400">
+            <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
+            <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
+            <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
+            <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
+            <i data-lucide="star-half" class="w-3.5 h-3.5 fill-current"></i>
+          </div>
+          <span class="text-xs text-slate-400">(128)</span>
+        </div>
+        <div class="flex items-center gap-2 mb-4">
+          <span class="text-xs text-slate-400">Color</span>
+          <button class="cursor-pointer w-5 h-5 rounded-full bg-[#111] ring-2 ring-offset-2 ring-slate-900" aria-label="Negro"></button>
+          <button class="cursor-pointer w-5 h-5 rounded-full bg-[#1e3c72] ring-2 ring-offset-2 ring-transparent hover:ring-slate-300" aria-label="Azul"></button>
+          <button class="cursor-pointer w-5 h-5 rounded-full bg-[#d62828] ring-2 ring-offset-2 ring-transparent hover:ring-slate-300" aria-label="Rojo"></button>
+        </div>
+        <div class="flex items-center justify-between">
+          <div>
+            <span class="font-display text-lg font-semibold text-slate-900">$249.00</span>
+            <span class="text-xs text-slate-400 line-through ml-1">$299.00</span>
+          </div>
+          <button class="fx-cart cursor-pointer bg-slate-900 text-white text-xs font-medium rounded-xl px-3.5 py-2.5 flex items-center gap-1.5"><i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i> Comprar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 33. Blog card -->
+    <div class="card fx-blog rounded-3xl overflow-hidden bg-white border border-slate-200/70 cursor-pointer">
+      <div class="relative h-32 overflow-hidden">
+        <img src="futuristic_blog.png" alt="Ilustración futurista de inteligencia artificial" class="fx-image w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+        <span class="absolute top-3 left-3 text-[11px] font-semibold text-white bg-emerald-500 px-2.5 py-1 rounded-full">Futurismo</span>
+        <span class="absolute top-3 right-3 text-[11px] font-medium text-white/90 bg-black/40 backdrop-blur px-2.5 py-1 rounded-full flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> 5 min</span>
+      </div>
+      <div class="p-5">
+        <div class="flex items-center gap-2.5 mb-3">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=100" alt="Foto de Marcus Vance" class="w-7 h-7 rounded-full object-cover">
+          <div>
+            <p class="text-xs font-semibold text-slate-700">Marcus Vance</p>
+            <p class="text-[11px] text-slate-400">08 Jun, 2026</p>
+          </div>
+        </div>
+        <h2 class="font-display text-base font-semibold leading-snug">
+          <a href="#" class="fx-title text-slate-900">El impacto de la IA generativa en el diseño de interfaces</a>
+        </h2>
+        <p class="text-xs text-slate-500 mt-2 leading-relaxed">Cómo las nuevas herramientas de IA redefinen el proceso creativo con iteraciones hyper-rápidas.</p>
+        <div class="flex items-center justify-between mt-4 pt-4 border-t border-slate-100">
+          <div class="flex items-center gap-3 text-xs text-slate-400">
+            <span class="flex items-center gap-1"><i data-lucide="eye" class="w-3.5 h-3.5"></i> 1,420</span>
+            <button class="like-btn cursor-pointer flex items-center gap-1 hover:text-rose-500 transition-colors" aria-pressed="false"><i data-lucide="heart" class="w-3.5 h-3.5"></i> <span class="like-count">248</span></button>
+          </div>
+          <a href="#" class="read-more text-xs font-semibold text-emerald-600 flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 34. Pricing card -->
+    <div class="card fx-pricing relative rounded-3xl p-6 bg-slate-900 text-white cursor-pointer border border-indigo-500/30">
+      <span class="absolute -top-3 left-6 text-[11px] font-semibold text-slate-900 bg-amber-400 px-3 py-1 rounded-full">MÁS POPULAR</span>
+      <div class="flex items-center justify-between mb-4 pt-1">
+        <p class="text-xs font-semibold text-white/50 uppercase tracking-[0.2em]">Plan Pro</p>
+        <div class="flex items-center gap-2 text-xs">
+          <span class="pricing-label-monthly font-semibold text-white">Mensual</span>
+          <button id="pricing-toggle" class="cursor-pointer relative w-9 h-5 rounded-full bg-white/15" aria-label="Cambiar a facturación anual" aria-pressed="false">
+            <span class="pricing-thumb absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white transition-transform duration-200"></span>
+          </button>
+          <span class="pricing-label-yearly text-white/40">Anual</span>
+        </div>
+      </div>
+      <div class="flex items-end gap-1 mb-1">
+        <span class="font-display text-3xl font-semibold">$<span class="pricing-amount">39</span></span>
+        <span class="text-sm text-white/40 mb-1">/ mes</span>
+      </div>
+      <p class="text-xs text-white/40 mb-4 pricing-note">Facturado mensualmente</p>
+      <ul class="space-y-2 text-sm text-white/80 mb-5">
+        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> Proyectos ilimitados</li>
+        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> 100GB de almacenamiento</li>
+        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> Soporte prioritario 24/7</li>
+      </ul>
+      <button class="cursor-pointer w-full bg-white text-slate-900 hover:bg-slate-100 transition-colors text-sm font-semibold rounded-xl py-2.5">Probar Pro gratis</button>
+    </div>
+
+    <!-- 35. Blog card -->
+    <div class="card fx-blog rounded-3xl overflow-hidden bg-white border border-slate-200/70 cursor-pointer">
+      <div class="relative h-32 overflow-hidden">
+        <img src="futuristic_blog.png" alt="Impacto de la inteligencia artificial en el frontend" class="fx-image w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+        <span class="absolute top-3 left-3 text-[11px] font-semibold text-white bg-emerald-500 px-2.5 py-1 rounded-full">Frontend</span>
+        <span class="absolute top-3 right-3 text-[11px] font-medium text-white/90 bg-black/40 backdrop-blur px-2.5 py-1 rounded-full flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> 6 min</span>
+      </div>
+      <div class="p-5">
+        <div class="flex items-center gap-2.5 mb-3">
+          <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=100" alt="Foto de Sofía Lerma" class="w-7 h-7 rounded-full object-cover">
+          <div>
+            <p class="text-xs font-semibold text-slate-700">Sofía Lerma</p>
+            <p class="text-[11px] text-slate-400">12 Jun, 2026</p>
+          </div>
+        </div>
+        <h2 class="font-display text-base font-semibold leading-snug">
+          <a href="#" class="fx-title text-slate-900">Impacto de la Inteligencia Artificial en el Frontend</a>
+        </h2>
+        <p class="text-xs text-slate-500 mt-2 leading-relaxed">Analizamos las herramientas y frameworks que están revolucionando cómo se diseñan y construyen interfaces.</p>
+        <div class="flex items-center justify-between mt-4 pt-4 border-t border-slate-100">
+          <div class="flex items-center gap-3 text-xs text-slate-400">
+            <span class="flex items-center gap-1"><i data-lucide="eye" class="w-3.5 h-3.5"></i> 2,037</span>
+            <button class="like-btn cursor-pointer flex items-center gap-1 hover:text-rose-500 transition-colors" aria-pressed="false"><i data-lucide="heart" class="w-3.5 h-3.5"></i> <span class="like-count">316</span></button>
+          </div>
+          <a href="#" class="read-more text-xs font-semibold text-emerald-600 flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  lucide.createIcons();
+  // Animate habit rings on load
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.ring circle:nth-child(2)').forEach((c, i) => {
+      const target = c.getAttribute('stroke-dashoffset');
+      c.style.strokeDashoffset = '276';
+      c.style.transition = 'stroke-dashoffset 1s ease';
+      setTimeout(() => c.style.strokeDashoffset = target, 100 + i * 100);
+    });
+  });
+
+  // Theme toggle (light/dark) with persistence
+  const root = document.documentElement;
+  const themeToggle = document.getElementById('theme-toggle');
+  const setTheme = (dark) => {
+    root.classList.toggle('dark', dark);
+    themeToggle.setAttribute('aria-pressed', String(dark));
+    themeToggle.querySelector('.knob').innerHTML = `<i data-lucide="${dark ? 'moon' : 'sun'}" class="w-3.5 h-3.5"></i>`;
+    lucide.createIcons();
+    localStorage.setItem('theme', dark ? 'dark' : 'light');
+  };
+  setTheme(localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches));
+  themeToggle.addEventListener('click', () => setTheme(!root.classList.contains('dark')));
+
+  // Glass profile follow button
+  document.querySelector('.follow-btn')?.addEventListener('click', (e) => {
+    const btn = e.currentTarget;
+    const following = btn.textContent.trim() === 'Siguiendo';
+    btn.textContent = following ? 'Seguir' : 'Siguiendo';
+    btn.classList.toggle('bg-slate-900', following);
+    btn.classList.toggle('hover:bg-slate-700', following);
+    btn.classList.toggle('bg-emerald-500', !following);
+    btn.classList.toggle('hover:bg-emerald-600', !following);
+  });
+
+  // Product card wishlist toggle
+  document.querySelector('.wishlist-btn')?.addEventListener('click', (e) => {
+    const btn = e.currentTarget;
+    const active = btn.getAttribute('aria-pressed') === 'true';
+    btn.setAttribute('aria-pressed', String(!active));
+    btn.classList.toggle('active', !active);
+    btn.classList.toggle('text-slate-500', active);
+    btn.querySelector('i').setAttribute('fill', !active ? 'currentColor' : 'none');
+    lucide.createIcons();
+  });
+
+  // Blog card like button(s)
+  document.querySelectorAll('.like-btn').forEach(el => el.addEventListener('click', (e) => {
+    const btn = e.currentTarget;
+    const countEl = btn.querySelector('.like-count');
+    const active = btn.getAttribute('aria-pressed') === 'true';
+    btn.setAttribute('aria-pressed', String(!active));
+    countEl.textContent = Number(countEl.textContent) + (active ? -1 : 1);
+    btn.classList.toggle('liked', !active);
+    btn.querySelector('i').setAttribute('fill', !active ? 'currentColor' : 'none');
+    lucide.createIcons();
+  }));
+
+  // Pricing card billing toggle
+  document.getElementById('pricing-toggle')?.addEventListener('click', (e) => {
+    const btn = e.currentTarget;
+    const yearly = btn.getAttribute('aria-pressed') !== 'true';
+    btn.setAttribute('aria-pressed', String(yearly));
+    btn.querySelector('.pricing-thumb').style.transform = yearly ? 'translateX(16px)' : 'translateX(0)';
+    document.querySelector('.pricing-amount').textContent = yearly ? '31' : '39';
+    document.querySelector('.pricing-note').textContent = yearly ? 'Facturado anualmente · ahorras 20%' : 'Facturado mensualmente';
+    document.querySelector('.pricing-label-monthly').classList.toggle('text-white', !yearly);
+    document.querySelector('.pricing-label-monthly').classList.toggle('text-white/40', yearly);
+    document.querySelector('.pricing-label-yearly').classList.toggle('text-white', yearly);
+    document.querySelector('.pricing-label-yearly').classList.toggle('text-white/40', !yearly);
+  });
+</script>
+</body>
+</html>

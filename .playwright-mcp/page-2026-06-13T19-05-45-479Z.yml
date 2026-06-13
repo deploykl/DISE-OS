@@ -1,0 +1,1073 @@
+- generic [active] [ref=e1]:
+  - button "Modo oscuro" [ref=e2] [cursor=pointer]:
+    - img [ref=e4]
+    - img [ref=e11]
+    - generic [ref=e13]: Modo oscuro
+  - generic [ref=e14]:
+    - heading "Catálogo de Gráficos" [level=1] [ref=e15]
+    - paragraph [ref=e16]:
+      - text: 61 gráficos numerados (Chart.js 4 + widgets custom SVG/HTML), organizados por galería temática (Arctic Frost dark, Vibiz light, dashboard Tailwind, y 2 gráficos autocontenidos). Cada tarjeta muestra un badge
+      - code [ref=e17]: "#N — nombre (tipo, tema)"
+      - text: que corresponde a la entrada
+      - code [ref=e18]: catalogo.json[N-1]
+      - text: (campo
+      - code [ref=e19]: "anchor: \"chart-N\""
+      - text: ). Para reutilizar un gráfico, indica su número o nombre.
+  - generic [ref=e20]:
+    - generic [ref=e21]:
+      - generic [ref=e22]: ❄ Arctic Frost · Design 15 · Karla
+      - heading "All Chart Types" [level=1] [ref=e23]
+      - paragraph [ref=e24]: 28 visualization types · Dark & Light themes · Chart.js 4 + Custom SVG & CSS
+    - generic [ref=e25]:
+      - generic [ref=e26]:
+        - generic [ref=e27]:
+          - generic [ref=e28]: Total Revenue
+          - generic [ref=e29]: $1.24M
+          - generic [ref=e30]: ▲ +14.8%
+        - generic [ref=e32]:
+          - generic [ref=e33]: Active Users
+          - generic [ref=e34]: 48,291
+          - generic [ref=e35]: ▲ +8.2%
+        - generic [ref=e37]:
+          - generic [ref=e38]: Avg Latency
+          - generic [ref=e39]: 14.2ms
+          - generic [ref=e40]: ▲ -1.8ms
+        - generic [ref=e42]:
+          - generic [ref=e43]: System Uptime
+          - generic [ref=e44]: 99.9%
+          - generic [ref=e45]: ▲ +0.1%
+      - generic [ref=e47]:
+        - generic [ref=e48]:
+          - heading "Bar Family" [level=2] [ref=e49]
+          - generic [ref=e50]: Comparison · Ranking · Distribution
+          - generic [ref=e51]: 6 types
+        - generic [ref=e52]:
+          - generic [ref=e53]:
+            - generic [ref=e54]: "#1 — Vertical Bar (bar, Arctic Frost (dark))"
+            - generic [ref=e55]: Vertical Bar
+            - generic [ref=e56]: Monthly revenue by channel
+          - generic [ref=e59]:
+            - generic [ref=e60]: "#2 — Horizontal Bar (bar, Arctic Frost (dark))"
+            - generic [ref=e61]: Horizontal Bar
+            - generic [ref=e62]: Performance ranking (sorted)
+          - generic [ref=e65]:
+            - generic [ref=e66]: "#3 — Grouped Bar (bar, Arctic Frost (dark))"
+            - generic [ref=e67]: Grouped Bar
+            - generic [ref=e68]: Revenue vs costs by quarter
+          - generic [ref=e71]:
+            - generic [ref=e72]: "#4 — Stacked Bar (bar, Arctic Frost (dark))"
+            - generic [ref=e73]: Stacked Bar
+            - generic [ref=e74]: Product mix per month
+          - generic [ref=e77]:
+            - generic [ref=e78]: "#5 — 100% Stacked Bar (bar, Arctic Frost (dark))"
+            - generic [ref=e79]: 100% Stacked Bar
+            - generic [ref=e80]: Market share distribution
+          - generic [ref=e83]:
+            - generic [ref=e84]: "#6 — Waterfall Chart (bar, Arctic Frost (dark))"
+            - generic [ref=e85]: Waterfall Chart
+            - generic [ref=e86]: Cash flow cumulative changes
+      - generic [ref=e89]:
+        - generic [ref=e90]:
+          - heading "Line & Area" [level=2] [ref=e91]
+          - generic [ref=e92]: Trends · Time series · Growth
+          - generic [ref=e93]: 6 types
+        - generic [ref=e94]:
+          - generic [ref=e95]:
+            - generic [ref=e96]: "#7 — Line Chart (line, Arctic Frost (dark))"
+            - generic [ref=e97]: Line Chart
+            - generic [ref=e98]: Daily active users over time
+          - generic [ref=e101]:
+            - generic [ref=e102]: "#8 — Smooth Area (line, Arctic Frost (dark))"
+            - generic [ref=e103]: Smooth Area
+            - generic [ref=e104]: Website traffic with fill
+          - generic [ref=e107]:
+            - generic [ref=e108]: "#9 — Multi-Line (line, Arctic Frost (dark))"
+            - generic [ref=e109]: Multi-Line
+            - generic [ref=e110]: 3 product lines performance
+          - generic [ref=e113]:
+            - generic [ref=e114]: "#10 — Stepped Line (line, Arctic Frost (dark))"
+            - generic [ref=e115]: Stepped Line
+            - generic [ref=e116]: Server capacity thresholds
+          - generic [ref=e119]:
+            - generic [ref=e120]: "#11 — Dual Y-Axis (bar, Arctic Frost (dark))"
+            - generic [ref=e121]: Dual Y-Axis
+            - generic [ref=e122]: Revenue + user count (mixed scales)
+          - generic [ref=e125]:
+            - generic [ref=e126]: "#12 — Stacked Area (line, Arctic Frost (dark))"
+            - generic [ref=e127]: Stacked Area
+            - generic [ref=e128]: Traffic sources over 8 weeks
+      - generic [ref=e131]:
+        - generic [ref=e132]:
+          - heading "Circular & Radial" [level=2] [ref=e133]
+          - generic [ref=e134]: Proportions · Patterns · Performance
+          - generic [ref=e135]: 5 types
+        - generic [ref=e136]:
+          - generic [ref=e137]:
+            - generic [ref=e138]: "#13 — Pie Chart (pie, Arctic Frost (dark))"
+            - generic [ref=e139]: Pie Chart
+            - generic [ref=e140]: Revenue by region
+          - generic [ref=e143]:
+            - generic [ref=e144]: "#14 — Doughnut (doughnut, Arctic Frost (dark))"
+            - generic [ref=e145]: Doughnut
+            - generic [ref=e146]: Category market share
+          - generic [ref=e149]:
+            - generic [ref=e150]: "#15 — Polar Area (polarArea, Arctic Frost (dark))"
+            - generic [ref=e151]: Polar Area
+            - generic [ref=e152]: Performance by dimension
+          - generic [ref=e155]:
+            - generic [ref=e156]: "#16 — Radar / Spider (radar, Arctic Frost (dark))"
+            - generic [ref=e157]: Radar / Spider
+            - generic [ref=e158]: Skill & attribute comparison
+          - generic [ref=e161]:
+            - generic [ref=e162]: "#17 — Gauge Chart (doughnut, Arctic Frost (dark))"
+            - generic [ref=e163]: Gauge Chart
+            - generic [ref=e164]: System performance score
+            - generic [ref=e167]:
+              - generic [ref=e168]: 76%
+              - generic [ref=e169]: performance
+      - generic [ref=e170]:
+        - generic [ref=e171]:
+          - heading "Distribution & Correlation" [level=2] [ref=e172]
+          - generic [ref=e173]: Patterns · Relationships · Statistics
+          - generic [ref=e174]: 4 types
+        - generic [ref=e175]:
+          - generic [ref=e176]:
+            - generic [ref=e177]: "#18 — Scatter Plot (scatter, Arctic Frost (dark))"
+            - generic [ref=e178]: Scatter Plot
+            - generic [ref=e179]: User engagement vs session time
+          - generic [ref=e182]:
+            - generic [ref=e183]: "#19 — Bubble Chart (bubble, Arctic Frost (dark))"
+            - generic [ref=e184]: Bubble Chart
+            - generic [ref=e185]: Market size · growth · share
+          - generic [ref=e188]:
+            - generic [ref=e189]: "#41 — Box Plot (boxplot (svg), Arctic Frost (dark))"
+            - generic [ref=e190]: Box Plot
+            - generic [ref=e191]: Score distribution by team
+            - img [ref=e193]:
+              - generic [ref=e194]: "0"
+              - generic [ref=e195]: "22"
+              - generic [ref=e196]: "45"
+              - generic [ref=e197]: "67"
+              - generic [ref=e198]: "89"
+              - generic [ref=e203]: Alpha
+              - generic [ref=e208]: Beta
+              - generic [ref=e213]: Gamma
+              - generic [ref=e218]: Delta
+          - generic [ref=e219]:
+            - generic [ref=e220]: "#20 — Mixed Bar + Line (bar+line (mixed), Arctic Frost (dark))"
+            - generic [ref=e221]: Mixed Bar + Line
+            - generic [ref=e222]: Sales bars with trend overlay
+      - generic [ref=e225]:
+        - generic [ref=e226]:
+          - heading "Advanced & Custom" [level=2] [ref=e227]
+          - generic [ref=e228]: Funnel · Heatmap · Treemap · Waffle · Candlestick
+          - generic [ref=e229]: 7 types
+        - generic [ref=e230]:
+          - generic [ref=e231]:
+            - generic [ref=e232]: "#42 — Funnel Chart (funnel (div), Arctic Frost (dark))"
+            - generic [ref=e233]: Funnel Chart
+            - generic [ref=e234]: Sales pipeline conversion stages
+            - generic [ref=e236]:
+              - generic [ref=e237]:
+                - generic [ref=e238]: Visitors
+                - generic [ref=e240]: 100%
+                - generic [ref=e241]: 12,400
+              - generic [ref=e242]:
+                - generic [ref=e243]: Prospects
+                - generic [ref=e245]: 58%
+                - generic [ref=e246]: 7,200
+              - generic [ref=e247]:
+                - generic [ref=e248]: Leads
+                - generic [ref=e250]: 53%
+                - generic [ref=e251]: 3,800
+              - generic [ref=e252]:
+                - generic [ref=e253]: Qualified
+                - generic [ref=e255]: 50%
+                - generic [ref=e256]: 1,900
+              - generic [ref=e257]:
+                - generic [ref=e258]: Closed
+                - generic [ref=e260]: 47%
+                - generic [ref=e261]: "892"
+          - generic [ref=e262]:
+            - generic [ref=e263]: "#43 — Heatmap Calendar (heatmap (div grid), Arctic Frost (dark))"
+            - generic [ref=e264]: Heatmap Calendar
+            - generic [ref=e265]: Activity intensity — past 20 weeks
+            - generic [ref=e267]:
+              - generic [ref=e268]:
+                - generic [ref=e269]: Mon
+                - generic [ref=e271]: Wed
+                - generic [ref=e273]: Fri
+                - generic [ref=e275]: Sun
+              - generic [ref=e276]:
+                - generic [ref=e277]:
+                  - generic [ref=e278]: Jan
+                  - generic [ref=e281]: Feb
+                  - generic [ref=e284]: Mar
+                  - generic [ref=e287]: Apr
+                  - generic [ref=e290]: May
+                  - generic [ref=e293]: Jun
+                  - generic [ref=e296]: Jul
+                - generic [ref=e298]:
+                  - generic [ref=e299]:
+                    - 'generic "Week 1, Day 1: 0 commits" [ref=e300] [cursor=pointer]'
+                    - 'generic "Week 1, Day 2: 4 commits" [ref=e301] [cursor=pointer]'
+                    - 'generic "Week 1, Day 3: 1 commits" [ref=e302] [cursor=pointer]'
+                    - 'generic "Week 1, Day 4: 5 commits" [ref=e303] [cursor=pointer]'
+                    - 'generic "Week 1, Day 5: 3 commits" [ref=e304] [cursor=pointer]'
+                    - 'generic "Week 1, Day 6: 0 commits" [ref=e305] [cursor=pointer]'
+                    - 'generic "Week 1, Day 7: 0 commits" [ref=e306] [cursor=pointer]'
+                  - generic [ref=e307]:
+                    - 'generic "Week 2, Day 1: 1 commits" [ref=e308] [cursor=pointer]'
+                    - 'generic "Week 2, Day 2: 0 commits" [ref=e309] [cursor=pointer]'
+                    - 'generic "Week 2, Day 3: 6 commits" [ref=e310] [cursor=pointer]'
+                    - 'generic "Week 2, Day 4: 5 commits" [ref=e311] [cursor=pointer]'
+                    - 'generic "Week 2, Day 5: 5 commits" [ref=e312] [cursor=pointer]'
+                    - 'generic "Week 2, Day 6: 5 commits" [ref=e313] [cursor=pointer]'
+                    - 'generic "Week 2, Day 7: 1 commits" [ref=e314] [cursor=pointer]'
+                  - generic [ref=e315]:
+                    - 'generic "Week 3, Day 1: 2 commits" [ref=e316] [cursor=pointer]'
+                    - 'generic "Week 3, Day 2: 4 commits" [ref=e317] [cursor=pointer]'
+                    - 'generic "Week 3, Day 3: 0 commits" [ref=e318] [cursor=pointer]'
+                    - 'generic "Week 3, Day 4: 0 commits" [ref=e319] [cursor=pointer]'
+                    - 'generic "Week 3, Day 5: 3 commits" [ref=e320] [cursor=pointer]'
+                    - 'generic "Week 3, Day 6: 1 commits" [ref=e321] [cursor=pointer]'
+                    - 'generic "Week 3, Day 7: 0 commits" [ref=e322] [cursor=pointer]'
+                  - generic [ref=e323]:
+                    - 'generic "Week 4, Day 1: 5 commits" [ref=e324] [cursor=pointer]'
+                    - 'generic "Week 4, Day 2: 4 commits" [ref=e325] [cursor=pointer]'
+                    - 'generic "Week 4, Day 3: 3 commits" [ref=e326] [cursor=pointer]'
+                    - 'generic "Week 4, Day 4: 1 commits" [ref=e327] [cursor=pointer]'
+                    - 'generic "Week 4, Day 5: 3 commits" [ref=e328] [cursor=pointer]'
+                    - 'generic "Week 4, Day 6: 4 commits" [ref=e329] [cursor=pointer]'
+                    - 'generic "Week 4, Day 7: 6 commits" [ref=e330] [cursor=pointer]'
+                  - generic [ref=e331]:
+                    - 'generic "Week 5, Day 1: 0 commits" [ref=e332] [cursor=pointer]'
+                    - 'generic "Week 5, Day 2: 2 commits" [ref=e333] [cursor=pointer]'
+                    - 'generic "Week 5, Day 3: 0 commits" [ref=e334] [cursor=pointer]'
+                    - 'generic "Week 5, Day 4: 5 commits" [ref=e335] [cursor=pointer]'
+                    - 'generic "Week 5, Day 5: 4 commits" [ref=e336] [cursor=pointer]'
+                    - 'generic "Week 5, Day 6: 2 commits" [ref=e337] [cursor=pointer]'
+                    - 'generic "Week 5, Day 7: 5 commits" [ref=e338] [cursor=pointer]'
+                  - generic [ref=e339]:
+                    - 'generic "Week 6, Day 1: 0 commits" [ref=e340] [cursor=pointer]'
+                    - 'generic "Week 6, Day 2: 3 commits" [ref=e341] [cursor=pointer]'
+                    - 'generic "Week 6, Day 3: 1 commits" [ref=e342] [cursor=pointer]'
+                    - 'generic "Week 6, Day 4: 2 commits" [ref=e343] [cursor=pointer]'
+                    - 'generic "Week 6, Day 5: 0 commits" [ref=e344] [cursor=pointer]'
+                    - 'generic "Week 6, Day 6: 0 commits" [ref=e345] [cursor=pointer]'
+                    - 'generic "Week 6, Day 7: 0 commits" [ref=e346] [cursor=pointer]'
+                  - generic [ref=e347]:
+                    - 'generic "Week 7, Day 1: 5 commits" [ref=e348] [cursor=pointer]'
+                    - 'generic "Week 7, Day 2: 4 commits" [ref=e349] [cursor=pointer]'
+                    - 'generic "Week 7, Day 3: 5 commits" [ref=e350] [cursor=pointer]'
+                    - 'generic "Week 7, Day 4: 0 commits" [ref=e351] [cursor=pointer]'
+                    - 'generic "Week 7, Day 5: 6 commits" [ref=e352] [cursor=pointer]'
+                    - 'generic "Week 7, Day 6: 4 commits" [ref=e353] [cursor=pointer]'
+                    - 'generic "Week 7, Day 7: 1 commits" [ref=e354] [cursor=pointer]'
+                  - generic [ref=e355]:
+                    - 'generic "Week 8, Day 1: 1 commits" [ref=e356] [cursor=pointer]'
+                    - 'generic "Week 8, Day 2: 2 commits" [ref=e357] [cursor=pointer]'
+                    - 'generic "Week 8, Day 3: 5 commits" [ref=e358] [cursor=pointer]'
+                    - 'generic "Week 8, Day 4: 3 commits" [ref=e359] [cursor=pointer]'
+                    - 'generic "Week 8, Day 5: 0 commits" [ref=e360] [cursor=pointer]'
+                    - 'generic "Week 8, Day 6: 2 commits" [ref=e361] [cursor=pointer]'
+                    - 'generic "Week 8, Day 7: 1 commits" [ref=e362] [cursor=pointer]'
+                  - generic [ref=e363]:
+                    - 'generic "Week 9, Day 1: 5 commits" [ref=e364] [cursor=pointer]'
+                    - 'generic "Week 9, Day 2: 0 commits" [ref=e365] [cursor=pointer]'
+                    - 'generic "Week 9, Day 3: 0 commits" [ref=e366] [cursor=pointer]'
+                    - 'generic "Week 9, Day 4: 6 commits" [ref=e367] [cursor=pointer]'
+                    - 'generic "Week 9, Day 5: 2 commits" [ref=e368] [cursor=pointer]'
+                    - 'generic "Week 9, Day 6: 0 commits" [ref=e369] [cursor=pointer]'
+                    - 'generic "Week 9, Day 7: 0 commits" [ref=e370] [cursor=pointer]'
+                  - generic [ref=e371]:
+                    - 'generic "Week 10, Day 1: 3 commits" [ref=e372] [cursor=pointer]'
+                    - 'generic "Week 10, Day 2: 2 commits" [ref=e373] [cursor=pointer]'
+                    - 'generic "Week 10, Day 3: 4 commits" [ref=e374] [cursor=pointer]'
+                    - 'generic "Week 10, Day 4: 4 commits" [ref=e375] [cursor=pointer]'
+                    - 'generic "Week 10, Day 5: 3 commits" [ref=e376] [cursor=pointer]'
+                    - 'generic "Week 10, Day 6: 0 commits" [ref=e377] [cursor=pointer]'
+                    - 'generic "Week 10, Day 7: 2 commits" [ref=e378] [cursor=pointer]'
+                  - generic [ref=e379]:
+                    - 'generic "Week 11, Day 1: 3 commits" [ref=e380] [cursor=pointer]'
+                    - 'generic "Week 11, Day 2: 0 commits" [ref=e381] [cursor=pointer]'
+                    - 'generic "Week 11, Day 3: 3 commits" [ref=e382] [cursor=pointer]'
+                    - 'generic "Week 11, Day 4: 1 commits" [ref=e383] [cursor=pointer]'
+                    - 'generic "Week 11, Day 5: 5 commits" [ref=e384] [cursor=pointer]'
+                    - 'generic "Week 11, Day 6: 1 commits" [ref=e385] [cursor=pointer]'
+                    - 'generic "Week 11, Day 7: 5 commits" [ref=e386] [cursor=pointer]'
+                  - generic [ref=e387]:
+                    - 'generic "Week 12, Day 1: 0 commits" [ref=e388] [cursor=pointer]'
+                    - 'generic "Week 12, Day 2: 4 commits" [ref=e389] [cursor=pointer]'
+                    - 'generic "Week 12, Day 3: 1 commits" [ref=e390] [cursor=pointer]'
+                    - 'generic "Week 12, Day 4: 0 commits" [ref=e391] [cursor=pointer]'
+                    - 'generic "Week 12, Day 5: 4 commits" [ref=e392] [cursor=pointer]'
+                    - 'generic "Week 12, Day 6: 5 commits" [ref=e393] [cursor=pointer]'
+                    - 'generic "Week 12, Day 7: 5 commits" [ref=e394] [cursor=pointer]'
+                  - generic [ref=e395]:
+                    - 'generic "Week 13, Day 1: 0 commits" [ref=e396] [cursor=pointer]'
+                    - 'generic "Week 13, Day 2: 4 commits" [ref=e397] [cursor=pointer]'
+                    - 'generic "Week 13, Day 3: 0 commits" [ref=e398] [cursor=pointer]'
+                    - 'generic "Week 13, Day 4: 4 commits" [ref=e399] [cursor=pointer]'
+                    - 'generic "Week 13, Day 5: 5 commits" [ref=e400] [cursor=pointer]'
+                    - 'generic "Week 13, Day 6: 3 commits" [ref=e401] [cursor=pointer]'
+                    - 'generic "Week 13, Day 7: 0 commits" [ref=e402] [cursor=pointer]'
+                  - generic [ref=e403]:
+                    - 'generic "Week 14, Day 1: 6 commits" [ref=e404] [cursor=pointer]'
+                    - 'generic "Week 14, Day 2: 6 commits" [ref=e405] [cursor=pointer]'
+                    - 'generic "Week 14, Day 3: 1 commits" [ref=e406] [cursor=pointer]'
+                    - 'generic "Week 14, Day 4: 6 commits" [ref=e407] [cursor=pointer]'
+                    - 'generic "Week 14, Day 5: 6 commits" [ref=e408] [cursor=pointer]'
+                    - 'generic "Week 14, Day 6: 0 commits" [ref=e409] [cursor=pointer]'
+                    - 'generic "Week 14, Day 7: 0 commits" [ref=e410] [cursor=pointer]'
+                  - generic [ref=e411]:
+                    - 'generic "Week 15, Day 1: 5 commits" [ref=e412] [cursor=pointer]'
+                    - 'generic "Week 15, Day 2: 0 commits" [ref=e413] [cursor=pointer]'
+                    - 'generic "Week 15, Day 3: 5 commits" [ref=e414] [cursor=pointer]'
+                    - 'generic "Week 15, Day 4: 0 commits" [ref=e415] [cursor=pointer]'
+                    - 'generic "Week 15, Day 5: 5 commits" [ref=e416] [cursor=pointer]'
+                    - 'generic "Week 15, Day 6: 2 commits" [ref=e417] [cursor=pointer]'
+                    - 'generic "Week 15, Day 7: 2 commits" [ref=e418] [cursor=pointer]'
+                  - generic [ref=e419]:
+                    - 'generic "Week 16, Day 1: 3 commits" [ref=e420] [cursor=pointer]'
+                    - 'generic "Week 16, Day 2: 1 commits" [ref=e421] [cursor=pointer]'
+                    - 'generic "Week 16, Day 3: 6 commits" [ref=e422] [cursor=pointer]'
+                    - 'generic "Week 16, Day 4: 2 commits" [ref=e423] [cursor=pointer]'
+                    - 'generic "Week 16, Day 5: 2 commits" [ref=e424] [cursor=pointer]'
+                    - 'generic "Week 16, Day 6: 0 commits" [ref=e425] [cursor=pointer]'
+                    - 'generic "Week 16, Day 7: 0 commits" [ref=e426] [cursor=pointer]'
+                  - generic [ref=e427]:
+                    - 'generic "Week 17, Day 1: 3 commits" [ref=e428] [cursor=pointer]'
+                    - 'generic "Week 17, Day 2: 0 commits" [ref=e429] [cursor=pointer]'
+                    - 'generic "Week 17, Day 3: 0 commits" [ref=e430] [cursor=pointer]'
+                    - 'generic "Week 17, Day 4: 4 commits" [ref=e431] [cursor=pointer]'
+                    - 'generic "Week 17, Day 5: 6 commits" [ref=e432] [cursor=pointer]'
+                    - 'generic "Week 17, Day 6: 3 commits" [ref=e433] [cursor=pointer]'
+                    - 'generic "Week 17, Day 7: 0 commits" [ref=e434] [cursor=pointer]'
+                  - generic [ref=e435]:
+                    - 'generic "Week 18, Day 1: 0 commits" [ref=e436] [cursor=pointer]'
+                    - 'generic "Week 18, Day 2: 0 commits" [ref=e437] [cursor=pointer]'
+                    - 'generic "Week 18, Day 3: 4 commits" [ref=e438] [cursor=pointer]'
+                    - 'generic "Week 18, Day 4: 5 commits" [ref=e439] [cursor=pointer]'
+                    - 'generic "Week 18, Day 5: 3 commits" [ref=e440] [cursor=pointer]'
+                    - 'generic "Week 18, Day 6: 0 commits" [ref=e441] [cursor=pointer]'
+                    - 'generic "Week 18, Day 7: 0 commits" [ref=e442] [cursor=pointer]'
+                  - generic [ref=e443]:
+                    - 'generic "Week 19, Day 1: 6 commits" [ref=e444] [cursor=pointer]'
+                    - 'generic "Week 19, Day 2: 4 commits" [ref=e445] [cursor=pointer]'
+                    - 'generic "Week 19, Day 3: 2 commits" [ref=e446] [cursor=pointer]'
+                    - 'generic "Week 19, Day 4: 5 commits" [ref=e447] [cursor=pointer]'
+                    - 'generic "Week 19, Day 5: 5 commits" [ref=e448] [cursor=pointer]'
+                    - 'generic "Week 19, Day 6: 0 commits" [ref=e449] [cursor=pointer]'
+                    - 'generic "Week 19, Day 7: 0 commits" [ref=e450] [cursor=pointer]'
+                  - generic [ref=e451]:
+                    - 'generic "Week 20, Day 1: 1 commits" [ref=e452] [cursor=pointer]'
+                    - 'generic "Week 20, Day 2: 0 commits" [ref=e453] [cursor=pointer]'
+                    - 'generic "Week 20, Day 3: 1 commits" [ref=e454] [cursor=pointer]'
+                    - 'generic "Week 20, Day 4: 0 commits" [ref=e455] [cursor=pointer]'
+                    - 'generic "Week 20, Day 5: 3 commits" [ref=e456] [cursor=pointer]'
+                    - 'generic "Week 20, Day 6: 5 commits" [ref=e457] [cursor=pointer]'
+                    - 'generic "Week 20, Day 7: 3 commits" [ref=e458] [cursor=pointer]'
+          - generic [ref=e459]:
+            - generic [ref=e460]: "#44 — Treemap (treemap (div), Arctic Frost (dark))"
+            - generic [ref=e461]: Treemap
+            - generic [ref=e462]: Revenue breakdown by segment (proportional area)
+            - generic [ref=e464]:
+              - generic [ref=e465] [cursor=pointer]:
+                - generic [ref=e466]: Enterprise
+                - generic [ref=e467]: 38%
+              - generic [ref=e468] [cursor=pointer]:
+                - generic [ref=e469]: SMB
+                - generic [ref=e470]: 26%
+              - generic [ref=e471] [cursor=pointer]:
+                - generic [ref=e472]: Startup
+                - generic [ref=e473]: 18%
+              - generic [ref=e474] [cursor=pointer]:
+                - generic [ref=e475]: Consumer
+                - generic [ref=e476]: 10%
+              - generic [ref=e477] [cursor=pointer]:
+                - generic [ref=e478]: Partner
+                - generic [ref=e479]: 5%
+              - generic [ref=e480] [cursor=pointer]:
+                - generic [ref=e481]: Other
+                - generic [ref=e482]: 3%
+          - generic [ref=e483]:
+            - generic [ref=e484]: "#45 — Progress / KPI Bars (progress bars (div), Arctic Frost (dark))"
+            - generic [ref=e485]: Progress / KPI Bars
+            - generic [ref=e486]: Team performance vs target
+            - generic [ref=e488]:
+              - generic [ref=e490]:
+                - generic [ref=e491]: Conversion Rate
+                - generic [ref=e492]: 72%
+              - generic [ref=e496]:
+                - generic [ref=e497]: Customer Sat.
+                - generic [ref=e498]: 88%
+              - generic [ref=e502]:
+                - generic [ref=e503]: Sprint Velocity
+                - generic [ref=e504]: 65%
+              - generic [ref=e508]:
+                - generic [ref=e509]: Bug Resolution
+                - generic [ref=e510]: 94%
+              - generic [ref=e514]:
+                - generic [ref=e515]: Deployment Freq.
+                - generic [ref=e516]: 58%
+              - generic [ref=e520]:
+                - generic [ref=e521]: Code Coverage
+                - generic [ref=e522]: 81%
+          - generic [ref=e525]:
+            - generic [ref=e526]: "#46 — Waffle Chart (waffle (div grid), Arctic Frost (dark))"
+            - generic [ref=e527]: Waffle Chart
+            - generic [ref=e528]: Market share · 100 cells = 100%
+            - generic [ref=e631]:
+              - generic [ref=e632]: Direct 32%
+              - generic [ref=e634]: Organic 28%
+              - generic [ref=e636]: Paid 22%
+              - generic [ref=e638]: Social 18%
+          - generic [ref=e640]:
+            - generic [ref=e641]: "#47 — Candlestick / OHLC (candlestick (svg), Arctic Frost (dark))"
+            - generic [ref=e642]: Candlestick / OHLC
+            - generic [ref=e643]: Fictional stock price · Open, High, Low, Close
+            - img [ref=e645]:
+              - generic [ref=e646]: "90"
+              - generic [ref=e647]: "98"
+              - generic [ref=e648]: "106"
+              - generic [ref=e649]: "115"
+              - generic [ref=e650]: "123"
+              - generic [ref=e652]: D1
+              - generic [ref=e656]: D4
+              - generic [ref=e660]: D7
+              - generic [ref=e664]: D10
+              - generic [ref=e668]: D13
+              - generic [ref=e672]: D16
+  - generic [ref=e673]:
+    - button "" [ref=e674] [cursor=pointer]:
+      - generic [ref=e675]: 
+    - generic [ref=e676]:
+      - generic [ref=e677]:
+        - generic [ref=e679] [cursor=pointer]: 
+        - generic [ref=e681] [cursor=pointer]: 
+        - generic [ref=e683] [cursor=pointer]: 
+        - generic [ref=e685] [cursor=pointer]: 
+        - generic [ref=e687] [cursor=pointer]: 
+        - generic [ref=e689] [cursor=pointer]: 
+        - generic [ref=e690] [cursor=pointer]: V
+      - generic [ref=e691]:
+        - generic [ref=e692]:
+          - generic [ref=e693]: 
+          - generic [ref=e694]: Vibiz
+        - generic [ref=e695]:
+          - generic [ref=e696]: 
+          - generic [ref=e697]: Buscar gráficas…
+        - generic [ref=e698]: Categorías
+        - generic [ref=e699] [cursor=pointer]:
+          - generic [ref=e700]: 
+          - text: Barras
+          - generic [ref=e701]: "6"
+        - generic [ref=e702] [cursor=pointer]:
+          - generic [ref=e703]: 
+          - text: Líneas
+          - generic [ref=e704]: "6"
+        - generic [ref=e705] [cursor=pointer]:
+          - generic [ref=e706]: 
+          - text: Circulares
+          - generic [ref=e707]: "5"
+        - generic [ref=e708] [cursor=pointer]:
+          - text: Distribución
+          - generic [ref=e709]: "4"
+        - generic [ref=e710] [cursor=pointer]:
+          - generic [ref=e711]: ﱁ
+          - text: Avanzadas
+          - generic [ref=e712]: "7"
+        - generic [ref=e713]: Resumen
+        - generic [ref=e714] [cursor=pointer]:
+          - generic [ref=e715]: 
+          - text: "Total: 28 tipos"
+        - generic [ref=e716] [cursor=pointer]:
+          - generic [ref=e717]: 
+          - text: Chart.js 4 + SVG
+      - generic [ref=e718]:
+        - generic [ref=e719]:
+          - generic [ref=e720] [cursor=pointer]:
+            - generic [ref=e721]: 
+            - text: All Charts
+          - generic [ref=e722] [cursor=pointer]:
+            - generic [ref=e723]: 
+            - text: Dashboard
+          - generic [ref=e724] [cursor=pointer]:
+            - generic [ref=e725]: 
+            - text: Datos
+          - generic [ref=e726]:
+            - generic "Regenerar datos" [ref=e727] [cursor=pointer]: 
+            - generic [ref=e728] [cursor=pointer]: 
+            - generic [ref=e729] [cursor=pointer]: 
+        - generic [ref=e730]:
+          - generic [ref=e731]:
+            - generic [ref=e732]:
+              - generic [ref=e733]: $1.24M
+              - generic [ref=e734]: Revenue Total
+              - generic [ref=e735]: ↑ 14.8%
+            - generic [ref=e736]:
+              - generic [ref=e737]: 48.3k
+              - generic [ref=e738]: Usuarios Activos
+              - generic [ref=e739]: ↑ 8.2%
+            - generic [ref=e740]:
+              - generic [ref=e741]: 14.2ms
+              - generic [ref=e742]: Latencia Avg
+              - generic [ref=e743]: ↓ 1.8ms
+            - generic [ref=e744]:
+              - generic [ref=e745]: 99.9%
+              - generic [ref=e746]: Uptime
+              - generic [ref=e747]: ↑ 0.1%
+          - generic [ref=e748]:
+            - generic [ref=e749]:
+              - generic [ref=e750]: Total Revenue
+              - generic [ref=e751]: $1.24M
+              - generic [ref=e752]: ▲ +14.8%
+            - generic [ref=e754]:
+              - generic [ref=e755]: Active Users
+              - generic [ref=e756]: 48,291
+              - generic [ref=e757]: ▲ +8.2%
+            - generic [ref=e759]:
+              - generic [ref=e760]: Avg Latency
+              - generic [ref=e761]: 14.2ms
+              - generic [ref=e762]: ▲ -1.8ms
+            - generic [ref=e764]:
+              - generic [ref=e765]: System Uptime
+              - generic [ref=e766]: 99.9%
+              - generic [ref=e767]: ▲ +0.1%
+          - generic [ref=e769]:
+            - generic [ref=e770]:
+              - heading " Bar Family" [level=2] [ref=e771]:
+                - generic [ref=e772]: 
+                - text: Bar Family
+              - generic [ref=e773]: Comparación · Ranking · Distribución
+              - generic [ref=e774]: 6 tipos
+            - generic [ref=e775]:
+              - generic [ref=e776]:
+                - generic [ref=e777]: "#21 — Vertical Bar (bar, Vibiz (light, tabler icons))"
+                - generic [ref=e778]:
+                  - generic [ref=e779]: 
+                  - text: Vertical Bar
+                - generic [ref=e780]: Revenue mensual por canal
+              - generic [ref=e783]:
+                - generic [ref=e784]: "#22 — Horizontal Bar (bar, Vibiz (light, tabler icons))"
+                - generic [ref=e785]:
+                  - generic [ref=e786]: 
+                  - text: Horizontal Bar
+                - generic [ref=e787]: Ranking de performance (ordenado)
+              - generic [ref=e790]:
+                - generic [ref=e791]: "#23 — Grouped Bar (bar, Vibiz (light, tabler icons))"
+                - generic [ref=e792]:
+                  - generic [ref=e793]: 
+                  - text: Grouped Bar
+                - generic [ref=e794]: Revenue vs costos por trimestre
+              - generic [ref=e797]:
+                - generic [ref=e798]: "#24 — Stacked Bar (bar, Vibiz (light, tabler icons))"
+                - generic [ref=e799]:
+                  - generic [ref=e800]: 
+                  - text: Stacked Bar
+                - generic [ref=e801]: Mix de productos por mes
+              - generic [ref=e804]:
+                - generic [ref=e805]: "#25 — 100% Stacked (bar, Vibiz (light, tabler icons))"
+                - generic [ref=e806]:
+                  - generic [ref=e807]: 
+                  - text: 100% Stacked
+                - generic [ref=e808]: Distribución market share
+              - generic [ref=e811]:
+                - generic [ref=e812]: "#26 — Waterfall (bar, Vibiz (light, tabler icons))"
+                - generic [ref=e813]:
+                  - generic [ref=e814]: 
+                  - text: Waterfall
+                - generic [ref=e815]: Cambios acumulados de cash flow
+          - generic [ref=e818]:
+            - generic [ref=e819]:
+              - heading " Líneas & Áreas" [level=2] [ref=e820]:
+                - generic [ref=e821]: 
+                - text: Líneas & Áreas
+              - generic [ref=e822]: Tendencias · Series de tiempo · Crecimiento
+              - generic [ref=e823]: 6 tipos
+            - generic [ref=e824]:
+              - generic [ref=e825]:
+                - generic [ref=e826]: "#27 — Line Chart (line, Vibiz (light, tabler icons))"
+                - generic [ref=e827]:
+                  - generic [ref=e828]: 
+                  - text: Line Chart
+                - generic [ref=e829]: Usuarios activos diarios
+              - generic [ref=e832]:
+                - generic [ref=e833]: "#28 — Smooth Area (line, Vibiz (light, tabler icons))"
+                - generic [ref=e834]:
+                  - generic [ref=e835]: 
+                  - text: Smooth Area
+                - generic [ref=e836]: Tráfico web con fill
+              - generic [ref=e839]:
+                - generic [ref=e840]: "#29 — Multi-Line (line, Vibiz (light, tabler icons))"
+                - generic [ref=e841]:
+                  - generic [ref=e842]: 
+                  - text: Multi-Line
+                - generic [ref=e843]: 3 líneas de producto
+              - generic [ref=e846]:
+                - generic [ref=e847]: "#30 — Stepped Line (line, Vibiz (light, tabler icons))"
+                - generic [ref=e848]: Stepped Line
+                - generic [ref=e849]: Umbrales de capacidad
+              - generic [ref=e852]:
+                - generic [ref=e853]: "#31 — Dual Y-Axis (bar, Vibiz (light, tabler icons))"
+                - generic [ref=e854]:
+                  - generic [ref=e855]: 
+                  - text: Dual Y-Axis
+                - generic [ref=e856]: Revenue + usuarios (escalas)
+              - generic [ref=e859]:
+                - generic [ref=e860]: "#32 — Stacked Area (line, Vibiz (light, tabler icons))"
+                - generic [ref=e861]: Stacked Area
+                - generic [ref=e862]: Fuentes de tráfico 8 semanas
+          - generic [ref=e865]:
+            - generic [ref=e866]:
+              - heading " Circular & Radial" [level=2] [ref=e867]:
+                - generic [ref=e868]: 
+                - text: Circular & Radial
+              - generic [ref=e869]: Proporciones · Patrones · Performance
+              - generic [ref=e870]: 5 tipos
+            - generic [ref=e871]:
+              - generic [ref=e872]:
+                - generic [ref=e873]: "#33 — Pie Chart (pie, Vibiz (light, tabler icons))"
+                - generic [ref=e874]:
+                  - generic [ref=e875]: 
+                  - text: Pie Chart
+                - generic [ref=e876]: Revenue por región
+              - generic [ref=e879]:
+                - generic [ref=e880]: "#34 — Doughnut (doughnut, Vibiz (light, tabler icons))"
+                - generic [ref=e881]:
+                  - generic [ref=e882]: 
+                  - text: Doughnut
+                - generic [ref=e883]: Market share por categoría
+              - generic [ref=e886]:
+                - generic [ref=e887]: "#35 — Polar Area (polarArea, Vibiz (light, tabler icons))"
+                - generic [ref=e888]:
+                  - generic [ref=e889]: 
+                  - text: Polar Area
+                - generic [ref=e890]: Performance por dimensión
+              - generic [ref=e893]:
+                - generic [ref=e894]: "#36 — Radar Spider (radar, Vibiz (light, tabler icons))"
+                - generic [ref=e895]:
+                  - generic [ref=e896]: 
+                  - text: Radar Spider
+                - generic [ref=e897]: Comparación de habilidades
+              - generic [ref=e900]:
+                - generic [ref=e901]: "#37 — Gauge (doughnut, Vibiz (light, tabler icons))"
+                - generic [ref=e902]:
+                  - generic [ref=e903]: 
+                  - text: Gauge
+                - generic [ref=e904]: Score de performance
+                - generic [ref=e907]:
+                  - generic [ref=e908]: 76%
+                  - generic [ref=e909]: score
+          - generic [ref=e910]:
+            - generic [ref=e911]:
+              - heading "Distribución & Correlación" [level=2] [ref=e912]: Distribución & Correlación
+              - generic [ref=e913]: Patrones · Relaciones · Estadísticas
+              - generic [ref=e914]: 4 tipos
+            - generic [ref=e915]:
+              - generic [ref=e916]:
+                - generic [ref=e917]: "#38 — Scatter Plot (scatter, Vibiz (light, tabler icons))"
+                - generic [ref=e918]:
+                  - generic [ref=e919]: 
+                  - text: Scatter Plot
+                - generic [ref=e920]: Engagement vs tiempo de sesión
+              - generic [ref=e923]:
+                - generic [ref=e924]: "#39 — Bubble Chart (bubble, Vibiz (light, tabler icons))"
+                - generic [ref=e925]: Bubble Chart
+                - generic [ref=e926]: Tamaño mercado · crecimiento
+              - generic [ref=e929]:
+                - generic [ref=e930]: "#48 — Box Plot (boxplot (svg), Vibiz (light, tabler icons))"
+                - generic [ref=e931]:
+                  - generic [ref=e932]: 
+                  - text: Box Plot
+                - generic [ref=e933]: Distribución de scores por equipo
+                - img [ref=e935]:
+                  - generic [ref=e936]: "0"
+                  - generic [ref=e937]: "22"
+                  - generic [ref=e938]: "44"
+                  - generic [ref=e939]: "65"
+                  - generic [ref=e940]: "87"
+                  - generic [ref=e942]: Alpha
+                  - generic [ref=e944]: Beta
+                  - generic [ref=e946]: Gamma
+                  - generic [ref=e948]: Delta
+              - generic [ref=e949]:
+                - generic [ref=e950]: "#40 — Mixed Bar + Line (bar+line (mixed), Vibiz (light, tabler icons))"
+                - generic [ref=e951]:
+                  - generic [ref=e952]: 
+                  - text: Mixed Bar+Line
+                - generic [ref=e953]: Ventas con tendencia
+          - generic [ref=e956]:
+            - generic [ref=e957]:
+              - heading "ﱁ Avanzadas & Custom" [level=2] [ref=e958]:
+                - generic [ref=e959]: ﱁ
+                - text: Avanzadas & Custom
+              - generic [ref=e960]: Funnel · Heatmap · Treemap · Waffle · Candlestick · Progress
+              - generic [ref=e961]: 7 tipos
+            - generic [ref=e962]:
+              - generic [ref=e963]:
+                - generic [ref=e964]: "#49 — Funnel Chart (funnel (div), Vibiz (light, tabler icons))"
+                - generic [ref=e965]:
+                  - generic [ref=e966]: 
+                  - text: Funnel Chart
+                - generic [ref=e967]: Etapas del pipeline de ventas
+                - generic [ref=e969]:
+                  - generic [ref=e970]:
+                    - generic [ref=e971]: Visitantes
+                    - generic [ref=e973]: 100%
+                    - generic [ref=e974]: 12,400
+                  - generic [ref=e975]:
+                    - generic [ref=e976]: Prospectos
+                    - generic [ref=e978]: 58%
+                    - generic [ref=e979]: 7,200
+                  - generic [ref=e980]:
+                    - generic [ref=e981]: Leads
+                    - generic [ref=e983]: 53%
+                    - generic [ref=e984]: 3,800
+                  - generic [ref=e985]:
+                    - generic [ref=e986]: Calificados
+                    - generic [ref=e988]: 50%
+                    - generic [ref=e989]: 1,900
+                  - generic [ref=e990]:
+                    - generic [ref=e991]: Cerrados
+                    - generic [ref=e993]: 47%
+                    - generic [ref=e994]: "892"
+              - generic [ref=e995]:
+                - generic [ref=e996]: "#50 — Heatmap Calendar (heatmap (div grid), Vibiz (light, tabler icons))"
+                - generic [ref=e997]:
+                  - generic [ref=e998]: 
+                  - text: Heatmap Calendar
+                - generic [ref=e999]: Intensidad de actividad — últimas 20 semanas
+                - generic [ref=e1001]:
+                  - generic [ref=e1002]:
+                    - generic [ref=e1003]: Lun
+                    - generic [ref=e1005]: Mié
+                    - generic [ref=e1007]: Vie
+                    - generic [ref=e1009]: Dom
+                  - generic [ref=e1010]:
+                    - generic [ref=e1011]:
+                      - generic [ref=e1012]: Ene
+                      - generic [ref=e1015]: Feb
+                      - generic [ref=e1018]: Mar
+                      - generic [ref=e1021]: Abr
+                      - generic [ref=e1024]: May
+                      - generic [ref=e1027]: Jun
+                      - generic [ref=e1030]: Jul
+                    - generic [ref=e1032]:
+                      - generic [ref=e1033]:
+                        - 'generic "Semana 1, Día 1: 5" [ref=e1034]'
+                        - 'generic "Semana 1, Día 2: 6" [ref=e1035]'
+                        - 'generic "Semana 1, Día 3: 4" [ref=e1036]'
+                        - 'generic "Semana 1, Día 4: 5" [ref=e1037]'
+                        - 'generic "Semana 1, Día 5: 1" [ref=e1038]'
+                        - 'generic "Semana 1, Día 6: 3" [ref=e1039]'
+                        - 'generic "Semana 1, Día 7: 0" [ref=e1040]'
+                      - generic [ref=e1041]:
+                        - 'generic "Semana 2, Día 1: 1" [ref=e1042]'
+                        - 'generic "Semana 2, Día 2: 2" [ref=e1043]'
+                        - 'generic "Semana 2, Día 3: 3" [ref=e1044]'
+                        - 'generic "Semana 2, Día 4: 0" [ref=e1045]'
+                        - 'generic "Semana 2, Día 5: 0" [ref=e1046]'
+                        - 'generic "Semana 2, Día 6: 5" [ref=e1047]'
+                        - 'generic "Semana 2, Día 7: 5" [ref=e1048]'
+                      - generic [ref=e1049]:
+                        - 'generic "Semana 3, Día 1: 0" [ref=e1050]'
+                        - 'generic "Semana 3, Día 2: 1" [ref=e1051]'
+                        - 'generic "Semana 3, Día 3: 5" [ref=e1052]'
+                        - 'generic "Semana 3, Día 4: 3" [ref=e1053]'
+                        - 'generic "Semana 3, Día 5: 6" [ref=e1054]'
+                        - 'generic "Semana 3, Día 6: 5" [ref=e1055]'
+                        - 'generic "Semana 3, Día 7: 5" [ref=e1056]'
+                      - generic [ref=e1057]:
+                        - 'generic "Semana 4, Día 1: 6" [ref=e1058]'
+                        - 'generic "Semana 4, Día 2: 4" [ref=e1059]'
+                        - 'generic "Semana 4, Día 3: 2" [ref=e1060]'
+                        - 'generic "Semana 4, Día 4: 4" [ref=e1061]'
+                        - 'generic "Semana 4, Día 5: 6" [ref=e1062]'
+                        - 'generic "Semana 4, Día 6: 0" [ref=e1063]'
+                        - 'generic "Semana 4, Día 7: 0" [ref=e1064]'
+                      - generic [ref=e1065]:
+                        - 'generic "Semana 5, Día 1: 6" [ref=e1066]'
+                        - 'generic "Semana 5, Día 2: 4" [ref=e1067]'
+                        - 'generic "Semana 5, Día 3: 6" [ref=e1068]'
+                        - 'generic "Semana 5, Día 4: 1" [ref=e1069]'
+                        - 'generic "Semana 5, Día 5: 5" [ref=e1070]'
+                        - 'generic "Semana 5, Día 6: 5" [ref=e1071]'
+                        - 'generic "Semana 5, Día 7: 1" [ref=e1072]'
+                      - generic [ref=e1073]:
+                        - 'generic "Semana 6, Día 1: 0" [ref=e1074]'
+                        - 'generic "Semana 6, Día 2: 2" [ref=e1075]'
+                        - 'generic "Semana 6, Día 3: 4" [ref=e1076]'
+                        - 'generic "Semana 6, Día 4: 4" [ref=e1077]'
+                        - 'generic "Semana 6, Día 5: 1" [ref=e1078]'
+                        - 'generic "Semana 6, Día 6: 3" [ref=e1079]'
+                        - 'generic "Semana 6, Día 7: 2" [ref=e1080]'
+                      - generic [ref=e1081]:
+                        - 'generic "Semana 7, Día 1: 5" [ref=e1082]'
+                        - 'generic "Semana 7, Día 2: 0" [ref=e1083]'
+                        - 'generic "Semana 7, Día 3: 4" [ref=e1084]'
+                        - 'generic "Semana 7, Día 4: 6" [ref=e1085]'
+                        - 'generic "Semana 7, Día 5: 6" [ref=e1086]'
+                        - 'generic "Semana 7, Día 6: 0" [ref=e1087]'
+                        - 'generic "Semana 7, Día 7: 2" [ref=e1088]'
+                      - generic [ref=e1089]:
+                        - 'generic "Semana 8, Día 1: 0" [ref=e1090]'
+                        - 'generic "Semana 8, Día 2: 6" [ref=e1091]'
+                        - 'generic "Semana 8, Día 3: 1" [ref=e1092]'
+                        - 'generic "Semana 8, Día 4: 0" [ref=e1093]'
+                        - 'generic "Semana 8, Día 5: 5" [ref=e1094]'
+                        - 'generic "Semana 8, Día 6: 2" [ref=e1095]'
+                        - 'generic "Semana 8, Día 7: 2" [ref=e1096]'
+                      - generic [ref=e1097]:
+                        - 'generic "Semana 9, Día 1: 4" [ref=e1098]'
+                        - 'generic "Semana 9, Día 2: 5" [ref=e1099]'
+                        - 'generic "Semana 9, Día 3: 0" [ref=e1100]'
+                        - 'generic "Semana 9, Día 4: 1" [ref=e1101]'
+                        - 'generic "Semana 9, Día 5: 3" [ref=e1102]'
+                        - 'generic "Semana 9, Día 6: 4" [ref=e1103]'
+                        - 'generic "Semana 9, Día 7: 2" [ref=e1104]'
+                      - generic [ref=e1105]:
+                        - 'generic "Semana 10, Día 1: 5" [ref=e1106]'
+                        - 'generic "Semana 10, Día 2: 3" [ref=e1107]'
+                        - 'generic "Semana 10, Día 3: 5" [ref=e1108]'
+                        - 'generic "Semana 10, Día 4: 5" [ref=e1109]'
+                        - 'generic "Semana 10, Día 5: 5" [ref=e1110]'
+                        - 'generic "Semana 10, Día 6: 0" [ref=e1111]'
+                        - 'generic "Semana 10, Día 7: 0" [ref=e1112]'
+                      - generic [ref=e1113]:
+                        - 'generic "Semana 11, Día 1: 3" [ref=e1114]'
+                        - 'generic "Semana 11, Día 2: 3" [ref=e1115]'
+                        - 'generic "Semana 11, Día 3: 5" [ref=e1116]'
+                        - 'generic "Semana 11, Día 4: 5" [ref=e1117]'
+                        - 'generic "Semana 11, Día 5: 1" [ref=e1118]'
+                        - 'generic "Semana 11, Día 6: 2" [ref=e1119]'
+                        - 'generic "Semana 11, Día 7: 4" [ref=e1120]'
+                      - generic [ref=e1121]:
+                        - 'generic "Semana 12, Día 1: 3" [ref=e1122]'
+                        - 'generic "Semana 12, Día 2: 5" [ref=e1123]'
+                        - 'generic "Semana 12, Día 3: 5" [ref=e1124]'
+                        - 'generic "Semana 12, Día 4: 5" [ref=e1125]'
+                        - 'generic "Semana 12, Día 5: 5" [ref=e1126]'
+                        - 'generic "Semana 12, Día 6: 2" [ref=e1127]'
+                        - 'generic "Semana 12, Día 7: 2" [ref=e1128]'
+                      - generic [ref=e1129]:
+                        - 'generic "Semana 13, Día 1: 2" [ref=e1130]'
+                        - 'generic "Semana 13, Día 2: 1" [ref=e1131]'
+                        - 'generic "Semana 13, Día 3: 6" [ref=e1132]'
+                        - 'generic "Semana 13, Día 4: 0" [ref=e1133]'
+                        - 'generic "Semana 13, Día 5: 3" [ref=e1134]'
+                        - 'generic "Semana 13, Día 6: 5" [ref=e1135]'
+                        - 'generic "Semana 13, Día 7: 3" [ref=e1136]'
+                      - generic [ref=e1137]:
+                        - 'generic "Semana 14, Día 1: 4" [ref=e1138]'
+                        - 'generic "Semana 14, Día 2: 4" [ref=e1139]'
+                        - 'generic "Semana 14, Día 3: 4" [ref=e1140]'
+                        - 'generic "Semana 14, Día 4: 2" [ref=e1141]'
+                        - 'generic "Semana 14, Día 5: 2" [ref=e1142]'
+                        - 'generic "Semana 14, Día 6: 3" [ref=e1143]'
+                        - 'generic "Semana 14, Día 7: 4" [ref=e1144]'
+                      - generic [ref=e1145]:
+                        - 'generic "Semana 15, Día 1: 3" [ref=e1146]'
+                        - 'generic "Semana 15, Día 2: 4" [ref=e1147]'
+                        - 'generic "Semana 15, Día 3: 2" [ref=e1148]'
+                        - 'generic "Semana 15, Día 4: 5" [ref=e1149]'
+                        - 'generic "Semana 15, Día 5: 5" [ref=e1150]'
+                        - 'generic "Semana 15, Día 6: 6" [ref=e1151]'
+                        - 'generic "Semana 15, Día 7: 6" [ref=e1152]'
+                      - generic [ref=e1153]:
+                        - 'generic "Semana 16, Día 1: 5" [ref=e1154]'
+                        - 'generic "Semana 16, Día 2: 2" [ref=e1155]'
+                        - 'generic "Semana 16, Día 3: 2" [ref=e1156]'
+                        - 'generic "Semana 16, Día 4: 6" [ref=e1157]'
+                        - 'generic "Semana 16, Día 5: 0" [ref=e1158]'
+                        - 'generic "Semana 16, Día 6: 0" [ref=e1159]'
+                        - 'generic "Semana 16, Día 7: 5" [ref=e1160]'
+                      - generic [ref=e1161]:
+                        - 'generic "Semana 17, Día 1: 4" [ref=e1162]'
+                        - 'generic "Semana 17, Día 2: 0" [ref=e1163]'
+                        - 'generic "Semana 17, Día 3: 1" [ref=e1164]'
+                        - 'generic "Semana 17, Día 4: 5" [ref=e1165]'
+                        - 'generic "Semana 17, Día 5: 5" [ref=e1166]'
+                        - 'generic "Semana 17, Día 6: 5" [ref=e1167]'
+                        - 'generic "Semana 17, Día 7: 2" [ref=e1168]'
+                      - generic [ref=e1169]:
+                        - 'generic "Semana 18, Día 1: 1" [ref=e1170]'
+                        - 'generic "Semana 18, Día 2: 6" [ref=e1171]'
+                        - 'generic "Semana 18, Día 3: 6" [ref=e1172]'
+                        - 'generic "Semana 18, Día 4: 4" [ref=e1173]'
+                        - 'generic "Semana 18, Día 5: 3" [ref=e1174]'
+                        - 'generic "Semana 18, Día 6: 2" [ref=e1175]'
+                        - 'generic "Semana 18, Día 7: 3" [ref=e1176]'
+                      - generic [ref=e1177]:
+                        - 'generic "Semana 19, Día 1: 0" [ref=e1178]'
+                        - 'generic "Semana 19, Día 2: 0" [ref=e1179]'
+                        - 'generic "Semana 19, Día 3: 1" [ref=e1180]'
+                        - 'generic "Semana 19, Día 4: 0" [ref=e1181]'
+                        - 'generic "Semana 19, Día 5: 0" [ref=e1182]'
+                        - 'generic "Semana 19, Día 6: 6" [ref=e1183]'
+                        - 'generic "Semana 19, Día 7: 1" [ref=e1184]'
+                      - generic [ref=e1185]:
+                        - 'generic "Semana 20, Día 1: 1" [ref=e1186]'
+                        - 'generic "Semana 20, Día 2: 1" [ref=e1187]'
+                        - 'generic "Semana 20, Día 3: 3" [ref=e1188]'
+                        - 'generic "Semana 20, Día 4: 0" [ref=e1189]'
+                        - 'generic "Semana 20, Día 5: 0" [ref=e1190]'
+                        - 'generic "Semana 20, Día 6: 3" [ref=e1191]'
+                        - 'generic "Semana 20, Día 7: 1" [ref=e1192]'
+              - generic [ref=e1193]:
+                - generic [ref=e1194]: "#51 — Treemap (treemap (div), Vibiz (light, tabler icons))"
+                - generic [ref=e1195]:
+                  - generic [ref=e1196]: 
+                  - text: Treemap
+                - generic [ref=e1197]: Desglose de revenue por segmento (área proporcional)
+                - generic [ref=e1199]:
+                  - generic [ref=e1200] [cursor=pointer]:
+                    - generic [ref=e1201]: Enterprise
+                    - generic [ref=e1202]: 38%
+                  - generic [ref=e1203] [cursor=pointer]:
+                    - generic [ref=e1204]: SMB
+                    - generic [ref=e1205]: 26%
+                  - generic [ref=e1206] [cursor=pointer]:
+                    - generic [ref=e1207]: Startup
+                    - generic [ref=e1208]: 18%
+                  - generic [ref=e1209] [cursor=pointer]:
+                    - generic [ref=e1210]: Consumer
+                    - generic [ref=e1211]: 10%
+                  - generic [ref=e1212] [cursor=pointer]:
+                    - generic [ref=e1213]: Partner
+                    - generic [ref=e1214]: 5%
+                  - generic [ref=e1215] [cursor=pointer]:
+                    - generic [ref=e1216]: Otros
+                    - generic [ref=e1217]: 3%
+              - generic [ref=e1218]:
+                - generic [ref=e1219]: "#52 — Progress / KPI Bars (progress bars (div), Vibiz (light, tabler icons))"
+                - generic [ref=e1220]:
+                  - generic [ref=e1221]: 嗀
+                  - text: Progress / KPI Bars
+                - generic [ref=e1222]: Performance del equipo vs objetivo
+                - generic [ref=e1224]:
+                  - generic [ref=e1226]:
+                    - generic [ref=e1227]: Tasa Conversión
+                    - generic [ref=e1228]: 72%
+                  - generic [ref=e1232]:
+                    - generic [ref=e1233]: Satisfacción
+                    - generic [ref=e1234]: 88%
+                  - generic [ref=e1238]:
+                    - generic [ref=e1239]: Sprint Velocity
+                    - generic [ref=e1240]: 65%
+                  - generic [ref=e1244]:
+                    - generic [ref=e1245]: Bug Resolution
+                    - generic [ref=e1246]: 94%
+                  - generic [ref=e1250]:
+                    - generic [ref=e1251]: Deploy Freq.
+                    - generic [ref=e1252]: 58%
+                  - generic [ref=e1256]:
+                    - generic [ref=e1257]: Code Coverage
+                    - generic [ref=e1258]: 81%
+              - generic [ref=e1261]:
+                - generic [ref=e1262]: "#53 — Waffle Chart (waffle (div grid), Vibiz (light, tabler icons))"
+                - generic [ref=e1263]:
+                  - generic [ref=e1264]: ﲥ
+                  - text: Waffle Chart
+                - generic [ref=e1265]: Market share · 100 celdas = 100%
+                - generic [ref=e1368]:
+                  - generic [ref=e1369]: Directo 32%
+                  - generic [ref=e1371]: Orgánico 28%
+                  - generic [ref=e1373]: Pago 22%
+                  - generic [ref=e1375]: Social 18%
+              - generic [ref=e1377]:
+                - generic [ref=e1378]: "#54 — Candlestick / OHLC (candlestick (svg), Vibiz (light, tabler icons))"
+                - generic [ref=e1379]:
+                  - generic [ref=e1380]: 
+                  - text: Candlestick / OHLC
+                - generic [ref=e1381]: Precio de activo ficticio · Open, High, Low, Close
+                - img [ref=e1383]
+  - generic [ref=e1385]:
+    - generic [ref=e1386]:
+      - heading " Tendencia global por año" [level=1] [ref=e1387]:
+        - generic [ref=e1388]: 
+        - text: Tendencia global por año
+      - paragraph [ref=e1389]: Productividad (S/.) vs Atenciones · Evolución 2020–2026
+    - generic [ref=e1390]:
+      - generic [ref=e1391]:
+        - generic [ref=e1392]: "#55 — Tendencia global por anio (barras + linea) (bar+line (mixed), Dashboard original (Tailwind + FontAwesome))"
+        - generic [ref=e1393]:
+          - heading " Original · Tendencia Global" [level=2] [ref=e1394]:
+            - generic [ref=e1395]: 
+            - text: Original · Tendencia Global
+          - generic [ref=e1396]:
+            - generic [ref=e1397]: Productividad (S/)
+            - generic [ref=e1399]: Atenciones
+      - generic [ref=e1403]:
+        - generic [ref=e1404]: "#56 — Barras - Productividad & Atenciones (bar, Dashboard original (Tailwind + FontAwesome))"
+        - generic [ref=e1405]:
+          - heading " Barras · Productividad & Atenciones" [level=2] [ref=e1406]:
+            - generic [ref=e1407]: 
+            - text: Barras · Productividad & Atenciones
+          - generic [ref=e1408]:
+            - generic [ref=e1409]: Productividad (S/.)
+            - generic [ref=e1411]: Atenciones
+      - generic [ref=e1415]:
+        - generic [ref=e1416]: "#57 — Lineas - Evolucion comparativa (line, Dashboard original (Tailwind + FontAwesome))"
+        - generic [ref=e1417]:
+          - heading " Líneas · Evolución comparativa" [level=2] [ref=e1418]:
+            - generic [ref=e1419]: 
+            - text: Líneas · Evolución comparativa
+          - generic [ref=e1420]:
+            - generic [ref=e1421]: Productividad (S/.)
+            - generic [ref=e1423]: Atenciones
+      - generic [ref=e1427]:
+        - generic [ref=e1428]: "#58 — Area - Acumulado visual (line (area), Dashboard original (Tailwind + FontAwesome))"
+        - generic [ref=e1429]:
+          - heading " Área · Acumulado visual" [level=2] [ref=e1430]:
+            - generic [ref=e1431]: 
+            - text: Área · Acumulado visual
+          - generic [ref=e1432]:
+            - generic [ref=e1433]: Productividad (S/.)
+            - generic [ref=e1435]: Atenciones
+      - generic [ref=e1439]:
+        - generic [ref=e1440]: "#59 — Radar - Perfil por anio (normalizado) (radar, Dashboard original (Tailwind + FontAwesome))"
+        - generic [ref=e1441]:
+          - heading " Radar · Perfil por año (normalizado)" [level=2] [ref=e1442]:
+            - generic [ref=e1443]: 
+            - text: Radar · Perfil por año (normalizado)
+          - generic [ref=e1444]:
+            - generic [ref=e1445]: Productividad (índice)
+            - generic [ref=e1447]: Atenciones (índice)
+    - generic [ref=e1451]:
+      - generic [ref=e1452]: Resumen de métricas 2020 - 2026
+      - generic [ref=e1453]:
+        - generic [ref=e1454]:
+          - generic [ref=e1455]: 347,900
+          - generic [ref=e1456]: Atenciones totales (2020-26)
+        - generic [ref=e1457]:
+          - generic [ref=e1458]: 49,700
+          - generic [ref=e1459]: Promedio anual atenciones
+        - generic [ref=e1460]:
+          - generic [ref=e1461]: S/ 860
+          - generic [ref=e1462]: Máx. Productividad (2026)
+        - generic [ref=e1463]:
+          - generic [ref=e1464]: 71,200
+          - generic [ref=e1465]: Pico atenciones (2025)
+        - generic [ref=e1466]:
+          - generic [ref=e1467]: S/ 475
+          - generic [ref=e1468]: Productividad media (S/.)
+      - generic [ref=e1469]:
+        - generic [ref=e1470]: 
+        - strong [ref=e1471]: "Interpretación:"
+        - text: "La productividad (S/.) muestra un crecimiento sostenido desde 2020 hasta 2026, mientras que las atenciones presentan fluctuaciones con picos relevantes en 2022 y 2025. Eje izquierdo: Atenciones (unidades). Eje derecho: Productividad en soles."
+    - generic [ref=e1472]: 📊 Datos basados en tendencia global por año | Gráfico original integrado + gráficos adicionales | Chart.js
+  - generic [ref=e1473]:
+    - generic [ref=e1474]: "#60 — Tendencia global por anio (bar+line (mixed), Tailwind simple, fondo gris claro)"
+    - heading "Tendencia global por año" [level=2] [ref=e1476]
+  - generic [ref=e1479]:
+    - generic [ref=e1480]: "#61 — Network Activities (line (area, gradient fill), Tailwind simple, card blanca)"
+    - generic [ref=e1482]:
+      - generic [ref=e1483]:
+        - heading "Network Activities" [level=2] [ref=e1484]
+        - paragraph [ref=e1485]: Graph title sub-title
+      - generic [ref=e1486] [cursor=pointer]:
+        - img [ref=e1487]
+        - generic [ref=e1489]: October 25, 2015 - November 23, 2015
+        - img [ref=e1490]

@@ -1,0 +1,3125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Catálogo de Gráficos</title>
+<script>
+// Apply persisted theme before first paint to avoid flash-of-wrong-theme
+(function(){
+  try{
+    var t = localStorage.getItem('catalog-theme');
+    document.documentElement.setAttribute('data-theme', t === 'dark' ? 'dark' : 'light');
+  }catch(e){
+    document.documentElement.setAttribute('data-theme','light');
+  }
+})();
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Karla:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,sans-serif}
+
+/* ============ GLOBAL THEME TOKENS ============ */
+:root,
+html[data-theme="light"]{
+  --page-bg:#f4f7fc;
+  --page-bg-2:#eef2f9;
+  --card-bg:#ffffff;
+  --card-bg-soft:#f9fafc;
+  --card-border:rgba(15,23,42,.08);
+  --text-primary:#1a2634;
+  --text-secondary:#5e727f;
+  --grid-line:#e5e7eb;
+  --grid-line-soft:#f3f4f6;
+  --header-bg:#0f172a;
+  --header-text:#e2e8f0;
+}
+html[data-theme="dark"]{
+  --page-bg:#0a1120;
+  --page-bg-2:#0d1626;
+  --card-bg:#121c30;
+  --card-bg-soft:#0e1726;
+  --card-border:rgba(148,197,255,.14);
+  --text-primary:#e6f1ff;
+  --text-secondary:#94a3b8;
+  --grid-line:rgba(148,197,255,.12);
+  --grid-line-soft:rgba(148,197,255,.07);
+  --header-bg:#04101e;
+  --header-text:#dbeafe;
+}
+
+/* ============ GLOBAL THEME TOGGLE BUTTON ============ */
+#global-theme-toggle{
+  position:fixed;top:14px;right:14px;z-index:100000;
+  display:flex;align-items:center;gap:7px;
+  padding:9px 16px;border:1px solid var(--card-border);
+  border-radius:999px;cursor:pointer;
+  font-family:'Karla','DM Sans',system-ui,sans-serif;font-size:.8rem;font-weight:700;letter-spacing:.04em;
+  background:var(--card-bg);color:var(--text-primary);
+  box-shadow:0 4px 18px rgba(0,0,0,.12);
+  transition:transform .15s,background .25s,color .25s,border-color .25s;
+}
+#global-theme-toggle:hover{transform:scale(1.05)}
+#global-theme-toggle svg{width:14px;height:14px;flex-shrink:0}
+#global-theme-toggle .gt-icon-dark{display:none}
+html[data-theme="dark"] #global-theme-toggle .gt-icon-light{display:none}
+html[data-theme="dark"] #global-theme-toggle .gt-icon-dark{display:inline-flex}
+#global-theme-toggle .gt-label::after{content:"Modo oscuro"}
+html[data-theme="dark"] #global-theme-toggle .gt-label::after{content:"Modo claro"}
+#global-theme-toggle .gt-label{font-size:0}
+#global-theme-toggle .gt-label::after{font-size:.8rem}
+
+.catalog-header{padding:24px 28px;background:var(--header-bg);color:var(--header-text);transition:background .25s,color .25s}
+.catalog-header h1{margin:0 0 6px;font-size:1.6rem;font-weight:800}
+.catalog-header p{margin:0;font-size:.85rem;opacity:.7;max-width:900px;line-height:1.5}
+.catalog-header code{background:rgba(255,255,255,.1);padding:1px 6px;border-radius:4px}
+
+/* Chart badge overlay shown on every numbered card */
+.chart-badge{
+  font-family:'Fira Code',monospace;
+  font-size:.62rem;
+  font-weight:700;
+  letter-spacing:.02em;
+  color:#0f172a;
+  background:#fde047;
+  padding:2px 8px;
+  border-radius:6px;
+  display:inline-block;
+  margin-bottom:6px;
+  width:fit-content;
+  z-index:5;
+  position:relative;
+}
+.chart-badge-plain{margin:0 0 10px 0}
+
+
+.theme-arctic *,
+.theme-arctic *::before,
+.theme-arctic *::after{box-sizing:border-box;margin:0;padding:0}
+.theme-arctic{--arctic-r:14px;--arctic-t:.3s ease}
+.theme-arctic{
+  --arctic-accent:#38BDF8;--arctic-accent-rgb:56,189,248;
+  --arctic-text:#E0F7FF;--arctic-tint:147,210,254;
+}
+html[data-theme="light"] .theme-arctic{
+  --arctic-accent:#0284C7;--arctic-accent-rgb:2,132,199;
+  --arctic-text:var(--text-primary);--arctic-tint:2,100,160;
+}
+.theme-arctic{font-family:'Karla',sans-serif;padding:28px 24px;min-height:100vh;transition:background var(--arctic-t),color var(--arctic-t);overflow-x:hidden}
+.theme-arctic{background:var(--page-bg);color:var(--text-secondary)}
+html[data-theme="dark"] .theme-arctic{background:linear-gradient(160deg,#04101E 0%,#091628 45%,#0A1E3A 100%);color:#BAE6FD}
+
+/* Header */
+.theme-arctic .hdr{max-width:1440px;margin:0 auto 36px;padding-bottom:20px;border-bottom:1px solid}
+.theme-arctic .hdr{border-color:rgba(var(--arctic-tint),.12)}
+.theme-arctic .hdr-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 12px;border-radius:999px;font-size:.68rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px}
+.theme-arctic .hdr-badge{background:rgba(var(--arctic-accent-rgb),.1);color:var(--arctic-accent);border:1px solid rgba(var(--arctic-accent-rgb),.2)}
+.theme-arctic .hdr h1{font-size:2rem;font-weight:800;letter-spacing:-.025em;line-height:1.1}
+.theme-arctic .hdr h1{color:var(--arctic-text)}
+.theme-arctic .hdr p{font-size:.9rem;margin-top:6px;opacity:.55;font-weight:400}
+
+/* Main */
+.theme-arctic .main{max-width:1440px;margin:0 auto;width:100%}
+
+/* KPI grid */
+.theme-arctic .kpi-g{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:36px}
+.theme-arctic .kpi{padding:18px;border-radius:16px;transition:background var(--arctic-t),border-color var(--arctic-t);min-width:0;overflow:hidden}
+.theme-arctic .kpi{background:rgba(var(--arctic-tint),.07);border:1px solid rgba(var(--arctic-tint),.18)}
+.theme-arctic .kpi-lb{font-size:.66rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;opacity:.5}
+.theme-arctic .kpi-vl{font-size:1.75rem;font-weight:800;letter-spacing:-.02em;line-height:1.1;margin:4px 0}
+.theme-arctic .kpi-vl{color:var(--arctic-text)}
+.theme-arctic .kpi-bd{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:999px;font-size:.66rem;font-weight:700;width:fit-content}
+.theme-arctic .kup{background:rgba(34,197,94,.14);color:#16A34A}
+html[data-theme="dark"] .theme-arctic .kup{color:#86EFAC}
+.theme-arctic .kdn{background:rgba(239,68,68,.14);color:#DC2626}
+html[data-theme="dark"] .theme-arctic .kdn{color:#FCA5A5}
+.theme-arctic .kpi-spark{height:44px;margin-top:8px;width:100%;display:block;max-height:44px}
+
+
+/* Sections */
+.theme-arctic .sec{margin-bottom:44px;width:100%}
+.theme-arctic .sec-hdr{display:flex;align-items:baseline;gap:14px;margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid}
+.theme-arctic .sec-hdr{border-color:rgba(var(--arctic-tint),.1)}
+.theme-arctic .sec-hdr h2{font-size:.85rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.theme-arctic .sec-hdr h2{color:var(--arctic-accent)}
+.theme-arctic .sec-hdr .ss{font-size:.78rem;opacity:.45;font-weight:500}
+.theme-arctic .sec-hdr .sc{margin-left:auto;font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;opacity:.35}
+
+/* Grids */
+.theme-arctic .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.theme-arctic .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.theme-arctic .g5{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.theme-arctic .g2{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+
+/* Chart card */
+.theme-arctic .cc{border-radius:var(--arctic-r);padding:15px;display:flex;flex-direction:column;gap:8px;transition:all .2s;cursor:default;min-width:0;overflow:hidden}
+.theme-arctic .cc:hover{transform:translateY(-2px)}
+.theme-arctic .cc{background:rgba(var(--arctic-tint),.06);border:1px solid rgba(var(--arctic-tint),.14)}
+.theme-arctic .cc:hover{background:rgba(var(--arctic-tint),.09);border-color:rgba(var(--arctic-accent-rgb),.3);box-shadow:0 6px 28px rgba(var(--arctic-accent-rgb),.1)}
+.theme-arctic .cc-t{font-size:.76rem;font-weight:700;letter-spacing:.03em}
+.theme-arctic .cc-t{color:var(--arctic-text)}
+.theme-arctic .cc-s{font-size:.62rem;margin-top:1px;opacity:.45;font-weight:500}
+
+/* Chart wrapper */
+.theme-arctic .cw{height:200px;position:relative;width:100%;overflow:hidden}
+.theme-arctic .cw canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+.theme-arctic .cw-sm{height:160px;position:relative;width:100%;overflow:hidden}
+.theme-arctic .cw-sm canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+.theme-arctic .cw-md{height:230px;position:relative;width:100%;overflow:hidden}
+.theme-arctic .cw-md canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+.theme-arctic .cw-lg{height:260px}
+
+/* Span */
+.theme-arctic .s2{grid-column:span 2}
+
+/* Gauge center */
+.theme-arctic .gc{position:relative}
+.theme-arctic .gv{position:absolute;left:50%;transform:translateX(-50%);bottom:14px;text-align:center}
+.theme-arctic .gv-num{font-size:1.4rem;font-weight:800;letter-spacing:-.02em;display:block}
+.theme-arctic .gv-lbl{font-size:.6rem;font-weight:600;opacity:.5;letter-spacing:.05em;text-transform:uppercase;display:block}
+.theme-arctic .gv-num{color:var(--arctic-accent)}
+
+/* ========== CUSTOM CHARTS ========== */
+
+/* FUNNEL */
+.theme-arctic .funnel{display:flex;flex-direction:column;gap:5px;justify-content:center;height:100%;padding:4px 0;width:100%;overflow:hidden}
+.theme-arctic .fn-row{display:flex;align-items:center;gap:8px;width:100%}
+.theme-arctic .fn-lbl{font-size:.65rem;font-weight:600;opacity:.6;width:72px;text-align:right;flex-shrink:0}
+.theme-arctic .fn-bar-w{flex:1;display:flex;justify-content:center;min-width:0}
+.theme-arctic .fn-bar{height:30px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:700;min-width:40px;max-width:100%;transition:background var(--arctic-t);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.theme-arctic .fn-num{font-size:.65rem;font-weight:700;width:48px;opacity:.7;flex-shrink:0;font-family:'Fira Code',monospace;text-align:right}
+
+/* HEATMAP */
+.theme-arctic .hm-outer{overflow-x:auto;width:100%}
+.theme-arctic .hm-wrap{display:flex;gap:3px;width:100%}
+.theme-arctic .hm-days{display:flex;flex-direction:column;gap:3px;padding-top:16px;flex-shrink:0}
+.theme-arctic .hm-day-lbl{font-size:.5rem;height:12px;display:flex;align-items:center;opacity:.4}
+.theme-arctic .hm-grid{display:flex;gap:3px;flex:1;overflow-x:auto}
+.theme-arctic .hm-col{display:flex;flex-direction:column;gap:3px}
+.theme-arctic .hm-cell{width:12px;height:12px;border-radius:2px;cursor:pointer;transition:opacity .15s,transform .15s;flex-shrink:0}
+.theme-arctic .hm-cell:hover{opacity:.7;transform:scale(1.3)}
+.theme-arctic .hm-month-row{display:flex;gap:3px;margin-bottom:3px;padding-left:0}
+.theme-arctic .hm-mlbl{font-size:.52rem;opacity:.38;width:12px;text-align:center;letter-spacing:0;flex-shrink:0}
+
+/* TREEMAP */
+.theme-arctic .treemap{display:flex;flex-wrap:wrap;gap:4px;height:100%;align-content:flex-start;width:100%;overflow:hidden}
+.theme-arctic .tm{border-radius:8px;padding:8px 10px;display:flex;flex-direction:column;justify-content:flex-end;cursor:pointer;transition:opacity .15s,transform .15s;overflow:hidden;position:relative;min-width:0}
+.theme-arctic .tm:hover{opacity:.8;transform:scale(.98)}
+.theme-arctic .tm-n{font-size:.72rem;font-weight:700;position:relative;z-index:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.theme-arctic .tm-v{font-size:.6rem;opacity:.7;position:relative;z-index:1;margin-top:2px}
+
+/* WAFFLE */
+.theme-arctic .waffle-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:3px;height:100%;align-content:start;width:100%}
+.theme-arctic .wf{aspect-ratio:1;border-radius:2px;transition:background var(--arctic-t);width:100%}
+.theme-arctic .wf:hover{opacity:.7;transform:scale(1.15)}
+
+/* PROGRESS BARS */
+.theme-arctic .plist{display:flex;flex-direction:column;gap:8px;height:100%;justify-content:center;width:100%;overflow:hidden}
+.theme-arctic .pi{display:flex;flex-direction:column;gap:4px;width:100%}
+.theme-arctic .pi-h{display:flex;justify-content:space-between;align-items:center;width:100%}
+.theme-arctic .pi-n{font-size:.72rem;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.theme-arctic .pi-p{font-size:.72rem;font-weight:800;font-family:'Fira Code',monospace;flex-shrink:0}
+.theme-arctic .pi-p{color:var(--arctic-accent)}
+.theme-arctic .pi-trk{height:7px;border-radius:999px;overflow:hidden;width:100%}
+.theme-arctic .pi-trk{background:rgba(var(--arctic-tint),.1)}
+.theme-arctic .pi-fill{height:100%;border-radius:999px;transition:width .6s ease}
+
+/* BOX PLOT */
+.theme-arctic .bplot-svg{width:100%;height:100%;overflow:visible}
+
+/* CANDLESTICK */
+.theme-arctic .cs-svg{width:100%;height:100%;overflow:visible}
+
+/* SUNBURST (custom SVG) */
+.theme-arctic .sb-svg{width:100%;height:100%}
+
+/* LEGEND */
+.theme-arctic .lg{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;overflow:hidden}
+.theme-arctic .lg-i{display:flex;align-items:center;gap:4px;font-size:.62rem;opacity:.7;cursor:default;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.theme-arctic .lg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+
+/* Responsive */
+@media(max-width:1100px){
+.theme-arctic .kpi-g{grid-template-columns:repeat(2,1fr)}
+.theme-arctic .g3,
+.theme-arctic .g4,
+.theme-arctic .g5{grid-template-columns:repeat(2,1fr)}
+.theme-arctic .s2{grid-column:span 1}
+}
+@media(max-width:680px){
+.theme-arctic .kpi-g,
+.theme-arctic .g2,
+.theme-arctic .g3,
+.theme-arctic .g4,
+.theme-arctic .g5{grid-template-columns:1fr}
+.theme-arctic .hdr h1{font-size:1.5rem}
+.theme-arctic .s2{grid-column:span 1}
+}
+
+
+
+/* ── PALETTE TOKENS ── */
+
+.theme-vibiz *,
+.theme-vibiz *::before,
+.theme-vibiz *::after{box-sizing:border-box;margin:0;padding:0}
+
+/* Glass tokens: light = white glass over gradient, dark = slate glass */
+.theme-vibiz{
+  --glass-1:rgba(255,255,255,0.42);
+  --glass-2:rgba(255,255,255,0.28);
+  --glass-3:rgba(255,255,255,0.6);
+  --glass-4:rgba(255,255,255,0.58);
+  --glass-5:rgba(255,255,255,0.65);
+  --glass-6:rgba(255,255,255,0.85);
+  --glass-7:rgba(255,255,255,0.7);
+  --glass-8:rgba(255,255,255,0.88);
+  --glass-9:rgba(255,255,255,0.9);
+  --glass-border-1:rgba(255,255,255,0.72);
+  --glass-border-2:rgba(255,255,255,0.6);
+  --glass-border-3:rgba(255,255,255,0.8);
+  --glass-border-4:rgba(255,255,255,0.85);
+  --glass-border-5:rgba(255,255,255,0.9);
+  --vb-text-strong:#111827;
+  --vb-text-mid:#374151;
+  --vb-text-soft:#6b7280;
+  --vb-text-faint:#9ca3af;
+  --vb-text-faint2:#d1d5db;
+}
+html[data-theme="dark"] .theme-vibiz{
+  --glass-1:rgba(18,28,48,0.55);
+  --glass-2:rgba(18,28,48,0.42);
+  --glass-3:rgba(30,41,59,0.55);
+  --glass-4:rgba(18,28,48,0.6);
+  --glass-5:rgba(18,28,48,0.62);
+  --glass-6:rgba(30,41,59,0.75);
+  --glass-7:rgba(30,41,59,0.6);
+  --glass-8:rgba(20,30,50,0.92);
+  --glass-9:rgba(30,41,59,0.85);
+  --glass-border-1:rgba(148,197,255,0.16);
+  --glass-border-2:rgba(148,197,255,0.12);
+  --glass-border-3:rgba(148,197,255,0.18);
+  --glass-border-4:rgba(148,197,255,0.16);
+  --glass-border-5:rgba(148,197,255,0.2);
+  --vb-text-strong:#e6f1ff;
+  --vb-text-mid:#cbd5e1;
+  --vb-text-soft:#94a3b8;
+  --vb-text-faint:#7c8aa0;
+  --vb-text-faint2:#475569;
+}
+
+.theme-vibiz{
+  font-family:'DM Sans',sans-serif;
+  min-height:100vh;
+  background:linear-gradient(135deg,var(--bg-a) 0%,var(--bg-b) 35%,var(--bg-c) 65%,var(--bg-a) 100%);
+  display:flex;align-items:flex-start;justify-content:center;
+  padding:20px;transition:background var(--vibiz-t);
+}
+html[data-theme="dark"] .theme-vibiz{
+  background:linear-gradient(135deg,#0a1120 0%,#0d1626 35%,#0a1120 65%,#0d1626 100%);
+}
+
+/* ── APP SHELL ── */
+.theme-vibiz #vibiz-app{
+  width:100%;max-width:1440px;min-height:calc(100vh - 40px);
+  display:flex;border-radius:20px;overflow:hidden;
+  background:var(--glass-1);
+  backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+  border:1px solid var(--glass-border-1);
+  box-shadow:0 8px 48px rgba(var(--acc-rgb),.1),inset 0 1px 0 rgba(255,255,255,0.85);
+  transition:box-shadow var(--vibiz-t),background var(--vibiz-t),border-color var(--vibiz-t);
+}
+
+/* ── ICON RAIL ── */
+.theme-vibiz .rail{
+  width:50px;flex-shrink:0;
+  display:flex;flex-direction:column;align-items:center;
+  padding:14px 0;gap:6px;
+  background:var(--glass-2);
+  border-right:1px solid var(--glass-border-2);
+}
+.theme-vibiz .rb{
+  width:34px;height:34px;border-radius:9px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:var(--vb-text-faint);font-size:17px;transition:all .15s;
+}
+.theme-vibiz .rb:hover{background:rgba(var(--acc-rgb),.1);color:var(--acc)}
+.theme-vibiz .rb.on{background:rgba(var(--acc-rgb),.15);color:var(--acc)}
+.theme-vibiz .av{
+  width:30px;height:30px;border-radius:50%;margin-top:auto;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:600;cursor:pointer;
+  background:rgba(var(--acc-rgb),.18);color:var(--acc-dark);
+  border:1.5px solid rgba(var(--acc-rgb),.28);
+  transition:background var(--vibiz-t),border-color var(--vibiz-t),color var(--vibiz-t);
+}
+
+/* ── SIDEBAR ── */
+.theme-vibiz .sidebar{
+  width:200px;flex-shrink:0;
+  display:flex;flex-direction:column;gap:9px;padding:14px 11px;
+  background:var(--glass-2);
+  border-right:1px solid var(--glass-border-2);
+  overflow-y:auto;
+}
+.theme-vibiz .sidebar::-webkit-scrollbar{display:none}
+.theme-vibiz .logo{display:flex;align-items:center;gap:7px;padding:0 2px 4px}
+.theme-vibiz .logo i{font-size:20px;color:var(--acc)}
+.theme-vibiz .logo span{font-size:15px;font-weight:700;color:var(--vb-text-strong)}
+.theme-vibiz .search-box{
+  display:flex;align-items:center;gap:7px;padding:7px 10px;border-radius:10px;
+  background:var(--glass-3);border:1px solid var(--glass-border-3);
+  font-size:12px;color:var(--vb-text-faint);
+}
+.theme-vibiz .sb-sec{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--vb-text-faint);padding:0 2px;margin-top:4px}
+.theme-vibiz .nav-item{
+  display:flex;align-items:center;gap:8px;
+  padding:7px 10px;border-radius:10px;
+  cursor:pointer;font-size:12px;font-weight:500;color:var(--vb-text-soft);transition:all .15s;
+}
+.theme-vibiz .nav-item:hover{background:var(--glass-7);color:var(--vb-text-strong)}
+.theme-vibiz .nav-item.on{background:rgba(var(--acc-rgb),.12);color:var(--acc);border:1px solid rgba(var(--acc-rgb),.2)}
+.theme-vibiz .nav-item i{font-size:15px}
+.theme-vibiz .nav-badge{margin-left:auto;font-size:9px;font-weight:700;padding:2px 6px;border-radius:999px;background:rgba(var(--acc-rgb),.15);color:var(--acc)}
+
+/* ── MAIN AREA ── */
+.theme-vibiz .main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+
+/* ── TOPBAR ── */
+.theme-vibiz .topbar{
+  display:flex;align-items:center;gap:0;
+  padding:0 20px;
+  background:var(--glass-2);
+  border-bottom:1px solid var(--glass-border-2);
+  flex-shrink:0;
+}
+.theme-vibiz .tab{
+  display:flex;align-items:center;gap:6px;
+  padding:13px 16px 11px;
+  font-size:12px;font-weight:500;color:var(--vb-text-faint);
+  cursor:pointer;border-bottom:2px solid transparent;
+  transition:all .15s;margin-bottom:-1px;white-space:nowrap;
+}
+.theme-vibiz .tab i{font-size:14px}
+.theme-vibiz .tab:hover{color:var(--vb-text-mid)}
+.theme-vibiz .tab.on{color:var(--acc);border-bottom-color:var(--acc)}
+.theme-vibiz .tab-spacer{flex:1}
+.theme-vibiz .top-actions{display:flex;align-items:center;gap:10px;padding:0 4px}
+.theme-vibiz .top-actions i{font-size:15px;color:var(--vb-text-faint);cursor:pointer;transition:color .15s}
+.theme-vibiz .top-actions i:hover{color:var(--acc)}
+
+/* ── SCROLL AREA ── */
+.theme-vibiz .scroll-area{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:20px}
+.theme-vibiz .scroll-area::-webkit-scrollbar{width:4px}
+.theme-vibiz .scroll-area::-webkit-scrollbar-track{background:transparent}
+.theme-vibiz .scroll-area::-webkit-scrollbar-thumb{background:rgba(var(--acc-rgb),.25);border-radius:2px}
+
+/* ── KPI ROW ── */
+.theme-vibiz .kpi-g{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.theme-vibiz .kpi{
+  padding:16px;border-radius:14px;
+  background:var(--glass-3);border:1px solid var(--glass-border-4);
+  backdrop-filter:blur(8px);
+  box-shadow:0 2px 12px rgba(var(--acc-rgb),.06),inset 0 1px 0 rgba(255,255,255,0.9);
+  transition:transform .15s,box-shadow .15s,background var(--vibiz-t),border-color var(--vibiz-t);cursor:default;
+}
+.theme-vibiz .kpi:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(var(--acc-rgb),.1)}
+.theme-vibiz .kpi-lb{font-size:.66rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--vb-text-faint)}
+.theme-vibiz .kpi-vl{font-size:1.65rem;font-weight:700;letter-spacing:-.02em;line-height:1.15;margin:3px 0;color:var(--vb-text-strong)}
+.theme-vibiz .kpi-bd{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:999px;font-size:.65rem;font-weight:700;width:fit-content}
+.theme-vibiz .kup{background:rgba(16,185,129,.12);color:#065f46}
+html[data-theme="dark"] .theme-vibiz .kup{color:#6ee7b7}
+.theme-vibiz .kdn{background:rgba(239,68,68,.12);color:#991b1b}
+html[data-theme="dark"] .theme-vibiz .kdn{color:#fca5a5}
+.theme-vibiz .kpi-spark{height:40px;margin-top:8px;width:100%;display:block;max-height:40px}
+
+/* ── SECTION HEADER ── */
+.theme-vibiz .sec-hdr{
+  display:flex;align-items:center;gap:10px;
+  padding-bottom:10px;border-bottom:1px solid var(--glass-border-2);
+  margin-bottom:14px;
+}
+.theme-vibiz .sec-hdr h2{font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--acc)}
+.theme-vibiz .sec-hdr .ss{font-size:.75rem;color:var(--vb-text-faint);font-weight:400}
+.theme-vibiz .sec-hdr .sc{margin-left:auto;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--vb-text-faint2)}
+
+/* ── GRIDS ── */
+.theme-vibiz .g2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.theme-vibiz .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.theme-vibiz .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.theme-vibiz .g5{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.theme-vibiz .s2{grid-column:span 2}
+
+/* ── CHART CARD ── */
+.theme-vibiz .cc{
+  background:var(--glass-4);
+  border:1px solid var(--glass-border-4);
+  border-radius:14px;padding:14px;
+  backdrop-filter:blur(8px);
+  display:flex;flex-direction:column;gap:6px;
+  transition:transform .15s,box-shadow .15s,background var(--vibiz-t),border-color var(--vibiz-t);cursor:default;min-width:0;overflow:hidden;
+}
+.theme-vibiz .cc:hover{transform:translateY(-2px);box-shadow:0 6px 22px rgba(var(--acc-rgb),.1);border-color:rgba(var(--acc-rgb),.25)}
+.theme-vibiz .cc-t{font-size:.76rem;font-weight:600;color:var(--vb-text-mid);display:flex;align-items:center;gap:5px}
+.theme-vibiz .cc-t i{font-size:14px;color:var(--acc)}
+.theme-vibiz .cc-s{font-size:.65rem;color:var(--vb-text-faint);font-weight:400;margin-top:-2px}
+
+/* ── CHART WRAPPERS ── */
+.theme-vibiz .cw{height:190px;position:relative;width:100%;overflow:hidden}
+.theme-vibiz .cw canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+.theme-vibiz .cw-sm{height:155px;position:relative;width:100%;overflow:hidden}
+.theme-vibiz .cw-sm canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+.theme-vibiz .cw-md{height:220px;position:relative;width:100%;overflow:hidden}
+.theme-vibiz .cw-md canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+
+/* ── GAUGE ── */
+.theme-vibiz .gc{position:relative}
+.theme-vibiz .gv{position:absolute;left:50%;transform:translateX(-50%);bottom:10px;text-align:center}
+.theme-vibiz .gv-num{font-size:1.3rem;font-weight:700;display:block;color:var(--acc)}
+.theme-vibiz .gv-lbl{font-size:.58rem;font-weight:600;color:var(--vb-text-faint);letter-spacing:.05em;text-transform:uppercase;display:block}
+
+/* ── FUNNEL ── */
+.theme-vibiz .funnel{display:flex;flex-direction:column;gap:5px;justify-content:center;height:100%;padding:4px 0;width:100%}
+.theme-vibiz .fn-row{display:flex;align-items:center;gap:8px;width:100%}
+.theme-vibiz .fn-lbl{font-size:.65rem;font-weight:600;color:var(--vb-text-soft);width:68px;text-align:right;flex-shrink:0}
+.theme-vibiz .fn-bar-w{flex:1;display:flex;justify-content:center;min-width:0}
+.theme-vibiz .fn-bar{height:28px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:.67rem;font-weight:700;min-width:36px;max-width:100%;overflow:hidden;white-space:nowrap;color:#fff}
+.theme-vibiz .fn-num{font-size:.64rem;font-weight:600;width:44px;color:var(--vb-text-faint);flex-shrink:0;font-family:'Fira Code',monospace;text-align:right}
+
+/* ── PROGRESS ── */
+.theme-vibiz .plist{display:flex;flex-direction:column;gap:8px;height:100%;justify-content:center;width:100%}
+.theme-vibiz .pi{display:flex;flex-direction:column;gap:3px}
+.theme-vibiz .pi-h{display:flex;justify-content:space-between;align-items:center}
+.theme-vibiz .pi-n{font-size:.71rem;font-weight:500;color:var(--vb-text-mid);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.theme-vibiz .pi-p{font-size:.71rem;font-weight:700;font-family:'Fira Code',monospace;color:var(--acc)}
+.theme-vibiz .pi-trk{height:6px;border-radius:999px;overflow:hidden;background:rgba(var(--acc-rgb),.1)}
+.theme-vibiz .pi-fill{height:100%;border-radius:999px;transition:width .6s ease}
+
+/* ── WAFFLE ── */
+.theme-vibiz .waffle-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:3px;height:100%;align-content:start;width:100%}
+.theme-vibiz .wf{aspect-ratio:1;border-radius:2px;width:100%;cursor:default;transition:opacity .15s}
+.theme-vibiz .wf:hover{opacity:.65}
+
+/* ── TREEMAP ── */
+.theme-vibiz .treemap{display:flex;flex-wrap:wrap;gap:4px;height:100%;align-content:flex-start;width:100%;overflow:hidden}
+.theme-vibiz .tm{border-radius:8px;padding:7px 9px;display:flex;flex-direction:column;justify-content:flex-end;cursor:pointer;transition:opacity .15s;overflow:hidden;min-width:0}
+.theme-vibiz .tm:hover{opacity:.8}
+.theme-vibiz .tm-n{font-size:.7rem;font-weight:700;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.theme-vibiz .tm-v{font-size:.58rem;color:rgba(255,255,255,.75);margin-top:2px}
+
+/* ── LEGEND ── */
+.theme-vibiz .lg{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
+.theme-vibiz .lg-i{display:flex;align-items:center;gap:4px;font-size:.62rem;color:var(--vb-text-soft)}
+.theme-vibiz .lg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+
+/* ── STAT PILLS ── */
+.theme-vibiz .stats-row{display:flex;gap:10px;flex-wrap:wrap}
+.theme-vibiz .stat{
+  flex:1;min-width:90px;padding:12px 14px;border-radius:12px;
+  background:var(--glass-5);border:1px solid var(--glass-border-5);
+  display:flex;flex-direction:column;gap:2px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.9);
+  transition:background var(--vibiz-t),border-color var(--vibiz-t);
+}
+.theme-vibiz .stat-val{font-size:20px;font-weight:700;color:var(--vb-text-strong)}
+.theme-vibiz .stat-lbl{font-size:10px;color:var(--vb-text-faint)}
+.theme-vibiz .stat-chg{font-size:10px;font-weight:600}
+.theme-vibiz .stat-chg.up{color:#10b981}.stat-chg.dn{color:#ef4444}
+
+/* ── PALETTE PANEL ── */
+.theme-vibiz .pal-btn{
+  position:fixed;bottom:20px;right:20px;z-index:1000;
+  width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;
+  background:var(--glass-6);
+  box-shadow:0 4px 16px rgba(0,0,0,.12),inset 0 1px 0 rgba(255,255,255,.9);
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;color:var(--acc);transition:transform .15s,box-shadow .15s,background var(--vibiz-t);
+  backdrop-filter:blur(10px);
+}
+.theme-vibiz .pal-btn:hover{transform:scale(1.1);box-shadow:0 6px 24px rgba(0,0,0,.15)}
+.theme-vibiz .pal-panel{
+  position:fixed;bottom:72px;right:20px;z-index:1000;
+  background:var(--glass-8);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border:1px solid var(--glass-border-5);
+  border-radius:16px;padding:16px;
+  box-shadow:0 8px 32px rgba(0,0,0,.12);
+  min-width:220px;display:none;flex-direction:column;gap:10px;
+}
+.theme-vibiz .pal-panel.open{display:flex}
+.theme-vibiz .pal-title{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--vb-text-faint)}
+.theme-vibiz .pal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.theme-vibiz .pal-swatch{
+  display:flex;flex-direction:column;align-items:center;gap:5px;
+  padding:8px 6px;border-radius:10px;cursor:pointer;border:2px solid transparent;
+  transition:all .15s;
+}
+.theme-vibiz .pal-swatch:hover{background:rgba(0,0,0,.04)}
+html[data-theme="dark"] .theme-vibiz .pal-swatch:hover{background:rgba(255,255,255,.06)}
+.theme-vibiz .pal-swatch.active{border-color:rgba(0,0,0,.15);background:rgba(255,255,255,.8)}
+html[data-theme="dark"] .theme-vibiz .pal-swatch.active{border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.08)}
+.theme-vibiz .pal-circle{width:32px;height:32px;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.theme-vibiz .pal-name{font-size:.65rem;font-weight:600;color:var(--vb-text-soft);text-align:center}
+
+/* ── SVG charts ── */
+.theme-vibiz .bplot-svg{width:100%;height:100%;overflow:visible}
+.theme-vibiz .cs-svg{width:100%;height:100%;overflow:visible}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1100px){
+.theme-vibiz .kpi-g{grid-template-columns:repeat(2,1fr)}
+.theme-vibiz .g3,
+.theme-vibiz .g4,
+.theme-vibiz .g5{grid-template-columns:repeat(2,1fr)}
+.theme-vibiz .s2{grid-column:span 1}
+.theme-vibiz .sidebar{width:160px}
+}
+@media(max-width:700px){
+.theme-vibiz{padding:10px}
+.theme-vibiz .sidebar{display:none}
+.theme-vibiz .kpi-g,
+.theme-vibiz .g2,
+.theme-vibiz .g3,
+.theme-vibiz .g4,
+.theme-vibiz .g5{grid-template-columns:1fr}
+.theme-vibiz .s2{grid-column:span 1}
+}
+
+
+
+.theme-graficos *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+.theme-graficos{
+            background: var(--page-bg);
+            padding: 2rem 1.5rem;
+            color: var(--text-primary);
+            transition: background .25s, color .25s;
+        }
+
+        /* Contenedor principal */
+.theme-graficos .dashboard-container{
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Encabezado */
+.theme-graficos .header{
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+.theme-graficos .header h1{
+            font-size: 1.9rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #1e466e, #2b6a9f);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+        }
+.theme-graficos .header p{
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+            font-weight: 500;
+        }
+
+        /* Grid de gráficos: diseño responsivo */
+.theme-graficos .charts-grid{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Tarjetas de gráficos */
+.theme-graficos .chart-card{
+            background: var(--card-bg);
+            border-radius: 28px;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.05), 0 0 0 1px var(--card-border);
+            overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background .25s, box-shadow .25s;
+            backdrop-filter: blur(0px);
+        }
+.theme-graficos .chart-card:hover{
+            transform: translateY(-3px);
+            box-shadow: 0 20px 32px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.03);
+        }
+
+        /* Tarjeta especial para el gráfico original */
+.theme-graficos .chart-card-original{
+            background: var(--card-bg);
+            border-radius: 24px;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(0, 0, 0, 0.02);
+            overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background .25s, border-color .25s;
+            border: 1px solid var(--card-border);
+        }
+.theme-graficos .chart-card-original:hover{
+            transform: translateY(-3px);
+            box-shadow: 0 20px 32px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.03);
+        }
+
+.theme-graficos .card-header{
+            padding: 1.2rem 1.5rem 0.6rem 1.5rem;
+            border-bottom: 1px solid var(--card-border);
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+.theme-graficos .card-header h2{
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+.theme-graficos .card-header h2 i{
+            color: #3b82b6;
+            font-size: 1.3rem;
+        }
+.theme-graficos .card-header-original h2{
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            letter-spacing: -0.2px;
+        }
+.theme-graficos .legend-badge{
+            display: flex;
+            gap: 1rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+.theme-graficos .legend-color{
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border-radius: 20px;
+            margin-right: 6px;
+        }
+.theme-graficos .canvas-wrapper{
+            padding: 1rem 1rem 1rem 1rem;
+            position: relative;
+            height: auto;
+            min-height: 340px;
+        }
+.theme-graficos .canvas-wrapper-original{
+            padding: 1.5rem;
+            position: relative;
+            height: 400px;
+        }
+.theme-graficos canvas{
+            width: 100%;
+        }
+
+        /* Tabla resumen / estadísticas */
+.theme-graficos .insight-section{
+            background: var(--card-bg);
+            border-radius: 28px;
+            padding: 1.5rem;
+            margin-top: 0.5rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03);
+            border: 1px solid var(--card-border);
+            transition: background .25s, border-color .25s;
+        }
+.theme-graficos .insight-title{
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+.theme-graficos .stats-flex{
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: space-between;
+        }
+.theme-graficos .stat-card{
+            background: var(--card-bg-soft);
+            border-radius: 24px;
+            padding: 1rem 1.5rem;
+            flex: 1;
+            min-width: 150px;
+            text-align: center;
+            transition: background .25s;
+        }
+.theme-graficos .stat-number{
+            font-size: 1.9rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+.theme-graficos .stat-label{
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            letter-spacing: 0.3px;
+        }
+
+        /* Pie de página o nota */
+.theme-graficos .footer-note{
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--card-border);
+            padding-top: 1.5rem;
+        }
+
+        @media (max-width: 780px) {
+.theme-graficos{
+                padding: 1rem;
+            }
+.theme-graficos .charts-grid{
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+.theme-graficos .card-header h2,
+.theme-graficos .card-header-original h2{
+                font-size: 1.2rem;
+            }
+        }
+.theme-graficos button.toggle-note{
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.75rem;
+            color: #3b82b6;
+        }
+
+/* ── chart-60 / chart-61 (Tailwind cards) dark-mode overrides ── */
+.theme-barras2,.theme-tendencia{transition:background .25s}
+html[data-theme="dark"] .theme-barras2 > div,
+html[data-theme="dark"] .theme-tendencia > div{
+  background-color:var(--card-bg)!important;
+  border-color:var(--card-border)!important;
+  color:var(--text-primary)!important;
+}
+html[data-theme="dark"] .theme-barras2 h2,
+html[data-theme="dark"] .theme-tendencia h2{color:var(--text-primary)!important}
+html[data-theme="dark"] .theme-tendencia p,
+html[data-theme="dark"] .theme-tendencia .text-gray-400,
+html[data-theme="dark"] .theme-tendencia .text-gray-500,
+html[data-theme="dark"] .theme-tendencia .text-gray-600{color:var(--text-secondary)!important}
+html[data-theme="dark"] .theme-tendencia .border-gray-100,
+html[data-theme="dark"] .theme-tendencia .border-gray-200{border-color:var(--card-border)!important}
+html[data-theme="dark"] .theme-tendencia .bg-gray-50{background-color:var(--card-bg-soft)!important}
+html[data-theme="dark"] .theme-tendencia .hover\:bg-gray-100:hover{background-color:var(--grid-line-soft)!important}
+</style>
+</head>
+<body>
+<button id="global-theme-toggle" type="button" title="Cambiar tema claro/oscuro">
+  <span class="gt-icon-light" style="display:inline-flex">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><line x1="12" y1="2" x2="12" y2="4"></line><line x1="12" y1="20" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="6.34" y2="6.34"></line><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="4" y2="12"></line><line x1="20" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="6.34" y2="17.66"></line><line x1="17.66" y1="6.34" x2="19.07" y2="4.93"></line></svg>
+  </span>
+  <span class="gt-icon-dark" style="display:inline-flex">
+    <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+  </span>
+  <span class="gt-label"></span>
+</button>
+<div class="catalog-header">
+  <h1>Catálogo de Gráficos</h1>
+  <p>
+    61 gráficos numerados (Chart.js 4 + widgets custom SVG/HTML), organizados por galería temática
+    (Arctic Frost dark, Vibiz light, dashboard Tailwind, y 2 gráficos autocontenidos).
+    Cada tarjeta muestra un badge <code>#N — nombre (tipo, tema)</code> que corresponde a la entrada
+    <code>catalogo.json[N-1]</code> (campo <code>anchor: "chart-N"</code>).
+    Para reutilizar un gráfico, indica su número o nombre.
+  </p>
+</div>
+<div class="theme-arctic">
+<div class="hdr">
+  <div class="hdr-badge">❄ Arctic Frost · Design 15 · Karla</div>
+  <h1>All Chart Types</h1>
+  <p>28 visualization types · Dark &amp; Light themes · Chart.js 4 + Custom SVG &amp; CSS</p>
+</div>
+
+<div class="main">
+
+  <!-- KPI -->
+  <div class="kpi-g" id="arctic-kpi-row"></div>
+
+  <!-- BAR FAMILY -->
+  <div class="sec">
+    <div class="sec-hdr"><h2>Bar Family</h2><span class="ss">Comparison · Ranking · Distribution</span><span class="sc">6 types</span></div>
+    <div class="g3">
+      <div class="cc" id="chart-1"><div class="chart-badge">#1 — Vertical Bar (bar, Arctic Frost (dark))</div><div class="cc-t">Vertical Bar</div><div class="cc-s">Monthly revenue by channel</div><div class="cw"><canvas id="arctic-c-barv"></canvas></div></div>
+      <div class="cc" id="chart-2"><div class="chart-badge">#2 — Horizontal Bar (bar, Arctic Frost (dark))</div><div class="cc-t">Horizontal Bar</div><div class="cc-s">Performance ranking (sorted)</div><div class="cw"><canvas id="arctic-c-barh"></canvas></div></div>
+      <div class="cc" id="chart-3"><div class="chart-badge">#3 — Grouped Bar (bar, Arctic Frost (dark))</div><div class="cc-t">Grouped Bar</div><div class="cc-s">Revenue vs costs by quarter</div><div class="cw"><canvas id="arctic-c-barg"></canvas></div></div>
+      <div class="cc" id="chart-4"><div class="chart-badge">#4 — Stacked Bar (bar, Arctic Frost (dark))</div><div class="cc-t">Stacked Bar</div><div class="cc-s">Product mix per month</div><div class="cw"><canvas id="arctic-c-bars"></canvas></div></div>
+      <div class="cc" id="chart-5"><div class="chart-badge">#5 — 100% Stacked Bar (bar, Arctic Frost (dark))</div><div class="cc-t">100% Stacked Bar</div><div class="cc-s">Market share distribution</div><div class="cw"><canvas id="arctic-c-bar100"></canvas></div></div>
+      <div class="cc" id="chart-6"><div class="chart-badge">#6 — Waterfall Chart (bar, Arctic Frost (dark))</div><div class="cc-t">Waterfall Chart</div><div class="cc-s">Cash flow cumulative changes</div><div class="cw"><canvas id="arctic-c-waterfall"></canvas></div></div>
+    </div>
+  </div>
+
+  <!-- LINE & AREA -->
+  <div class="sec">
+    <div class="sec-hdr"><h2>Line &amp; Area</h2><span class="ss">Trends · Time series · Growth</span><span class="sc">6 types</span></div>
+    <div class="g3">
+      <div class="cc" id="chart-7"><div class="chart-badge">#7 — Line Chart (line, Arctic Frost (dark))</div><div class="cc-t">Line Chart</div><div class="cc-s">Daily active users over time</div><div class="cw"><canvas id="arctic-c-line"></canvas></div></div>
+      <div class="cc" id="chart-8"><div class="chart-badge">#8 — Smooth Area (line, Arctic Frost (dark))</div><div class="cc-t">Smooth Area</div><div class="cc-s">Website traffic with fill</div><div class="cw"><canvas id="arctic-c-area"></canvas></div></div>
+      <div class="cc" id="chart-9"><div class="chart-badge">#9 — Multi-Line (line, Arctic Frost (dark))</div><div class="cc-t">Multi-Line</div><div class="cc-s">3 product lines performance</div><div class="cw"><canvas id="arctic-c-mline"></canvas></div></div>
+      <div class="cc" id="chart-10"><div class="chart-badge">#10 — Stepped Line (line, Arctic Frost (dark))</div><div class="cc-t">Stepped Line</div><div class="cc-s">Server capacity thresholds</div><div class="cw"><canvas id="arctic-c-step"></canvas></div></div>
+      <div class="cc" id="chart-11"><div class="chart-badge">#11 — Dual Y-Axis (bar, Arctic Frost (dark))</div><div class="cc-t">Dual Y-Axis</div><div class="cc-s">Revenue + user count (mixed scales)</div><div class="cw"><canvas id="arctic-c-dual"></canvas></div></div>
+      <div class="cc" id="chart-12"><div class="chart-badge">#12 — Stacked Area (line, Arctic Frost (dark))</div><div class="cc-t">Stacked Area</div><div class="cc-s">Traffic sources over 8 weeks</div><div class="cw"><canvas id="arctic-c-sarea"></canvas></div></div>
+    </div>
+  </div>
+
+  <!-- CIRCULAR -->
+  <div class="sec">
+    <div class="sec-hdr"><h2>Circular &amp; Radial</h2><span class="ss">Proportions · Patterns · Performance</span><span class="sc">5 types</span></div>
+    <div class="g5">
+      <div class="cc" id="chart-13"><div class="chart-badge">#13 — Pie Chart (pie, Arctic Frost (dark))</div><div class="cc-t">Pie Chart</div><div class="cc-s">Revenue by region</div><div class="cw-sm"><canvas id="arctic-c-pie"></canvas></div></div>
+      <div class="cc" id="chart-14"><div class="chart-badge">#14 — Doughnut (doughnut, Arctic Frost (dark))</div><div class="cc-t">Doughnut</div><div class="cc-s">Category market share</div><div class="cw-sm"><canvas id="arctic-c-donut"></canvas></div></div>
+      <div class="cc" id="chart-15"><div class="chart-badge">#15 — Polar Area (polarArea, Arctic Frost (dark))</div><div class="cc-t">Polar Area</div><div class="cc-s">Performance by dimension</div><div class="cw-sm"><canvas id="arctic-c-polar"></canvas></div></div>
+      <div class="cc" id="chart-16"><div class="chart-badge">#16 — Radar / Spider (radar, Arctic Frost (dark))</div><div class="cc-t">Radar / Spider</div><div class="cc-s">Skill &amp; attribute comparison</div><div class="cw-sm"><canvas id="arctic-c-radar"></canvas></div></div>
+      <div class="cc" id="chart-17"><div class="chart-badge">#17 — Gauge Chart (doughnut, Arctic Frost (dark))</div><div class="cc-t">Gauge Chart</div><div class="cc-s">System performance score</div><div class="cw-sm gc"><canvas id="arctic-c-gauge"></canvas><div class="gv"><span class="gv-num" id="arctic-g-val">76%</span><span class="gv-lbl">performance</span></div></div></div>
+    </div>
+  </div>
+
+  <!-- DISTRIBUTION -->
+  <div class="sec">
+    <div class="sec-hdr"><h2>Distribution &amp; Correlation</h2><span class="ss">Patterns · Relationships · Statistics</span><span class="sc">4 types</span></div>
+    <div class="g4">
+      <div class="cc" id="chart-18"><div class="chart-badge">#18 — Scatter Plot (scatter, Arctic Frost (dark))</div><div class="cc-t">Scatter Plot</div><div class="cc-s">User engagement vs session time</div><div class="cw"><canvas id="arctic-c-scatter"></canvas></div></div>
+      <div class="cc" id="chart-19"><div class="chart-badge">#19 — Bubble Chart (bubble, Arctic Frost (dark))</div><div class="cc-t">Bubble Chart</div><div class="cc-s">Market size · growth · share</div><div class="cw"><canvas id="arctic-c-bubble"></canvas></div></div>
+      <div class="cc" id="chart-41"><div class="chart-badge">#41 — Box Plot (boxplot (svg), Arctic Frost (dark))</div><div class="cc-t">Box Plot</div><div class="cc-s">Score distribution by team</div><div class="cw"><svg class="bplot-svg" id="arctic-c-boxplot" preserveAspectRatio="xMidYMid meet"></svg></div></div>
+      <div class="cc" id="chart-20"><div class="chart-badge">#20 — Mixed Bar + Line (bar+line (mixed), Arctic Frost (dark))</div><div class="cc-t">Mixed Bar + Line</div><div class="cc-s">Sales bars with trend overlay</div><div class="cw"><canvas id="arctic-c-mixed"></canvas></div></div>
+    </div>
+  </div>
+
+  <!-- ADVANCED CUSTOM -->
+  <div class="sec">
+    <div class="sec-hdr"><h2>Advanced &amp; Custom</h2><span class="ss">Funnel · Heatmap · Treemap · Waffle · Candlestick</span><span class="sc">7 types</span></div>
+    <div class="g3">
+
+      <!-- FUNNEL -->
+      <div class="cc" id="chart-42"><div class="chart-badge">#42 — Funnel Chart (funnel (div), Arctic Frost (dark))</div>
+        <div class="cc-t">Funnel Chart</div>
+        <div class="cc-s">Sales pipeline conversion stages</div>
+        <div class="cw" id="arctic-c-funnel">
+          <div class="funnel" id="arctic-funnel-inner"></div>
+        </div>
+      </div>
+
+      <!-- HEATMAP -->
+      <div class="cc s2" id="chart-43"><div class="chart-badge">#43 — Heatmap Calendar (heatmap (div grid), Arctic Frost (dark))</div>
+        <div class="cc-t">Heatmap Calendar</div>
+        <div class="cc-s">Activity intensity — past 20 weeks</div>
+        <div id="arctic-c-heatmap" style="margin-top:4px;overflow-x:auto;width:100%"></div>
+      </div>
+
+      <!-- TREEMAP -->
+      <div class="cc s2" id="chart-44"><div class="chart-badge">#44 — Treemap (treemap (div), Arctic Frost (dark))</div>
+        <div class="cc-t">Treemap</div>
+        <div class="cc-s">Revenue breakdown by segment (proportional area)</div>
+        <div class="cw" id="arctic-c-treemap">
+          <div class="treemap" id="arctic-treemap-inner"></div>
+        </div>
+      </div>
+
+      <!-- PROGRESS BARS -->
+      <div class="cc" id="chart-45"><div class="chart-badge">#45 — Progress / KPI Bars (progress bars (div), Arctic Frost (dark))</div>
+        <div class="cc-t">Progress / KPI Bars</div>
+        <div class="cc-s">Team performance vs target</div>
+        <div class="cw" id="arctic-c-progress">
+          <div class="plist" id="arctic-progress-inner"></div>
+        </div>
+      </div>
+
+      <!-- WAFFLE -->
+      <div class="cc" id="chart-46"><div class="chart-badge">#46 — Waffle Chart (waffle (div grid), Arctic Frost (dark))</div>
+        <div class="cc-t">Waffle Chart</div>
+        <div class="cc-s">Market share · 100 cells = 100%</div>
+        <div class="cw-sm" id="arctic-c-waffle-wrap">
+          <div class="waffle-grid" id="arctic-waffle-inner"></div>
+        </div>
+        <div class="lg" id="arctic-waffle-leg"></div>
+      </div>
+
+      <!-- CANDLESTICK -->
+      <div class="cc s2" id="chart-47"><div class="chart-badge">#47 — Candlestick / OHLC (candlestick (svg), Arctic Frost (dark))</div>
+        <div class="cc-t">Candlestick / OHLC</div>
+        <div class="cc-s">Fictional stock price · Open, High, Low, Close</div>
+        <div class="cw-md"><svg class="cs-svg" id="arctic-c-candle" preserveAspectRatio="xMidYMid meet"></svg></div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</div>
+<script>
+(function(){
+
+Chart.defaults.font.family = "'Karla', sans-serif";
+Chart.defaults.font.size = 10;
+
+const CH = {
+  dark:{
+    p:['#38BDF8','#818CF8','#34D399','#F0ABFC','#FCD34D','#FB923C','#F87171','#4ADE80'],
+    ice:['#BAE6FD','#7DD3FC','#38BDF8','#0EA5E9','#0284C7','#0369A1','#075985','#0C4A6E'],
+    g:'rgba(147,210,254,.07)',
+    t:'rgba(147,210,254,.42)',
+    a:'rgba(56,189,248,',
+    text:'#E0F7FF'
+  },
+  light:{
+    p:['#0284C7','#4F46E5','#059669','#9333EA','#D97706','#EA580C','#DC2626','#16A34A'],
+    ice:['#0C4A6E','#075985','#0369A1','#0284C7','#0EA5E9','#38BDF8','#7DD3FC','#BAE6FD'],
+    g:'rgba(2,100,160,.07)',
+    t:'rgba(2,100,160,.45)',
+    a:'rgba(2,132,199,',
+    text:'#075985'
+  }
+};
+
+function isDarkTheme(){return document.documentElement.getAttribute('data-theme')==='dark'}
+function T(){return isDarkTheme()?CH.dark:CH.light}
+function rnd(a,b){return+(Math.random()*(b-a)+a).toFixed(2)}
+function ri(a,b){return Math.round(Math.random()*(b-a)+a)}
+
+const instances={};
+
+function mkOpts(xtra={}){
+  const c=T();
+  return{
+    responsive:true,maintainAspectRatio:false,animation:{duration:450},
+    plugins:{legend:{display:false},tooltip:{enabled:true,cornerRadius:6,padding:8}},
+    scales:{
+      x:{grid:{color:c.g},ticks:{color:c.t,maxTicksLimit:7},border:{display:false}},
+      y:{grid:{color:c.g},ticks:{color:c.t,maxTicksLimit:5},border:{display:false}},
+    },
+    ...xtra
+  };
+}
+function mkRingOpts(cut='60%'){
+  const c=T();
+  return{
+    responsive:true,maintainAspectRatio:false,animation:{duration:450},
+    plugins:{legend:{display:true,position:'right',labels:{color:c.t,boxWidth:8,padding:6,font:{size:9}}}},
+    cutout:cut
+  };
+}
+function mkRadialOpts(){
+  const c=T();
+  return{
+    responsive:true,maintainAspectRatio:false,animation:{duration:450},
+    plugins:{legend:{display:false}},
+    scales:{r:{grid:{color:c.g},ticks:{color:c.t,backdropColor:'transparent',maxTicksLimit:4},pointLabels:{color:c.t,font:{size:9}}}}
+  };
+}
+function mkPieOpts(){
+  const c=T();
+  return{
+    responsive:true,maintainAspectRatio:false,animation:{duration:450},
+    plugins:{legend:{display:true,position:'right',labels:{color:c.t,boxWidth:8,padding:6,font:{size:9}}}}
+  };
+}
+
+function kill(id){if(instances[id]){instances[id].destroy();delete instances[id];}}
+
+// ======= KPI SPARKLINES =======
+const KPI_DATA=[
+  {id:'arctic-k1',lbl:'Total Revenue',val:'$1.24M',trend:'+14.8%',up:true},
+  {id:'arctic-k2',lbl:'Active Users',val:'48,291',trend:'+8.2%',up:true},
+  {id:'arctic-k3',lbl:'Avg Latency',val:'14.2ms',trend:'-1.8ms',up:true},
+  {id:'arctic-k4',lbl:'System Uptime',val:'99.9%',trend:'+0.1%',up:true},
+];
+function buildKPIs(){
+  const r=document.getElementById('arctic-kpi-row');
+  r.innerHTML='';
+  KPI_DATA.forEach(k=>{
+    const d=document.createElement('div');d.className='kpi';
+    d.innerHTML=`<div class="kpi-lb">${k.lbl}</div><div class="kpi-vl">${k.val}</div><div class="kpi-bd ${k.up?'kup':'kdn'}">${k.up?'▲':'▼'} ${k.trend}</div><canvas class="kpi-spark" id="${k.id}"></canvas>`;
+    r.appendChild(d);
+    requestAnimationFrame(()=>{
+      kill(k.id);
+      const c=T();
+      const pts=Array.from({length:12},()=>ri(40,90));
+      instances[k.id]=new Chart(document.getElementById(k.id),{
+        type:'line',
+        data:{labels:pts.map((_,i)=>i),datasets:[{data:pts,borderColor:c.p[0],backgroundColor:c.a+'.12)',fill:true,tension:.4,borderWidth:1.5,pointRadius:0}]},
+        options:{responsive:true,maintainAspectRatio:false,animation:{duration:300},plugins:{legend:{display:false},tooltip:{enabled:false}},scales:{x:{display:false},y:{display:false}}}
+      });
+    });
+  });
+}
+
+// ======= BAR FAMILY =======
+function buildBars(){
+  const c=T();
+  const mo=['Jan','Feb','Mar','Apr','May','Jun'];
+
+  kill('c-barv');
+  instances['c-barv']=new Chart(document.getElementById('arctic-c-barv'),{
+    type:'bar',
+    data:{labels:mo,datasets:[{data:mo.map(()=>ri(20,90)),backgroundColor:c.ice.slice(0,6).map(x=>x+'BB'),borderColor:c.ice.slice(0,6),borderWidth:1,borderRadius:5}]},
+    options:mkOpts()
+  });
+
+  kill('c-barh');
+  const teams=['Design','Eng','Sales','Ops','Marketing','Finance'];
+  instances['c-barh']=new Chart(document.getElementById('arctic-c-barh'),{
+    type:'bar',
+    data:{labels:teams.sort(()=>Math.random()-.5),datasets:[{data:teams.map(()=>ri(30,95)),backgroundColor:c.ice.slice(0,6).map(x=>x+'BB'),borderColor:c.ice.slice(0,6),borderWidth:1,borderRadius:4,indexAxis:'y'}]},
+    options:mkOpts({indexAxis:'y'})
+  });
+
+  kill('c-barg');
+  instances['c-barg']=new Chart(document.getElementById('arctic-c-barg'),{
+    type:'bar',
+    data:{labels:['Q1','Q2','Q3','Q4'],datasets:[
+      {label:'Revenue',data:[65,72,80,78],backgroundColor:c.p[0]+'BB',borderColor:c.p[0],borderWidth:1,borderRadius:4},
+      {label:'Costs',data:[42,48,50,55],backgroundColor:c.p[1]+'BB',borderColor:c.p[1],borderWidth:1,borderRadius:4},
+      {label:'Profit',data:[23,24,30,23],backgroundColor:c.p[2]+'BB',borderColor:c.p[2],borderWidth:1,borderRadius:4},
+    ]},
+    options:mkOpts({plugins:{legend:{display:true,labels:{color:c.t,boxWidth:8,padding:8,font:{size:9}}}}})
+  });
+
+  kill('c-bars');
+  instances['c-bars']=new Chart(document.getElementById('arctic-c-bars'),{
+    type:'bar',
+    data:{labels:mo,datasets:[
+      {label:'Core',data:mo.map(()=>ri(20,40)),backgroundColor:c.p[0]+'CC',borderRadius:0},
+      {label:'Plus',data:mo.map(()=>ri(15,30)),backgroundColor:c.p[1]+'CC',borderRadius:0},
+      {label:'Pro',data:mo.map(()=>ri(10,25)),backgroundColor:c.p[2]+'CC',borderRadius:0},
+    ]},
+    options:mkOpts({scales:{x:{stacked:true,grid:{color:c.g},ticks:{color:c.t},border:{display:false}},y:{stacked:true,grid:{color:c.g},ticks:{color:c.t},border:{display:false}}},plugins:{legend:{display:true,labels:{color:c.t,boxWidth:8,padding:8,font:{size:9}}}}})
+  });
+
+  kill('c-bar100');
+  const raw=[mo.map(()=>ri(20,40)),mo.map(()=>ri(15,30)),mo.map(()=>ri(10,25))];
+  const norm=mo.map((_,i)=>{const s=raw[0][i]+raw[1][i]+raw[2][i];return raw.map(d=>+(d[i]/s*100).toFixed(1));});
+  instances['c-bar100']=new Chart(document.getElementById('arctic-c-bar100'),{
+    type:'bar',
+    data:{labels:mo,datasets:[
+      {label:'A',data:norm.map(d=>d[0]),backgroundColor:c.p[0]+'CC',borderRadius:0},
+      {label:'B',data:norm.map(d=>d[1]),backgroundColor:c.p[1]+'CC',borderRadius:0},
+      {label:'C',data:norm.map(d=>d[2]),backgroundColor:c.p[2]+'CC',borderRadius:0},
+    ]},
+    options:mkOpts({scales:{x:{stacked:true,grid:{color:c.g},ticks:{color:c.t},border:{display:false}},y:{stacked:true,max:100,grid:{color:c.g},ticks:{color:c.t,callback:v=>v+'%'},border:{display:false}}},plugins:{legend:{display:true,labels:{color:c.t,boxWidth:8,padding:8,font:{size:9}}}}})
+  });
+
+  kill('c-waterfall');
+  const wBase=[0,40,65,55,80,70,95,95];
+  const wLabels=['Start','+Sales','+Upsell','–Refund','+Renew','–Ops','+Partner','Total'];
+  const wData=wBase.slice(0,-1).map((v,i)=>[v,wBase[i+1]]);
+  wData.push([0,wBase[wBase.length-1]]);
+  const wColors=wData.map(([a,b],i)=>i===wData.length-1?c.p[0]+'EE':b>=a?c.p[2]+'CC':'#F87171CC');
+  instances['c-waterfall']=new Chart(document.getElementById('arctic-c-waterfall'),{
+    type:'bar',
+    data:{labels:wLabels,datasets:[{data:wData,backgroundColor:wColors,borderColor:wColors.map(x=>x.replace(/CC|EE/,'FF')),borderWidth:1,borderRadius:3,borderSkipped:false}]},
+    options:mkOpts()
+  });
+}
+
+// ======= LINE & AREA =======
+function buildLines(){
+  const c=T();
+  const wk=['W1','W2','W3','W4','W5','W6','W7','W8'];
+  const mo6=['Jan','Feb','Mar','Apr','May','Jun'];
+
+  kill('c-line');
+  instances['c-line']=new Chart(document.getElementById('arctic-c-line'),{
+    type:'line',
+    data:{labels:wk,datasets:[{data:wk.map(()=>ri(30,90)),borderColor:c.p[0],backgroundColor:'transparent',tension:.35,borderWidth:2,pointRadius:3,pointBackgroundColor:c.p[0]}]},
+    options:mkOpts()
+  });
+
+  kill('c-area');
+  instances['c-area']=new Chart(document.getElementById('arctic-c-area'),{
+    type:'line',
+    data:{labels:wk,datasets:[{data:wk.map(()=>ri(40,85)),borderColor:c.p[0],backgroundColor:c.a+'.15)',fill:true,tension:.4,borderWidth:2,pointRadius:3,pointBackgroundColor:c.p[0]}]},
+    options:mkOpts()
+  });
+
+  kill('c-mline');
+  instances['c-mline']=new Chart(document.getElementById('arctic-c-mline'),{
+    type:'line',
+    data:{labels:mo6,datasets:[
+      {label:'Product A',data:mo6.map(()=>ri(40,90)),borderColor:c.p[0],backgroundColor:'transparent',tension:.35,borderWidth:2,pointRadius:2},
+      {label:'Product B',data:mo6.map(()=>ri(30,80)),borderColor:c.p[1],backgroundColor:'transparent',tension:.35,borderWidth:2,pointRadius:2,borderDash:[4,3]},
+      {label:'Product C',data:mo6.map(()=>ri(20,70)),borderColor:c.p[2],backgroundColor:'transparent',tension:.35,borderWidth:2,pointRadius:2,borderDash:[8,3]},
+    ]},
+    options:mkOpts({plugins:{legend:{display:true,labels:{color:c.t,boxWidth:8,padding:8,font:{size:9}}}}})
+  });
+
+  kill('c-step');
+  instances['c-step']=new Chart(document.getElementById('arctic-c-step'),{
+    type:'line',
+    data:{labels:wk,datasets:[{data:[30,30,50,50,70,70,45,45],borderColor:c.p[3],backgroundColor:c.a+'.08)',fill:true,stepped:'before',borderWidth:2,pointRadius:4,pointBackgroundColor:c.p[3]}]},
+    options:mkOpts()
+  });
+
+  kill('c-dual');
+  instances['c-dual']=new Chart(document.getElementById('arctic-c-dual'),{
+    type:'bar',
+    data:{labels:mo6,datasets:[
+      {type:'bar',label:'Revenue',data:mo6.map(()=>ri(30,80)),backgroundColor:c.p[0]+'88',borderColor:c.p[0],borderWidth:1,borderRadius:4,yAxisID:'y'},
+      {type:'line',label:'Users',data:mo6.map(()=>ri(1000,5000)),borderColor:c.p[2],backgroundColor:'transparent',tension:.35,borderWidth:2,pointRadius:3,yAxisID:'y1'},
+    ]},
+    options:{
+      responsive:true,maintainAspectRatio:false,animation:{duration:450},
+      plugins:{legend:{display:true,labels:{color:c.t,boxWidth:8,padding:8,font:{size:9}}}},
+      scales:{
+        x:{grid:{color:c.g},ticks:{color:c.t},border:{display:false}},
+        y:{grid:{color:c.g},ticks:{color:c.t,maxTicksLimit:5},border:{display:false},position:'left'},
+        y1:{grid:{drawOnChartArea:false},ticks:{color:c.p[2],maxTicksLimit:5},border:{display:false},position:'right'},
+      }
+    }
+  });
+
+  kill('c-sarea');
+  instances['c-sarea']=new Chart(document.getElementById('arctic-c-sarea'),{
+    type:'line',
+    data:{labels:wk,datasets:[
+      {label:'Direct',data:wk.map(()=>ri(15,40)),borderColor:c.p[0],backgroundColor:c.p[0]+'88',fill:true,tension:.35,borderWidth:1.5,pointRadius:0},
+      {label:'Organic',data:wk.map(()=>ri(10,30)),borderColor:c.p[1],backgroundColor:c.p[1]+'88',fill:true,tension:.35,borderWidth:1.5,pointRadius:0},
+      {label:'Paid',data:wk.map(()=>ri(8,22)),borderColor:c.p[2],backgroundColor:c.p[2]+'88',fill:true,tension:.35,borderWidth:1.5,pointRadius:0},
+    ]},
+    options:mkOpts({plugins:{legend:{display:true,labels:{color:c.t,boxWidth:8,padding:8,font:{size:9}}}}})
+  });
+}
+
+// ======= CIRCULAR =======
+function buildCircular(){
+  const c=T();
+  const reg=['North','South','East','West','LATAM'];
+  const cats=['SaaS','Services','Hardware','Support'];
+
+  kill('c-pie');
+  instances['c-pie']=new Chart(document.getElementById('arctic-c-pie'),{
+    type:'pie',
+    data:{labels:reg,datasets:[{data:reg.map(()=>ri(10,35)),backgroundColor:c.p.slice(0,5),borderColor:'transparent',borderWidth:0,hoverOffset:6}]},
+    options:mkPieOpts()
+  });
+
+  kill('c-donut');
+  instances['c-donut']=new Chart(document.getElementById('arctic-c-donut'),{
+    type:'doughnut',
+    data:{labels:cats,datasets:[{data:[38,26,20,16],backgroundColor:c.ice.slice(2,6),borderColor:'transparent',borderWidth:0,hoverOffset:6}]},
+    options:mkRingOpts('60%')
+  });
+
+  kill('c-polar');
+  instances['c-polar']=new Chart(document.getElementById('arctic-c-polar'),{
+    type:'polarArea',
+    data:{labels:['Speed','Quality','Cost','Scale','UX','Reliability'],datasets:[{data:[ri(60,90),ri(50,85),ri(40,80),ri(55,90),ri(60,95),ri(45,80)],backgroundColor:c.p.slice(0,6).map(x=>x+'99'),borderColor:c.p.slice(0,6),borderWidth:1}]},
+    options:mkRadialOpts()
+  });
+
+  kill('c-radar');
+  instances['c-radar']=new Chart(document.getElementById('arctic-c-radar'),{
+    type:'radar',
+    data:{labels:['Analytics','Design','Dev','DevOps','Security','Research'],datasets:[
+      {label:'Team A',data:[ri(55,90),ri(60,95),ri(65,90),ri(50,80),ri(60,85),ri(55,90)],borderColor:c.p[0],backgroundColor:c.p[0]+'25',borderWidth:2,pointBackgroundColor:c.p[0],pointRadius:3},
+      {label:'Team B',data:[ri(40,75),ri(50,80),ri(55,85),ri(60,90),ri(45,75),ri(50,80)],borderColor:c.p[1],backgroundColor:c.p[1]+'20',borderWidth:2,pointBackgroundColor:c.p[1],pointRadius:3,borderDash:[4,3]},
+    ]},
+    options:{...mkRadialOpts(),plugins:{...mkRadialOpts().plugins,legend:{display:true,labels:{color:c.t,boxWidth:8,padding:8,font:{size:9}}}}}
+  });
+
+  kill('c-gauge');
+  const gVal=76;
+  document.getElementById('arctic-g-val').textContent=gVal+'%';
+  instances['c-gauge']=new Chart(document.getElementById('arctic-c-gauge'),{
+    type:'doughnut',
+    data:{datasets:[
+      {data:[gVal,100-gVal],backgroundColor:[c.p[0],c.a+'.08)'],borderWidth:0},
+      {data:[15,20,20,20,25],backgroundColor:['transparent','transparent','transparent','transparent','transparent'],borderWidth:0}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,animation:{duration:600},circumference:240,rotation:150,cutout:'70%',plugins:{legend:{display:false},tooltip:{enabled:false}}}
+  });
+}
+
+// ======= DISTRIBUTION =======
+function buildDistrib(){
+  const c=T();
+
+  kill('c-scatter');
+  instances['c-scatter']=new Chart(document.getElementById('arctic-c-scatter'),{
+    type:'scatter',
+    data:{datasets:[{
+      data:Array.from({length:35},()=>({x:rnd(5,95),y:rnd(10,90)})),
+      backgroundColor:c.p[0]+'88',borderColor:c.p[0],borderWidth:1,pointRadius:5,pointHoverRadius:7
+    },{
+      data:Array.from({length:25},()=>({x:rnd(20,80),y:rnd(30,80)})),
+      backgroundColor:c.p[1]+'88',borderColor:c.p[1],borderWidth:1,pointRadius:4
+    }]},
+    options:{responsive:true,maintainAspectRatio:false,animation:{duration:450},plugins:{legend:{display:false}},scales:{x:{grid:{color:c.g},ticks:{color:c.t},border:{display:false},title:{display:true,text:'Session Time (s)',color:c.t,font:{size:9}}},y:{grid:{color:c.g},ticks:{color:c.t},border:{display:false},title:{display:true,text:'Engagement %',color:c.t,font:{size:9}}}}}
+  });
+
+  kill('c-bubble');
+  instances['c-bubble']=new Chart(document.getElementById('arctic-c-bubble'),{
+    type:'bubble',
+    data:{datasets:[
+      {label:'Region A',data:Array.from({length:8},()=>({x:rnd(10,80),y:rnd(15,85),r:rnd(5,18)})),backgroundColor:c.p[0]+'77',borderColor:c.p[0],borderWidth:1},
+      {label:'Region B',data:Array.from({length:6},()=>({x:rnd(20,90),y:rnd(20,80),r:rnd(4,15)})),backgroundColor:c.p[1]+'77',borderColor:c.p[1],borderWidth:1},
+      {label:'Region C',data:Array.from({length:5},()=>({x:rnd(5,70),y:rnd(10,75),r:rnd(6,20)})),backgroundColor:c.p[2]+'77',borderColor:c.p[2],borderWidth:1},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,animation:{duration:450},plugins:{legend:{display:true,labels:{color:c.t,boxWidth:8,padding:8,font:{size:9}}}},scales:{x:{grid:{color:c.g},ticks:{color:c.t},border:{display:false}},y:{grid:{color:c.g},ticks:{color:c.t},border:{display:false}}}}
+  });
+
+  kill('c-mixed');
+  const mo=['Jan','Feb','Mar','Apr','May','Jun'];
+  const sales=mo.map(()=>ri(30,80));
+  instances['c-mixed']=new Chart(document.getElementById('arctic-c-mixed'),{
+    type:'bar',
+    data:{labels:mo,datasets:[
+      {type:'bar',label:'Sales',data:sales,backgroundColor:c.p[0]+'99',borderColor:c.p[0],borderWidth:1,borderRadius:5},
+      {type:'line',label:'Avg',data:sales.map((_,i,a)=>{const s=a.slice(Math.max(0,i-1),i+2);return+(s.reduce((x,v)=>x+v,0)/s.length).toFixed(1);}),borderColor:c.p[3],backgroundColor:'transparent',tension:.4,borderWidth:2.5,pointRadius:4,pointBackgroundColor:c.p[3],borderDash:[5,3]},
+    ]},
+    options:mkOpts({plugins:{legend:{display:true,labels:{color:c.t,boxWidth:8,padding:8,font:{size:9}}}}})
+  });
+
+  buildBoxPlot();
+}
+
+// ======= BOX PLOT (SVG) CORREGIDO =======
+function buildBoxPlot(){
+  const c=T();
+  const svgEl = document.getElementById('arctic-c-boxplot');
+  if (!svgEl) return;
+  
+  const parentEl = svgEl.closest('.cw');
+  if (!parentEl) return;
+  
+  // Obtener dimensiones reales del contenedor
+  const W = parentEl.clientWidth || 350;
+  const H = parentEl.clientHeight || 200;
+  
+  const pad={l:48,r:16,t:18,b:28};
+  const teams=['Alpha','Beta','Gamma','Delta'];
+  const data=teams.map(()=>{
+    const min=ri(20,40),q1=min+ri(8,15),med=q1+ri(5,12),q3=med+ri(5,12),max=q3+ri(8,15);
+    return{min,q1,med,q3,max};
+  });
+  const maxVal=Math.max(...data.map(d=>d.max))+5;
+  const yS=(v)=>pad.t+(H-pad.t-pad.b)*(1-v/maxVal);
+  const gapW=(W-pad.l-pad.r)/teams.length;
+  const bw=Math.min(gapW*.38, 40);
+  const col=c.p;
+  const tickC=c.t;
+  const gridC=c.g;
+
+  let s=`<svg width="${W}" height="${H}" xmlns="http://www.w3.org/2000/svg" style="font-family:'Karla',sans-serif;overflow:visible" preserveAspectRatio="xMidYMid meet">`;
+  
+  // Grid lines y etiquetas
+  for(let g=0;g<=4;g++){
+    const val = maxVal*g/4;
+    const y=yS(val);
+    s+=`<line x1="${pad.l}" y1="${y}" x2="${W-pad.r}" y2="${y}" stroke="${gridC}" stroke-width="1"/>`;
+    s+=`<text x="${pad.l-5}" y="${y+3}" text-anchor="end" font-size="9" fill="${tickC}">${Math.round(val)}</text>`;
+  }
+
+  // Box plots
+  data.forEach((d,i)=>{
+    const cx=pad.l+gapW*(i+.5);
+    const x0=cx-bw/2;
+    const col_i=col[i];
+    
+    // Línea vertical (min a max)
+    s+=`<line x1="${cx}" y1="${yS(d.min)}" x2="${cx}" y2="${yS(d.max)}" stroke="${col_i}" stroke-width="1.5"/>`;
+    // Líneas horizontales en min y max
+    s+=`<line x1="${cx-8}" y1="${yS(d.min)}" x2="${cx+8}" y2="${yS(d.min)}" stroke="${col_i}" stroke-width="1.5"/>`;
+    s+=`<line x1="${cx-8}" y1="${yS(d.max)}" x2="${cx+8}" y2="${yS(d.max)}" stroke="${col_i}" stroke-width="1.5"/>`;
+    // Caja (Q1 a Q3)
+    s+=`<rect x="${x0}" y="${yS(d.q3)}" width="${bw}" height="${Math.max(1, yS(d.q1)-yS(d.q3))}" fill="${col_i}33" stroke="${col_i}" stroke-width="1.5" rx="3"/>`;
+    // Mediana
+    s+=`<line x1="${x0}" y1="${yS(d.med)}" x2="${x0+bw}" y2="${yS(d.med)}" stroke="${col_i}" stroke-width="2"/>`;
+    // Outliers
+    for(let _=0;_<3;_++){
+      const ox=cx+rnd(-12,12);
+      const oy=yS(rnd(d.min-10, d.min-1));
+      if(oy > yS(d.min)){
+        s+=`<circle cx="${ox}" cy="${oy}" r="3" fill="${col_i}88" stroke="${col_i}"/>`;
+      }
+    }
+    // Etiqueta de equipo
+    s+=`<text x="${cx}" y="${H-6}" text-anchor="middle" font-size="9" fill="${tickC}">${teams[i]}</text>`;
+  });
+  s+='</svg>';
+  
+  // Reemplazar el SVG de manera segura
+  svgEl.outerHTML = s;
+}
+
+// ======= FUNNEL =======
+function buildFunnel(){
+  const c=T();
+  const isDark=isDarkTheme();
+  const stages=[
+    {lbl:'Visitors',n:12400},{lbl:'Prospects',n:7200},{lbl:'Leads',n:3800},
+    {lbl:'Qualified',n:1900},{lbl:'Closed',n:892},
+  ];
+  const max=stages[0].n;
+  const el=document.getElementById('arctic-funnel-inner');
+  if(!el)return;
+  el.innerHTML=stages.map((s,i)=>{
+    const pct=Math.round(s.n/max*100);
+    const col=c.ice[i+1];
+    const txt=isDark?'#E0F7FF':'#075985';
+    return`<div class="fn-row">
+      <span class="fn-lbl">${s.lbl}</span>
+      <div class="fn-bar-w"><div class="fn-bar" style="width:${pct}%;background:${col}CC;color:${txt}">${Math.round(s.n/stages[i>0?i-1:0].n*100)}%</div></div>
+      <span class="fn-num">${s.n.toLocaleString()}</span>
+    </div>`;
+  }).join('');
+}
+
+// ======= HEATMAP =======
+function buildHeatmap(){
+  const c=T();
+  const isDark=isDarkTheme();
+  const days=['Mon','','Wed','','Fri','','Sun'];
+  const weeks=20;
+  const months=['Jan','','','Feb','','','Mar','','','Apr','','','May','','','Jun','','','Jul','',''];
+  const base=isDark?'rgba(56,189,248,':'rgba(2,132,199,';
+  const alphas=[.06,.12,.22,.38,.56,.75,.9];
+
+  let html=`<div style="display:flex;gap:3px;align-items:flex-start;overflow-x:auto;width:100%">`;
+  html+=`<div style="display:flex;flex-direction:column;gap:3px;padding-top:20px;flex-shrink:0">`;
+  days.forEach(d=>html+=`<div style="height:12px;font-size:.5rem;opacity:.4;line-height:12px;text-align:right;width:22px">${d}</div>`);
+  html+=`</div><div style="flex:1;min-width:0;overflow-x:auto"><div style="display:flex;gap:3px;margin-bottom:3px">`;
+  months.slice(0,weeks).forEach(m=>html+=`<div style="width:12px;font-size:.5rem;opacity:.35;text-align:center;overflow:hidden;white-space:nowrap;flex-shrink:0">${m}</div>`);
+  html+=`</div><div style="display:flex;gap:3px">`;
+  for(let w=0;w<weeks;w++){
+    html+=`<div style="display:flex;flex-direction:column;gap:3px">`;
+    for(let d=0;d<7;d++){
+      const v=Math.random()<.15?0:ri(0,6);
+      const a=alphas[Math.min(v,alphas.length-1)];
+      html+=`<div class="hm-cell" style="width:12px;height:12px;border-radius:2px;background:${base+a})" title="Week ${w+1}, Day ${d+1}: ${v} commits"></div>`;
+    }
+    html+=`</div>`;
+  }
+  html+=`</div></div></div>`;
+  const el=document.getElementById('arctic-c-heatmap');
+  if(el)el.innerHTML=html;
+}
+
+// ======= TREEMAP =======
+function buildTreemap(){
+  const c=T();
+  const isDark=isDarkTheme();
+  const items=[
+    {n:'Enterprise',v:38,col:c.p[0]},{n:'SMB',v:26,col:c.p[1]},{n:'Startup',v:18,col:c.p[2]},
+    {n:'Consumer',v:10,col:c.p[3]},{n:'Partner',v:5,col:c.p[4]},{n:'Other',v:3,col:c.p[5]},
+  ];
+  const total=items.reduce((a,b)=>a+b.v,0);
+  const txt=isDark?'#E0F7FF':'#FFF';
+  const el=document.getElementById('arctic-treemap-inner');
+  if(!el)return;
+  el.style.height='100%';
+  el.style.width='100%';
+  el.innerHTML=items.map(it=>{
+    const pct=it.v/total;
+    const w=pct>.2?`${Math.round(pct*100)}%`:`${Math.round(pct*100+4)}%`;
+    return`<div class="tm" style="width:${w};height:${pct>.2?'100%':'48%'};background:${it.col}CC;flex-grow:${it.v}">
+      <span class="tm-n" style="color:${txt}">${it.n}</span>
+      <span class="tm-v" style="color:${txt}">${it.v}%</span>
+    </div>`;
+  }).join('');
+}
+
+// ======= PROGRESS BARS =======
+function buildProgress(){
+  const c=T();
+  const metrics=[
+    {n:'Conversion Rate',p:72},{n:'Customer Sat.',p:88},{n:'Sprint Velocity',p:65},
+    {n:'Bug Resolution',p:94},{n:'Deployment Freq.',p:58},{n:'Code Coverage',p:81},
+  ];
+  const el=document.getElementById('arctic-progress-inner');
+  if(!el)return;
+  el.innerHTML=metrics.map((m,i)=>
+    `<div class="pi">
+      <div class="pi-h"><span class="pi-n">${m.n}</span><span class="pi-p">${m.p}%</span></div>
+      <div class="pi-trk"><div class="pi-fill" style="width:${m.p}%;background:linear-gradient(90deg,${c.ice[3]},${c.ice[1]})"></div></div>
+    </div>`
+  ).join('');
+}
+
+// ======= WAFFLE =======
+function buildWaffle(){
+  const c=T();
+  const cats=[{n:'Direct',v:32,col:c.p[0]},{n:'Organic',v:28,col:c.p[1]},{n:'Paid',v:22,col:c.p[2]},{n:'Social',v:18,col:c.p[3]}];
+  const cells=[];
+  cats.forEach(cat=>{for(let i=0;i<cat.v;i++)cells.push(cat.col);});
+  while(cells.length<100)cells.push(c.p[cats.length-1]);
+
+  const grid=document.getElementById('arctic-waffle-inner');
+  const leg=document.getElementById('arctic-waffle-leg');
+  if(!grid||!leg)return;
+  grid.innerHTML=cells.map(col=>`<div class="wf" style="background:${col}CC;border-radius:2px"></div>`).join('');
+  leg.innerHTML=cats.map(cat=>`<div class="lg-i"><div class="lg-dot" style="background:${cat.col}CC"></div>${cat.n} ${cat.v}%</div>`).join('');
+}
+
+// ======= CANDLESTICK (SVG) CORREGIDO =======
+function buildCandlestick(){
+  const c=T();
+  const isDark=isDarkTheme();
+  const svgEl = document.getElementById('arctic-c-candle');
+  if(!svgEl)return;
+  
+  const parentEl = svgEl.closest('.cw-md');
+  if (!parentEl) return;
+  
+  // Obtener dimensiones reales del contenedor
+  const W = parentEl.clientWidth || 550;
+  const H = parentEl.clientHeight || 230;
+  
+  const pad={l:44,r:14,t:14,b:28};
+
+  const ohlc=[];
+  let price=100;
+  for(let i=0;i<16;i++){
+    const open=+(price+rnd(-3,3)).toFixed(2);
+    const change=rnd(-6,7);
+    const close=+(open+change).toFixed(2);
+    const high=+(Math.max(open,close)+rnd(1,4)).toFixed(2);
+    const low=+(Math.min(open,close)-rnd(1,4)).toFixed(2);
+    ohlc.push({open,high,low,close});
+    price=close;
+  }
+
+  const allH=ohlc.map(d=>d.high),allL=ohlc.map(d=>d.low);
+  const maxP=Math.max(...allH)+2,minP=Math.min(...allL)-2;
+  const yscale=(v)=>pad.t+(H-pad.t-pad.b)*(1-(v-minP)/(maxP-minP));
+  const cw=(W-pad.l-pad.r)/ohlc.length;
+  const bw=Math.min(cw*.55, 18);
+  const tickC=c.t;const gridC=c.g;
+
+  const bullC=isDark?'#34D399':'#059669';
+  const bearC=isDark?'#F87171':'#DC2626';
+
+  let s=`<svg width="${W}" height="${H}" xmlns="http://www.w3.org/2000/svg" style="font-family:'Karla',sans-serif;overflow:visible" preserveAspectRatio="xMidYMid meet">`;
+  
+  // Grid lines
+  for(let g=0;g<=4;g++){
+    const v=minP+(maxP-minP)*g/4;
+    const y=yscale(v);
+    s+=`<line x1="${pad.l}" y1="${y}" x2="${W-pad.r}" y2="${y}" stroke="${gridC}" stroke-width="1"/>`;
+    s+=`<text x="${pad.l-4}" y="${y+3}" text-anchor="end" font-size="9" fill="${tickC}">${v.toFixed(0)}</text>`;
+  }
+
+  // Candlesticks
+  ohlc.forEach((d,i)=>{
+    const cx=pad.l+cw*(i+.5);
+    const bull=d.close>=d.open;
+    const col=bull?bullC:bearC;
+    const yh=yscale(d.high),yl=yscale(d.low);
+    const yo=yscale(d.open),yc=yscale(d.close);
+    
+    // Sombra (high-low)
+    s+=`<line x1="${cx}" y1="${yh}" x2="${cx}" y2="${yl}" stroke="${col}" stroke-width="1.5"/>`;
+    // Cuerpo (open-close)
+    const ry=Math.min(yo,yc);
+    const rh=Math.max(Math.abs(yo-yc),2);
+    s+=`<rect x="${cx-bw/2}" y="${ry}" width="${bw}" height="${rh}" fill="${bull?col+'88':col}" stroke="${col}" stroke-width="1" rx="2"/>`;
+    // Etiquetas cada 3 velas
+    if(i%3===0)s+=`<text x="${cx}" y="${H-6}" text-anchor="middle" font-size="9" fill="${tickC}">D${i+1}</text>`;
+  });
+  s+='</svg>';
+
+  // Reemplazar el SVG de manera segura
+  svgEl.outerHTML = s;
+}
+
+// ======= BUILD ALL =======
+function buildAll(){
+  buildKPIs();
+  requestAnimationFrame(()=>{
+    buildBars();buildLines();buildCircular();buildDistrib();
+    buildFunnel();buildHeatmap();buildTreemap();buildProgress();buildWaffle();
+    // Candlestick necesita un pequeño delay para que el DOM se actualice
+    setTimeout(buildCandlestick, 50);
+  });
+}
+
+
+// Inicializar
+window.addEventListener('load', buildAll);
+
+// Manejar redimensionamiento
+let resizeTimeout;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(buildAll, 250);
+});
+
+window.buildAll_arctic = buildAll;
+
+})();
+</script>
+
+<div class="theme-vibiz">
+<!-- PALETTE BUTTON -->
+<button class="pal-btn" onclick="togglePal()" title="Cambiar paleta">
+  <i class="ti ti-palette"></i>
+</button>
+
+<!-- PALETTE PANEL -->
+<div class="pal-panel" id="vibiz-palPanel">
+  <div class="pal-title">Paleta de color</div>
+  <div class="pal-grid">
+    <div class="pal-swatch active" onclick="setPalette('emerald')" id="vibiz-sw-emerald">
+      <div class="pal-circle" style="background:linear-gradient(135deg,#d1fae5,#10b981)"></div>
+      <span class="pal-name">Emerald</span>
+    </div>
+    <div class="pal-swatch" onclick="setPalette('ocean')" id="vibiz-sw-ocean">
+      <div class="pal-circle" style="background:linear-gradient(135deg,#dbeafe,#3b82f6)"></div>
+      <span class="pal-name">Ocean</span>
+    </div>
+    <div class="pal-swatch" onclick="setPalette('violet')" id="vibiz-sw-violet">
+      <div class="pal-circle" style="background:linear-gradient(135deg,#ede9fe,#8b5cf6)"></div>
+      <span class="pal-name">Violet</span>
+    </div>
+    <div class="pal-swatch" onclick="setPalette('rose')" id="vibiz-sw-rose">
+      <div class="pal-circle" style="background:linear-gradient(135deg,#fce7f3,#ec4899)"></div>
+      <span class="pal-name">Rose</span>
+    </div>
+    <div class="pal-swatch" onclick="setPalette('amber')" id="vibiz-sw-amber">
+      <div class="pal-circle" style="background:linear-gradient(135deg,#fef3c7,#f59e0b)"></div>
+      <span class="pal-name">Amber</span>
+    </div>
+    <div class="pal-swatch" onclick="setPalette('night')" id="vibiz-sw-night">
+      <div class="pal-circle" style="background:linear-gradient(135deg,#1e293b,#38bdf8)"></div>
+      <span class="pal-name">Night</span>
+    </div>
+  </div>
+</div>
+
+<div id="vibiz-app">
+
+  <!-- RAIL -->
+  <div class="rail">
+    <div class="rb on"><i class="ti ti-chart-bar"></i></div>
+    <div class="rb"><i class="ti ti-layout-grid"></i></div>
+    <div class="rb"><i class="ti ti-table"></i></div>
+    <div class="rb"><i class="ti ti-report-analytics"></i></div>
+    <div class="rb"><i class="ti ti-settings-2"></i></div>
+    <div class="rb" style="margin-top:auto"><i class="ti ti-bell"></i></div>
+    <div class="av">V</div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="logo">
+      <i class="ti ti-brand-safari"></i>
+      <span>Vibiz</span>
+    </div>
+    <div class="search-box">
+      <i class="ti ti-search" style="font-size:13px"></i>
+      <span>Buscar gráficas…</span>
+    </div>
+    <div class="sb-sec">Categorías</div>
+    <div class="nav-item on"><i class="ti ti-chart-bar"></i>Barras<span class="nav-badge">6</span></div>
+    <div class="nav-item"><i class="ti ti-trending-up"></i>Líneas<span class="nav-badge">6</span></div>
+    <div class="nav-item"><i class="ti ti-circle"></i>Circulares<span class="nav-badge">5</span></div>
+    <div class="nav-item"><i class="ti ti-scatter-plot"></i>Distribución<span class="nav-badge">4</span></div>
+    <div class="nav-item"><i class="ti ti-brand-databricks"></i>Avanzadas<span class="nav-badge">7</span></div>
+    <div class="sb-sec" style="margin-top:4px">Resumen</div>
+    <div class="nav-item"><i class="ti ti-stack"></i>Total: 28 tipos</div>
+    <div class="nav-item"><i class="ti ti-color-swatch"></i>Chart.js 4 + SVG</div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="tab on"><i class="ti ti-chart-area-filled"></i>All Charts</div>
+      <div class="tab"><i class="ti ti-layout-dashboard"></i>Dashboard</div>
+      <div class="tab"><i class="ti ti-table-export"></i>Datos</div>
+      <div class="tab-spacer"></div>
+      <div class="top-actions">
+        <i class="ti ti-refresh" onclick="buildAll_vibiz()" title="Regenerar datos"></i>
+        <i class="ti ti-download"></i>
+        <i class="ti ti-dots"></i>
+      </div>
+    </div>
+
+    <!-- SCROLL AREA -->
+    <div class="scroll-area">
+
+      <!-- STATS -->
+      <div class="stats-row">
+        <div class="stat"><div class="stat-val">$1.24M</div><div class="stat-lbl">Revenue Total</div><div class="stat-chg up">↑ 14.8%</div></div>
+        <div class="stat"><div class="stat-val">48.3k</div><div class="stat-lbl">Usuarios Activos</div><div class="stat-chg up">↑ 8.2%</div></div>
+        <div class="stat"><div class="stat-val">14.2ms</div><div class="stat-lbl">Latencia Avg</div><div class="stat-chg up">↓ 1.8ms</div></div>
+        <div class="stat"><div class="stat-val">99.9%</div><div class="stat-lbl">Uptime</div><div class="stat-chg up">↑ 0.1%</div></div>
+      </div>
+
+      <!-- KPI SPARKLINES -->
+      <div class="kpi-g" id="vibiz-kpi-row"></div>
+
+      <!-- BAR FAMILY -->
+      <div>
+        <div class="sec-hdr">
+          <h2><i class="ti ti-chart-bar" style="font-size:14px"></i> Bar Family</h2>
+          <span class="ss">Comparación · Ranking · Distribución</span>
+          <span class="sc">6 tipos</span>
+        </div>
+        <div class="g3">
+          <div class="cc" id="chart-21"><div class="chart-badge">#21 — Vertical Bar (bar, Vibiz (light, tabler icons))</div><div class="cc-t"><i class="ti ti-chart-bar"></i>Vertical Bar</div><div class="cc-s">Revenue mensual por canal</div><div class="cw"><canvas id="vibiz-c-barv"></canvas></div></div>
+          <div class="cc" id="chart-22"><div class="chart-badge">#22 — Horizontal Bar (bar, Vibiz (light, tabler icons))</div><div class="cc-t"><i class="ti ti-chart-bar-off"></i>Horizontal Bar</div><div class="cc-s">Ranking de performance (ordenado)</div><div class="cw"><canvas id="vibiz-c-barh"></canvas></div></div>
+          <div class="cc" id="chart-23"><div class="chart-badge">#23 — Grouped Bar (bar, Vibiz (light, tabler icons))</div><div class="cc-t"><i class="ti ti-chart-arrows-vertical"></i>Grouped Bar</div><div class="cc-s">Revenue vs costos por trimestre</div><div class="cw"><canvas id="vibiz-c-barg"></canvas></div></div>
+          <div class="cc" id="chart-24"><div class="chart-badge">#24 — Stacked Bar (bar, Vibiz (light, tabler icons))</div><div class="cc-t"><i class="ti ti-layout-rows"></i>Stacked Bar</div><div class="cc-s">Mix de productos por mes</div><div class="cw"><canvas id="vibiz-c-bars"></canvas></div></div>
+          <div class="cc" id="chart-25"><div class="chart-badge">#25 — 100% Stacked (bar, Vibiz (light, tabler icons))</div><div class="cc-t"><i class="ti ti-percentage"></i>100% Stacked</div><div class="cc-s">Distribución market share</div><div class="cw"><canvas id="vibiz-c-bar100"></canvas></div></div>
+          <div class="cc" id="chart-26"><div class="chart-badge">#26 — Waterfall (bar, Vibiz (light, tabler icons))</div><div class="cc-t"><i class="ti ti-stairs"></i>Waterfall</div><div class="cc-s">Cambios acumulados de cash flow</div><div class="cw"><canvas id="vibiz-c-waterfall"></canvas></div></div>
+        </div>
+      </div>
+
+      <!-- LINE & AREA -->
+      <div>
+        <div class="sec-hdr">
+          <h2><i class="ti ti-trending-up" style="font-size:14px"></i> Líneas &amp; Áreas</h2>
+          <span class="ss">Tendencias · Series de tiempo · Crecimiento</span>
+          <span class="sc">6 tipos</span>
+        </div>
+        <div class="g3">
+          <div class="cc" id="chart-27"><div class="chart-badge">#27 — Line Chart (line, Vibiz (light, tabler icons))</div><div class="cc-t"><i class="ti ti-chart-line"></i>Line Chart</div><div class="cc-s">Usuarios activos diarios</div><div class="cw"><canvas id="vibiz-c-line"></canvas></div></div>
+          <div class="cc" id="chart-28"><div class="chart-badge">#28 — Smooth Area (line, Vibiz (light, tabler icons))</div><div class="cc-t"><i class="ti ti-chart-area"></i>Smooth Area</div><div class="cc-s">Tráfico web con fill</div><div class="cw"><canvas id="vibiz-c-area"></canvas></div></div>
+          <div class="cc" id="chart-29"><div class="chart-badge">#29 — Multi-Line (line, Vibiz (light, tabler icons))</div><div class="cc-t"><i class="ti ti-chart-line"></i>Multi-Line</div><div class="cc-s">3 líneas de producto</div><div class="cw"><canvas id="vibiz-c-mline"></canvas></div></div>
+          <div class="cc" id="chart-30"><div class="chart-badge">#30 — Stepped Line (line, Vibiz (light, tabler icons))</div><div class="cc-t"><i class="ti ti-staircase"></i>Stepped Line</div><div class="cc-s">Umbrales de capacidad</div><div class="cw"><canvas id="vibiz-c-step"></canvas></div></div>
+          <div class="cc" id="chart-31"><div class="chart-badge">#31 — Dual Y-Axis (bar, Vibiz (light, tabler icons))</div><div class="cc-t"><i class="ti ti-arrows-split"></i>Dual Y-Axis</div><div class="cc-s">Revenue + usuarios (escalas)</div><div class="cw"><canvas id="vibiz-c-dual"></canvas></div></div>
+          <div class="cc" id="chart-32"><div class="chart-badge">#32 — Stacked Area (line, Vibiz (light, tabler icons))</div><div class="cc-t"><i class="ti ti-layers"></i>Stacked Area</div><div class="cc-s">Fuentes de tráfico 8 semanas</div><div class="cw"><canvas id="vibiz-c-sarea"></canvas></div></div>
+        </div>
+      </div>
+
+      <!-- CIRCULAR -->
+      <div>
+        <div class="sec-hdr">
+          <h2><i class="ti ti-circle" style="font-size:14px"></i> Circular &amp; Radial</h2>
+          <span class="ss">Proporciones · Patrones · Performance</span>
+          <span class="sc">5 tipos</span>
+        </div>
+        <div class="g5">
+          <div class="cc" id="chart-33"><div class="chart-badge">#33 — Pie Chart (pie, Vibiz (light, tabler icons))</div><div class="cc-t"><i class="ti ti-chart-pie"></i>Pie Chart</div><div class="cc-s">Revenue por región</div><div class="cw-sm"><canvas id="vibiz-c-pie"></canvas></div></div>
+          <div class="cc" id="chart-34"><div class="chart-badge">#34 — Doughnut (doughnut, Vibiz (light, tabler icons))</div><div class="cc-t"><i class="ti ti-circle-half"></i>Doughnut</div><div class="cc-s">Market share por categoría</div><div class="cw-sm"><canvas id="vibiz-c-donut"></canvas></div></div>
+          <div class="cc" id="chart-35"><div class="chart-badge">#35 — Polar Area (polarArea, Vibiz (light, tabler icons))</div><div class="cc-t"><i class="ti ti-hexagon"></i>Polar Area</div><div class="cc-s">Performance por dimensión</div><div class="cw-sm"><canvas id="vibiz-c-polar"></canvas></div></div>
+          <div class="cc" id="chart-36"><div class="chart-badge">#36 — Radar Spider (radar, Vibiz (light, tabler icons))</div><div class="cc-t"><i class="ti ti-radar"></i>Radar Spider</div><div class="cc-s">Comparación de habilidades</div><div class="cw-sm"><canvas id="vibiz-c-radar"></canvas></div></div>
+          <div class="cc" id="chart-37"><div class="chart-badge">#37 — Gauge (doughnut, Vibiz (light, tabler icons))</div><div class="cc-t"><i class="ti ti-gauge"></i>Gauge</div><div class="cc-s">Score de performance</div><div class="cw-sm gc"><canvas id="vibiz-c-gauge"></canvas><div class="gv"><span class="gv-num" id="vibiz-g-val">76%</span><span class="gv-lbl">score</span></div></div></div>
+        </div>
+      </div>
+
+      <!-- DISTRIBUTION -->
+      <div>
+        <div class="sec-hdr">
+          <h2><i class="ti ti-scatter-plot" style="font-size:14px"></i> Distribución &amp; Correlación</h2>
+          <span class="ss">Patrones · Relaciones · Estadísticas</span>
+          <span class="sc">4 tipos</span>
+        </div>
+        <div class="g4">
+          <div class="cc" id="chart-38"><div class="chart-badge">#38 — Scatter Plot (scatter, Vibiz (light, tabler icons))</div><div class="cc-t"><i class="ti ti-point"></i>Scatter Plot</div><div class="cc-s">Engagement vs tiempo de sesión</div><div class="cw"><canvas id="vibiz-c-scatter"></canvas></div></div>
+          <div class="cc" id="chart-39"><div class="chart-badge">#39 — Bubble Chart (bubble, Vibiz (light, tabler icons))</div><div class="cc-t"><i class="ti ti-bubble"></i>Bubble Chart</div><div class="cc-s">Tamaño mercado · crecimiento</div><div class="cw"><canvas id="vibiz-c-bubble"></canvas></div></div>
+          <div class="cc" id="chart-48"><div class="chart-badge">#48 — Box Plot (boxplot (svg), Vibiz (light, tabler icons))</div><div class="cc-t"><i class="ti ti-box-model"></i>Box Plot</div><div class="cc-s">Distribución de scores por equipo</div><div class="cw"><svg class="bplot-svg" id="vibiz-c-boxplot" preserveAspectRatio="xMidYMid meet"></svg></div></div>
+          <div class="cc" id="chart-40"><div class="chart-badge">#40 — Mixed Bar + Line (bar+line (mixed), Vibiz (light, tabler icons))</div><div class="cc-t"><i class="ti ti-chart-histogram"></i>Mixed Bar+Line</div><div class="cc-s">Ventas con tendencia</div><div class="cw"><canvas id="vibiz-c-mixed"></canvas></div></div>
+        </div>
+      </div>
+
+      <!-- ADVANCED -->
+      <div>
+        <div class="sec-hdr">
+          <h2><i class="ti ti-brand-databricks" style="font-size:14px"></i> Avanzadas &amp; Custom</h2>
+          <span class="ss">Funnel · Heatmap · Treemap · Waffle · Candlestick · Progress</span>
+          <span class="sc">7 tipos</span>
+        </div>
+        <div class="g3">
+
+          <div class="cc" id="chart-49"><div class="chart-badge">#49 — Funnel Chart (funnel (div), Vibiz (light, tabler icons))</div>
+            <div class="cc-t"><i class="ti ti-filter"></i>Funnel Chart</div>
+            <div class="cc-s">Etapas del pipeline de ventas</div>
+            <div class="cw"><div class="funnel" id="vibiz-funnel-inner"></div></div>
+          </div>
+
+          <div class="cc s2" id="chart-50"><div class="chart-badge">#50 — Heatmap Calendar (heatmap (div grid), Vibiz (light, tabler icons))</div>
+            <div class="cc-t"><i class="ti ti-calendar-event"></i>Heatmap Calendar</div>
+            <div class="cc-s">Intensidad de actividad — últimas 20 semanas</div>
+            <div id="vibiz-c-heatmap" style="margin-top:4px;overflow-x:auto;width:100%"></div>
+          </div>
+
+          <div class="cc s2" id="chart-51"><div class="chart-badge">#51 — Treemap (treemap (div), Vibiz (light, tabler icons))</div>
+            <div class="cc-t"><i class="ti ti-layout-2"></i>Treemap</div>
+            <div class="cc-s">Desglose de revenue por segmento (área proporcional)</div>
+            <div class="cw"><div class="treemap" id="vibiz-treemap-inner"></div></div>
+          </div>
+
+          <div class="cc" id="chart-52"><div class="chart-badge">#52 — Progress / KPI Bars (progress bars (div), Vibiz (light, tabler icons))</div>
+            <div class="cc-t"><i class="ti ti-progress"></i>Progress / KPI Bars</div>
+            <div class="cc-s">Performance del equipo vs objetivo</div>
+            <div class="cw"><div class="plist" id="vibiz-progress-inner"></div></div>
+          </div>
+
+          <div class="cc" id="chart-53"><div class="chart-badge">#53 — Waffle Chart (waffle (div grid), Vibiz (light, tabler icons))</div>
+            <div class="cc-t"><i class="ti ti-grid-4x4"></i>Waffle Chart</div>
+            <div class="cc-s">Market share · 100 celdas = 100%</div>
+            <div class="cw-sm" id="vibiz-c-waffle-wrap">
+              <div class="waffle-grid" id="vibiz-waffle-inner"></div>
+            </div>
+            <div class="lg" id="vibiz-waffle-leg"></div>
+          </div>
+
+          <div class="cc s2" id="chart-54"><div class="chart-badge">#54 — Candlestick / OHLC (candlestick (svg), Vibiz (light, tabler icons))</div>
+            <div class="cc-t"><i class="ti ti-candle"></i>Candlestick / OHLC</div>
+            <div class="cc-s">Precio de activo ficticio · Open, High, Low, Close</div>
+            <div class="cw-md"><svg class="cs-svg" id="vibiz-c-candle" preserveAspectRatio="xMidYMid meet"></svg></div>
+          </div>
+
+        </div>
+      </div>
+
+    </div><!-- end scroll-area -->
+  </div><!-- end main -->
+</div><!-- end app -->
+</div>
+<script>
+(function(){
+
+Chart.defaults.font.family = "'DM Sans', sans-serif";
+Chart.defaults.font.size = 10;
+
+/* ── PALETTES ── */
+const PALETTES = {
+  emerald:{
+    bgA:'#d1fae5',bgB:'#a7f3d0',bgC:'#ecfdf5',
+    acc:'#10b981',accRgb:'16,185,129',accDark:'#065f46',accLight:'#d1fae5',
+    p:['#10b981','#3b82f6','#8b5cf6','#f59e0b','#ef4444','#06b6d4','#ec4899','#14b8a6'],
+    shade:['#d1fae5','#a7f3d0','#6ee7b7','#34d399','#10b981','#059669','#047857','#065f46'],
+    g:'rgba(16,185,129,.07)',t:'rgba(16,185,129,.55)',a:'rgba(16,185,129,'
+  },
+  ocean:{
+    bgA:'#dbeafe',bgB:'#bfdbfe',bgC:'#eff6ff',
+    acc:'#3b82f6',accRgb:'59,130,246',accDark:'#1d4ed8',accLight:'#dbeafe',
+    p:['#3b82f6','#10b981','#8b5cf6','#f59e0b','#ef4444','#06b6d4','#ec4899','#f97316'],
+    shade:['#dbeafe','#bfdbfe','#93c5fd','#60a5fa','#3b82f6','#2563eb','#1d4ed8','#1e40af'],
+    g:'rgba(59,130,246,.07)',t:'rgba(59,130,246,.55)',a:'rgba(59,130,246,'
+  },
+  violet:{
+    bgA:'#ede9fe',bgB:'#ddd6fe',bgC:'#f5f3ff',
+    acc:'#8b5cf6',accRgb:'139,92,246',accDark:'#5b21b6',accLight:'#ede9fe',
+    p:['#8b5cf6','#10b981','#3b82f6','#f59e0b','#ef4444','#ec4899','#06b6d4','#f97316'],
+    shade:['#ede9fe','#ddd6fe','#c4b5fd','#a78bfa','#8b5cf6','#7c3aed','#6d28d9','#5b21b6'],
+    g:'rgba(139,92,246,.07)',t:'rgba(139,92,246,.55)',a:'rgba(139,92,246,'
+  },
+  rose:{
+    bgA:'#fce7f3',bgB:'#fbcfe8',bgC:'#fdf2f8',
+    acc:'#ec4899',accRgb:'236,72,153',accDark:'#9d174d',accLight:'#fce7f3',
+    p:['#ec4899','#10b981','#3b82f6','#8b5cf6','#f59e0b','#ef4444','#06b6d4','#f97316'],
+    shade:['#fce7f3','#fbcfe8','#f9a8d4','#f472b6','#ec4899','#db2777','#be185d','#9d174d'],
+    g:'rgba(236,72,153,.07)',t:'rgba(236,72,153,.55)',a:'rgba(236,72,153,'
+  },
+  amber:{
+    bgA:'#fef3c7',bgB:'#fde68a',bgC:'#fffbeb',
+    acc:'#f59e0b',accRgb:'245,158,11',accDark:'#92400e',accLight:'#fef3c7',
+    p:['#f59e0b','#10b981','#3b82f6','#8b5cf6','#ef4444','#ec4899','#06b6d4','#f97316'],
+    shade:['#fef3c7','#fde68a','#fcd34d','#fbbf24','#f59e0b','#d97706','#b45309','#92400e'],
+    g:'rgba(245,158,11,.07)',t:'rgba(245,158,11,.55)',a:'rgba(245,158,11,'
+  },
+  night:{
+    bgA:'#0f172a',bgB:'#1e293b',bgC:'#0f172a',
+    acc:'#38bdf8',accRgb:'56,189,248',accDark:'#0369a1',accLight:'#0c4a6e',
+    p:['#38bdf8','#34d399','#a78bfa','#fbbf24','#f87171','#fb923c','#f0abfc','#4ade80'],
+    shade:['#bae6fd','#7dd3fc','#38bdf8','#0ea5e9','#0284c7','#0369a1','#075985','#0c4a6e'],
+    g:'rgba(56,189,248,.08)',t:'rgba(56,189,248,.5)',a:'rgba(56,189,248,'
+  }
+};
+
+let currentPalette = 'emerald';
+
+function applyPalette(name){
+  const p = PALETTES[name];
+  const r = document.documentElement.style;
+  r.setProperty('--bg-a', p.bgA);
+  r.setProperty('--bg-b', p.bgB);
+  r.setProperty('--bg-c', p.bgC);
+  r.setProperty('--acc', p.acc);
+  r.setProperty('--acc-rgb', p.accRgb);
+  r.setProperty('--acc-dark', p.accDark);
+  r.setProperty('--acc-light', p.accLight);
+
+  // Night mode body adjustments
+  const body = document.body;
+  const app = document.getElementById('vibiz-app');
+  if(name === 'night'){
+    body.style.background = `linear-gradient(135deg,${p.bgA} 0%,${p.bgB} 35%,${p.bgC} 65%,${p.bgA} 100%)`;
+    app.style.background = 'rgba(30,41,59,0.7)';
+    app.style.borderColor = 'rgba(56,189,248,0.15)';
+    document.querySelectorAll('.theme-vibiz .cc').forEach(el=>{ el.style.background='rgba(15,23,42,0.6)'; el.style.borderColor='rgba(56,189,248,0.12)'; });
+    document.querySelectorAll('.theme-vibiz .kpi').forEach(el=>{ el.style.background='rgba(15,23,42,0.5)'; el.style.borderColor='rgba(56,189,248,0.12)'; });
+    document.querySelectorAll('.theme-vibiz .stat').forEach(el=>{ el.style.background='rgba(15,23,42,0.5)'; el.style.borderColor='rgba(56,189,248,0.12)'; });
+    document.querySelectorAll('.theme-vibiz .kpi-vl').forEach(el=>el.style.color='#e0f7ff');
+    document.querySelectorAll('.theme-vibiz .stat-val').forEach(el=>el.style.color='#e0f7ff');
+    document.querySelectorAll('.theme-vibiz .cc-t').forEach(el=>el.style.color='#e0f7ff');
+    document.querySelectorAll('.theme-vibiz .pi-n').forEach(el=>el.style.color='#94a3b8');
+    document.querySelectorAll('.theme-vibiz .fn-lbl').forEach(el=>el.style.color='#94a3b8');
+  } else {
+    body.style.background = '';
+    app.style.background = '';
+    app.style.borderColor = '';
+    document.querySelectorAll('.theme-vibiz .cc').forEach(el=>{ el.style.background=''; el.style.borderColor=''; });
+    document.querySelectorAll('.theme-vibiz .kpi').forEach(el=>{ el.style.background=''; el.style.borderColor=''; });
+    document.querySelectorAll('.theme-vibiz .stat').forEach(el=>{ el.style.background=''; el.style.borderColor=''; });
+    document.querySelectorAll('.theme-vibiz .kpi-vl').forEach(el=>el.style.color='');
+    document.querySelectorAll('.theme-vibiz .stat-val').forEach(el=>el.style.color='');
+    document.querySelectorAll('.theme-vibiz .cc-t').forEach(el=>el.style.color='');
+    document.querySelectorAll('.theme-vibiz .pi-n').forEach(el=>el.style.color='');
+    document.querySelectorAll('.theme-vibiz .fn-lbl').forEach(el=>el.style.color='');
+  }
+}
+
+function setPalette(name){
+  currentPalette = name;
+  applyPalette(name);
+  document.querySelectorAll('.theme-vibiz .pal-swatch').forEach(s=>s.classList.remove('active'));
+  document.getElementById('vibiz-sw-'+name).classList.add('active');
+  buildAll();
+  document.getElementById('vibiz-palPanel').classList.remove('open');
+}
+
+function togglePal(){
+  document.getElementById('vibiz-palPanel').classList.toggle('open');
+}
+document.addEventListener('click', e=>{
+  const panel = document.getElementById('vibiz-palPanel');
+  const btn = document.querySelector('.pal-btn');
+  if(!panel.contains(e.target) && !btn.contains(e.target)) panel.classList.remove('open');
+});
+
+/* ── UTILS ── */
+function isDarkTheme(){return document.documentElement.getAttribute('data-theme')==='dark'}
+function P(){
+  const base = PALETTES[currentPalette];
+  if(!isDarkTheme()) return base;
+  // Dark-mode derived palette: keep accent/series hues but adjust grid/tick/tooltip for dark bg
+  return Object.assign({},base,{
+    g:'rgba(148,197,255,.10)',
+    t:'rgba(203,213,225,.75)'
+  });
+}
+function vibizTooltip(){
+  return isDarkTheme()
+    ? {backgroundColor:'rgba(15,23,42,0.92)',titleColor:'#e6f1ff',bodyColor:'#cbd5e1',borderColor:'rgba(148,197,255,.18)',borderWidth:1}
+    : {backgroundColor:'rgba(255,255,255,0.95)',titleColor:'#111827',bodyColor:'#6b7280',borderColor:'rgba(0,0,0,.06)',borderWidth:1};
+}
+function rnd(a,b){return+(Math.random()*(b-a)+a).toFixed(2)}
+function ri(a,b){return Math.round(Math.random()*(b-a)+a)}
+
+const instances={};
+function kill(id){if(instances[id]){instances[id].destroy();delete instances[id];}}
+
+function mkOpts(xtra={}){
+  const c=P();
+  return{
+    responsive:true,maintainAspectRatio:false,animation:{duration:400},
+    plugins:{legend:{display:false},tooltip:Object.assign({enabled:true,cornerRadius:8,padding:8},vibizTooltip())},
+    scales:{
+      x:{grid:{color:c.g},ticks:{color:c.t,maxTicksLimit:7},border:{display:false}},
+      y:{grid:{color:c.g},ticks:{color:c.t,maxTicksLimit:5},border:{display:false}},
+    },
+    ...xtra
+  };
+}
+function mkRingOpts(cut='60%'){
+  const c=P();
+  return{responsive:true,maintainAspectRatio:false,animation:{duration:400},
+    plugins:{legend:{display:true,position:'right',labels:{color:c.t,boxWidth:8,padding:6,font:{size:9}}},
+    tooltip:vibizTooltip()},
+    cutout:cut};
+}
+function mkRadialOpts(){
+  const c=P();
+  return{responsive:true,maintainAspectRatio:false,animation:{duration:400},
+    plugins:{legend:{display:false},tooltip:vibizTooltip()},
+    scales:{r:{grid:{color:c.g},ticks:{color:c.t,backdropColor:'transparent',maxTicksLimit:4},pointLabels:{color:c.t,font:{size:9}}}}};
+}
+function mkPieOpts(){
+  const c=P();
+  return{responsive:true,maintainAspectRatio:false,animation:{duration:400},
+    plugins:{legend:{display:true,position:'right',labels:{color:c.t,boxWidth:8,padding:6,font:{size:9}}},
+    tooltip:vibizTooltip()}};
+}
+
+/* ── KPIs ── */
+const KPI_DATA=[
+  {id:'vibiz-k1',lbl:'Total Revenue',val:'$1.24M',trend:'+14.8%',up:true},
+  {id:'vibiz-k2',lbl:'Active Users',val:'48,291',trend:'+8.2%',up:true},
+  {id:'vibiz-k3',lbl:'Avg Latency',val:'14.2ms',trend:'-1.8ms',up:true},
+  {id:'vibiz-k4',lbl:'System Uptime',val:'99.9%',trend:'+0.1%',up:true},
+];
+function buildKPIs(){
+  const r=document.getElementById('vibiz-kpi-row');
+  r.innerHTML='';
+  KPI_DATA.forEach(k=>{
+    const d=document.createElement('div');d.className='kpi';
+    d.innerHTML=`<div class="kpi-lb">${k.lbl}</div><div class="kpi-vl">${k.val}</div><div class="kpi-bd ${k.up?'kup':'kdn'}">${k.up?'▲':'▼'} ${k.trend}</div><canvas class="kpi-spark" id="${k.id}"></canvas>`;
+    r.appendChild(d);
+    requestAnimationFrame(()=>{
+      kill(k.id);
+      const c=P();
+      const pts=Array.from({length:12},()=>ri(40,90));
+      instances[k.id]=new Chart(document.getElementById(k.id),{
+        type:'line',
+        data:{labels:pts.map((_,i)=>i),datasets:[{data:pts,borderColor:c.acc,backgroundColor:c.a+'.12)',fill:true,tension:.4,borderWidth:1.5,pointRadius:0}]},
+        options:{responsive:true,maintainAspectRatio:false,animation:{duration:300},plugins:{legend:{display:false},tooltip:{enabled:false}},scales:{x:{display:false},y:{display:false}}}
+      });
+    });
+  });
+}
+
+/* ── BARS ── */
+function buildBars(){
+  const c=P();const mo=['Ene','Feb','Mar','Abr','May','Jun'];
+  kill('c-barv');
+  instances['c-barv']=new Chart(document.getElementById('vibiz-c-barv'),{type:'bar',
+    data:{labels:mo,datasets:[{data:mo.map(()=>ri(20,90)),backgroundColor:c.shade.slice(1,7).map(x=>x+'BB'),borderColor:c.shade.slice(1,7),borderWidth:1,borderRadius:6}]},
+    options:mkOpts()});
+  kill('c-barh');
+  const teams=['Diseño','Eng','Ventas','Ops','Marketing','Finanzas'];
+  instances['c-barh']=new Chart(document.getElementById('vibiz-c-barh'),{type:'bar',
+    data:{labels:teams.sort(()=>Math.random()-.5),datasets:[{data:teams.map(()=>ri(30,95)),backgroundColor:c.shade.slice(1,7).map(x=>x+'BB'),borderColor:c.shade.slice(1,7),borderWidth:1,borderRadius:4,indexAxis:'y'}]},
+    options:mkOpts({indexAxis:'y'})});
+  kill('c-barg');
+  instances['c-barg']=new Chart(document.getElementById('vibiz-c-barg'),{type:'bar',
+    data:{labels:['Q1','Q2','Q3','Q4'],datasets:[
+      {label:'Revenue',data:[65,72,80,78],backgroundColor:c.p[0]+'BB',borderColor:c.p[0],borderWidth:1,borderRadius:4},
+      {label:'Costos',data:[42,48,50,55],backgroundColor:c.p[1]+'BB',borderColor:c.p[1],borderWidth:1,borderRadius:4},
+      {label:'Profit',data:[23,24,30,23],backgroundColor:c.p[2]+'BB',borderColor:c.p[2],borderWidth:1,borderRadius:4},
+    ]},
+    options:mkOpts({plugins:{legend:{display:true,labels:{color:c.t,boxWidth:8,padding:8,font:{size:9}}}}})});
+  kill('c-bars');
+  instances['c-bars']=new Chart(document.getElementById('vibiz-c-bars'),{type:'bar',
+    data:{labels:mo,datasets:[
+      {label:'Core',data:mo.map(()=>ri(20,40)),backgroundColor:c.p[0]+'CC',borderRadius:0},
+      {label:'Plus',data:mo.map(()=>ri(15,30)),backgroundColor:c.p[1]+'CC',borderRadius:0},
+      {label:'Pro',data:mo.map(()=>ri(10,25)),backgroundColor:c.p[2]+'CC',borderRadius:0},
+    ]},
+    options:mkOpts({scales:{x:{stacked:true,grid:{color:c.g},ticks:{color:c.t},border:{display:false}},y:{stacked:true,grid:{color:c.g},ticks:{color:c.t},border:{display:false}}},plugins:{legend:{display:true,labels:{color:c.t,boxWidth:8,padding:8,font:{size:9}}}}})});
+  kill('c-bar100');
+  const raw=[mo.map(()=>ri(20,40)),mo.map(()=>ri(15,30)),mo.map(()=>ri(10,25))];
+  const norm=mo.map((_,i)=>{const s=raw[0][i]+raw[1][i]+raw[2][i];return raw.map(d=>+(d[i]/s*100).toFixed(1));});
+  instances['c-bar100']=new Chart(document.getElementById('vibiz-c-bar100'),{type:'bar',
+    data:{labels:mo,datasets:[
+      {label:'A',data:norm.map(d=>d[0]),backgroundColor:c.p[0]+'CC',borderRadius:0},
+      {label:'B',data:norm.map(d=>d[1]),backgroundColor:c.p[1]+'CC',borderRadius:0},
+      {label:'C',data:norm.map(d=>d[2]),backgroundColor:c.p[2]+'CC',borderRadius:0},
+    ]},
+    options:mkOpts({scales:{x:{stacked:true,grid:{color:c.g},ticks:{color:c.t},border:{display:false}},y:{stacked:true,max:100,grid:{color:c.g},ticks:{color:c.t,callback:v=>v+'%'},border:{display:false}}},plugins:{legend:{display:true,labels:{color:c.t,boxWidth:8,padding:8,font:{size:9}}}}})});
+  kill('c-waterfall');
+  const wBase=[0,40,65,55,80,70,95,95];
+  const wLabels=['Inicio','+Ventas','+Upsell','–Dev','+Renew','–Ops','+Partner','Total'];
+  const wData=wBase.slice(0,-1).map((v,i)=>[v,wBase[i+1]]);
+  wData.push([0,wBase[wBase.length-1]]);
+  const wColors=wData.map(([a,b],i)=>i===wData.length-1?c.p[0]+'EE':b>=a?c.p[2]+'CC':'#F87171CC');
+  instances['c-waterfall']=new Chart(document.getElementById('vibiz-c-waterfall'),{type:'bar',
+    data:{labels:wLabels,datasets:[{data:wData,backgroundColor:wColors,borderColor:wColors.map(x=>x.replace(/CC|EE/,'FF')),borderWidth:1,borderRadius:3,borderSkipped:false}]},
+    options:mkOpts()});
+}
+
+/* ── LINES ── */
+function buildLines(){
+  const c=P();const wk=['S1','S2','S3','S4','S5','S6','S7','S8'];const mo6=['Ene','Feb','Mar','Abr','May','Jun'];
+  kill('c-line');
+  instances['c-line']=new Chart(document.getElementById('vibiz-c-line'),{type:'line',
+    data:{labels:wk,datasets:[{data:wk.map(()=>ri(30,90)),borderColor:c.p[0],backgroundColor:'transparent',tension:.35,borderWidth:2,pointRadius:3,pointBackgroundColor:c.p[0]}]},
+    options:mkOpts()});
+  kill('c-area');
+  instances['c-area']=new Chart(document.getElementById('vibiz-c-area'),{type:'line',
+    data:{labels:wk,datasets:[{data:wk.map(()=>ri(40,85)),borderColor:c.p[0],backgroundColor:c.a+'.15)',fill:true,tension:.4,borderWidth:2,pointRadius:3,pointBackgroundColor:c.p[0]}]},
+    options:mkOpts()});
+  kill('c-mline');
+  instances['c-mline']=new Chart(document.getElementById('vibiz-c-mline'),{type:'line',
+    data:{labels:mo6,datasets:[
+      {label:'Producto A',data:mo6.map(()=>ri(40,90)),borderColor:c.p[0],backgroundColor:'transparent',tension:.35,borderWidth:2,pointRadius:2},
+      {label:'Producto B',data:mo6.map(()=>ri(30,80)),borderColor:c.p[1],backgroundColor:'transparent',tension:.35,borderWidth:2,pointRadius:2,borderDash:[4,3]},
+      {label:'Producto C',data:mo6.map(()=>ri(20,70)),borderColor:c.p[2],backgroundColor:'transparent',tension:.35,borderWidth:2,pointRadius:2,borderDash:[8,3]},
+    ]},
+    options:mkOpts({plugins:{legend:{display:true,labels:{color:c.t,boxWidth:8,padding:8,font:{size:9}}}}})});
+  kill('c-step');
+  instances['c-step']=new Chart(document.getElementById('vibiz-c-step'),{type:'line',
+    data:{labels:wk,datasets:[{data:[30,30,50,50,70,70,45,45],borderColor:c.p[3],backgroundColor:c.a+'.08)',fill:true,stepped:'before',borderWidth:2,pointRadius:4,pointBackgroundColor:c.p[3]}]},
+    options:mkOpts()});
+  kill('c-dual');
+  instances['c-dual']=new Chart(document.getElementById('vibiz-c-dual'),{type:'bar',
+    data:{labels:mo6,datasets:[
+      {type:'bar',label:'Revenue',data:mo6.map(()=>ri(30,80)),backgroundColor:c.p[0]+'88',borderColor:c.p[0],borderWidth:1,borderRadius:4,yAxisID:'y'},
+      {type:'line',label:'Usuarios',data:mo6.map(()=>ri(1000,5000)),borderColor:c.p[2],backgroundColor:'transparent',tension:.35,borderWidth:2,pointRadius:3,yAxisID:'y1'},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,animation:{duration:400},
+      plugins:{legend:{display:true,labels:{color:c.t,boxWidth:8,padding:8,font:{size:9}}},tooltip:vibizTooltip()},
+      scales:{x:{grid:{color:c.g},ticks:{color:c.t},border:{display:false}},
+        y:{grid:{color:c.g},ticks:{color:c.t,maxTicksLimit:5},border:{display:false},position:'left'},
+        y1:{grid:{drawOnChartArea:false},ticks:{color:c.p[2],maxTicksLimit:5},border:{display:false},position:'right'},
+      }}});
+  kill('c-sarea');
+  instances['c-sarea']=new Chart(document.getElementById('vibiz-c-sarea'),{type:'line',
+    data:{labels:wk,datasets:[
+      {label:'Directo',data:wk.map(()=>ri(15,40)),borderColor:c.p[0],backgroundColor:c.p[0]+'88',fill:true,tension:.35,borderWidth:1.5,pointRadius:0},
+      {label:'Orgánico',data:wk.map(()=>ri(10,30)),borderColor:c.p[1],backgroundColor:c.p[1]+'88',fill:true,tension:.35,borderWidth:1.5,pointRadius:0},
+      {label:'Pago',data:wk.map(()=>ri(8,22)),borderColor:c.p[2],backgroundColor:c.p[2]+'88',fill:true,tension:.35,borderWidth:1.5,pointRadius:0},
+    ]},
+    options:mkOpts({plugins:{legend:{display:true,labels:{color:c.t,boxWidth:8,padding:8,font:{size:9}}}}})});
+}
+
+/* ── CIRCULAR ── */
+function buildCircular(){
+  const c=P();
+  kill('c-pie');
+  instances['c-pie']=new Chart(document.getElementById('vibiz-c-pie'),{type:'pie',
+    data:{labels:['Norte','Sur','Este','Oeste','LATAM'],datasets:[{data:[ri(10,35),ri(10,35),ri(10,35),ri(10,35),ri(10,35)],backgroundColor:c.p.slice(0,5),borderColor:'transparent',borderWidth:0,hoverOffset:6}]},
+    options:mkPieOpts()});
+  kill('c-donut');
+  instances['c-donut']=new Chart(document.getElementById('vibiz-c-donut'),{type:'doughnut',
+    data:{labels:['SaaS','Services','Hardware','Support'],datasets:[{data:[38,26,20,16],backgroundColor:c.shade.slice(2,6),borderColor:'transparent',borderWidth:0,hoverOffset:6}]},
+    options:mkRingOpts('60%')});
+  kill('c-polar');
+  instances['c-polar']=new Chart(document.getElementById('vibiz-c-polar'),{type:'polarArea',
+    data:{labels:['Velocidad','Calidad','Costo','Escala','UX','Uptime'],datasets:[{data:[ri(60,90),ri(50,85),ri(40,80),ri(55,90),ri(60,95),ri(45,80)],backgroundColor:c.p.slice(0,6).map(x=>x+'99'),borderColor:c.p.slice(0,6),borderWidth:1}]},
+    options:mkRadialOpts()});
+  kill('c-radar');
+  instances['c-radar']=new Chart(document.getElementById('vibiz-c-radar'),{type:'radar',
+    data:{labels:['Analytics','Diseño','Dev','DevOps','Seguridad','Research'],datasets:[
+      {label:'Equipo A',data:[ri(55,90),ri(60,95),ri(65,90),ri(50,80),ri(60,85),ri(55,90)],borderColor:c.p[0],backgroundColor:c.p[0]+'25',borderWidth:2,pointBackgroundColor:c.p[0],pointRadius:3},
+      {label:'Equipo B',data:[ri(40,75),ri(50,80),ri(55,85),ri(60,90),ri(45,75),ri(50,80)],borderColor:c.p[1],backgroundColor:c.p[1]+'20',borderWidth:2,pointBackgroundColor:c.p[1],pointRadius:3,borderDash:[4,3]},
+    ]},
+    options:{...mkRadialOpts(),plugins:{...mkRadialOpts().plugins,legend:{display:true,labels:{color:c.t,boxWidth:8,padding:8,font:{size:9}}}}}});
+  const gVal=76;
+  document.getElementById('vibiz-g-val').textContent=gVal+'%';
+  kill('c-gauge');
+  instances['c-gauge']=new Chart(document.getElementById('vibiz-c-gauge'),{type:'doughnut',
+    data:{datasets:[
+      {data:[gVal,100-gVal],backgroundColor:[c.p[0],c.a+'.08)'],borderWidth:0},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,animation:{duration:600},circumference:240,rotation:150,cutout:'70%',plugins:{legend:{display:false},tooltip:{enabled:false}}}});
+}
+
+/* ── DISTRIBUTION ── */
+function buildDistrib(){
+  const c=P();
+  kill('c-scatter');
+  instances['c-scatter']=new Chart(document.getElementById('vibiz-c-scatter'),{type:'scatter',
+    data:{datasets:[
+      {data:Array.from({length:35},()=>({x:rnd(5,95),y:rnd(10,90)})),backgroundColor:c.p[0]+'88',borderColor:c.p[0],borderWidth:1,pointRadius:5},
+      {data:Array.from({length:25},()=>({x:rnd(20,80),y:rnd(30,80)})),backgroundColor:c.p[1]+'88',borderColor:c.p[1],borderWidth:1,pointRadius:4},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,animation:{duration:400},plugins:{legend:{display:false},tooltip:vibizTooltip()},scales:{x:{grid:{color:c.g},ticks:{color:c.t},border:{display:false}},y:{grid:{color:c.g},ticks:{color:c.t},border:{display:false}}}}});
+  kill('c-bubble');
+  instances['c-bubble']=new Chart(document.getElementById('vibiz-c-bubble'),{type:'bubble',
+    data:{datasets:[
+      {label:'Región A',data:Array.from({length:8},()=>({x:rnd(10,80),y:rnd(15,85),r:rnd(5,18)})),backgroundColor:c.p[0]+'77',borderColor:c.p[0],borderWidth:1},
+      {label:'Región B',data:Array.from({length:6},()=>({x:rnd(20,90),y:rnd(20,80),r:rnd(4,15)})),backgroundColor:c.p[1]+'77',borderColor:c.p[1],borderWidth:1},
+      {label:'Región C',data:Array.from({length:5},()=>({x:rnd(5,70),y:rnd(10,75),r:rnd(6,20)})),backgroundColor:c.p[2]+'77',borderColor:c.p[2],borderWidth:1},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,animation:{duration:400},plugins:{legend:{display:true,labels:{color:c.t,boxWidth:8,padding:8,font:{size:9}}},tooltip:vibizTooltip()},scales:{x:{grid:{color:c.g},ticks:{color:c.t},border:{display:false}},y:{grid:{color:c.g},ticks:{color:c.t},border:{display:false}}}}});
+  kill('c-mixed');
+  const mo=['Ene','Feb','Mar','Abr','May','Jun'];
+  const sales=mo.map(()=>ri(30,80));
+  instances['c-mixed']=new Chart(document.getElementById('vibiz-c-mixed'),{type:'bar',
+    data:{labels:mo,datasets:[
+      {type:'bar',label:'Ventas',data:sales,backgroundColor:c.p[0]+'99',borderColor:c.p[0],borderWidth:1,borderRadius:5},
+      {type:'line',label:'Media',data:sales.map((_,i,a)=>{const s=a.slice(Math.max(0,i-1),i+2);return+(s.reduce((x,v)=>x+v,0)/s.length).toFixed(1);}),borderColor:c.p[3],backgroundColor:'transparent',tension:.4,borderWidth:2.5,pointRadius:4,pointBackgroundColor:c.p[3],borderDash:[5,3]},
+    ]},
+    options:mkOpts({plugins:{legend:{display:true,labels:{color:c.t,boxWidth:8,padding:8,font:{size:9}}}}})});
+  buildBoxPlot();
+}
+
+function buildBoxPlot(){
+  const c=P();
+  const svgEl=document.getElementById('vibiz-c-boxplot');
+  if(!svgEl)return;
+  const parentEl=svgEl.closest('.cw');
+  if(!parentEl)return;
+  const W=parentEl.clientWidth||350,H=parentEl.clientHeight||190;
+  const pad={l:44,r:14,t:16,b:26};
+  const teams=['Alpha','Beta','Gamma','Delta'];
+  const data=teams.map(()=>{
+    const min=ri(20,40),q1=min+ri(8,15),med=q1+ri(5,12),q3=med+ri(5,12),max=q3+ri(8,15);
+    return{min,q1,med,q3,max};
+  });
+  const maxVal=Math.max(...data.map(d=>d.max))+5;
+  const yS=v=>pad.t+(H-pad.t-pad.b)*(1-v/maxVal);
+  const gapW=(W-pad.l-pad.r)/teams.length;
+  const bw=Math.min(gapW*.38,40);
+  let s=`<svg width="${W}" height="${H}" xmlns="http://www.w3.org/2000/svg" style="font-family:'DM Sans',sans-serif;overflow:visible">`;
+  for(let g=0;g<=4;g++){const val=maxVal*g/4,y=yS(val);s+=`<line x1="${pad.l}" y1="${y}" x2="${W-pad.r}" y2="${y}" stroke="${c.g}" stroke-width="1"/><text x="${pad.l-5}" y="${y+3}" text-anchor="end" font-size="9" fill="${c.t}">${Math.round(val)}</text>`;}
+  data.forEach((d,i)=>{
+    const cx=pad.l+gapW*(i+.5),x0=cx-bw/2,ci=c.p[i];
+    s+=`<line x1="${cx}" y1="${yS(d.min)}" x2="${cx}" y2="${yS(d.max)}" stroke="${ci}" stroke-width="1.5"/>`;
+    s+=`<line x1="${cx-8}" y1="${yS(d.min)}" x2="${cx+8}" y2="${yS(d.min)}" stroke="${ci}" stroke-width="1.5"/>`;
+    s+=`<line x1="${cx-8}" y1="${yS(d.max)}" x2="${cx+8}" y2="${yS(d.max)}" stroke="${ci}" stroke-width="1.5"/>`;
+    s+=`<rect x="${x0}" y="${yS(d.q3)}" width="${bw}" height="${Math.max(1,yS(d.q1)-yS(d.q3))}" fill="${ci}33" stroke="${ci}" stroke-width="1.5" rx="3"/>`;
+    s+=`<line x1="${x0}" y1="${yS(d.med)}" x2="${x0+bw}" y2="${yS(d.med)}" stroke="${ci}" stroke-width="2"/>`;
+    s+=`<text x="${cx}" y="${H-6}" text-anchor="middle" font-size="9" fill="${c.t}">${teams[i]}</text>`;
+  });
+  s+='</svg>';
+  svgEl.outerHTML=s;
+}
+
+/* ── FUNNEL ── */
+function buildFunnel(){
+  const c=P();
+  const stages=[{lbl:'Visitantes',n:12400},{lbl:'Prospectos',n:7200},{lbl:'Leads',n:3800},{lbl:'Calificados',n:1900},{lbl:'Cerrados',n:892}];
+  const max=stages[0].n;
+  const el=document.getElementById('vibiz-funnel-inner');
+  if(!el)return;
+  el.innerHTML=stages.map((s,i)=>{
+    const pct=Math.round(s.n/max*100);
+    const col=c.shade[i+1];
+    return`<div class="fn-row"><span class="fn-lbl">${s.lbl}</span><div class="fn-bar-w"><div class="fn-bar" style="width:${pct}%;background:${col}">${Math.round(s.n/(stages[i>0?i-1:0].n)*100)}%</div></div><span class="fn-num">${s.n.toLocaleString()}</span></div>`;
+  }).join('');
+}
+
+/* ── HEATMAP ── */
+function buildHeatmap(){
+  const c=P();
+  const days=['Lun','','Mié','','Vie','','Dom'];
+  const weeks=20;
+  const months=['Ene','','','Feb','','','Mar','','','Abr','','','May','','','Jun','','','Jul','',''];
+  const alphas=[.05,.1,.2,.35,.55,.75,.92];
+  let html=`<div style="display:flex;gap:3px;align-items:flex-start;overflow-x:auto;width:100%">`;
+  html+=`<div style="display:flex;flex-direction:column;gap:3px;padding-top:20px;flex-shrink:0">`;
+  days.forEach(d=>html+=`<div style="height:12px;font-size:.5rem;color:#9ca3af;line-height:12px;text-align:right;width:22px">${d}</div>`);
+  html+=`</div><div style="flex:1;min-width:0;overflow-x:auto"><div style="display:flex;gap:3px;margin-bottom:3px">`;
+  months.slice(0,weeks).forEach(m=>html+=`<div style="width:12px;font-size:.5rem;color:#9ca3af;text-align:center;overflow:hidden;white-space:nowrap;flex-shrink:0">${m}</div>`);
+  html+=`</div><div style="display:flex;gap:3px">`;
+  for(let w=0;w<weeks;w++){
+    html+=`<div style="display:flex;flex-direction:column;gap:3px">`;
+    for(let d=0;d<7;d++){
+      const v=Math.random()<.15?0:ri(0,6);
+      const a=alphas[Math.min(v,alphas.length-1)];
+      html+=`<div style="width:12px;height:12px;border-radius:2px;background:${c.a+a});cursor:default;transition:opacity .15s" title="Semana ${w+1}, Día ${d+1}: ${v}"></div>`;
+    }
+    html+=`</div>`;
+  }
+  html+=`</div></div></div>`;
+  const el=document.getElementById('vibiz-c-heatmap');
+  if(el)el.innerHTML=html;
+}
+
+/* ── TREEMAP ── */
+function buildTreemap(){
+  const c=P();
+  const items=[
+    {n:'Enterprise',v:38,col:c.p[0]},{n:'SMB',v:26,col:c.p[1]},{n:'Startup',v:18,col:c.p[2]},
+    {n:'Consumer',v:10,col:c.p[3]},{n:'Partner',v:5,col:c.p[4]},{n:'Otros',v:3,col:c.p[5]},
+  ];
+  const total=items.reduce((a,b)=>a+b.v,0);
+  const el=document.getElementById('vibiz-treemap-inner');
+  if(!el)return;
+  el.style.height='100%';el.style.width='100%';
+  el.innerHTML=items.map(it=>{
+    const pct=it.v/total;
+    const w=pct>.2?`${Math.round(pct*100)}%`:`${Math.round(pct*100+4)}%`;
+    return`<div class="tm" style="width:${w};height:${pct>.2?'100%':'48%'};background:${it.col}CC;flex-grow:${it.v}"><span class="tm-n">${it.n}</span><span class="tm-v">${it.v}%</span></div>`;
+  }).join('');
+}
+
+/* ── PROGRESS ── */
+function buildProgress(){
+  const c=P();
+  const metrics=[
+    {n:'Tasa Conversión',p:72},{n:'Satisfacción',p:88},{n:'Sprint Velocity',p:65},
+    {n:'Bug Resolution',p:94},{n:'Deploy Freq.',p:58},{n:'Code Coverage',p:81},
+  ];
+  const el=document.getElementById('vibiz-progress-inner');
+  if(!el)return;
+  el.innerHTML=metrics.map(m=>
+    `<div class="pi"><div class="pi-h"><span class="pi-n">${m.n}</span><span class="pi-p">${m.p}%</span></div><div class="pi-trk"><div class="pi-fill" style="width:${m.p}%;background:linear-gradient(90deg,${c.shade[4]},${c.shade[2]})"></div></div></div>`
+  ).join('');
+}
+
+/* ── WAFFLE ── */
+function buildWaffle(){
+  const c=P();
+  const cats=[{n:'Directo',v:32,col:c.p[0]},{n:'Orgánico',v:28,col:c.p[1]},{n:'Pago',v:22,col:c.p[2]},{n:'Social',v:18,col:c.p[3]}];
+  const cells=[];
+  cats.forEach(cat=>{for(let i=0;i<cat.v;i++)cells.push(cat.col);});
+  while(cells.length<100)cells.push(c.p[cats.length-1]);
+  const grid=document.getElementById('vibiz-waffle-inner');
+  const leg=document.getElementById('vibiz-waffle-leg');
+  if(!grid||!leg)return;
+  grid.innerHTML=cells.map(col=>`<div class="wf" style="background:${col}CC"></div>`).join('');
+  leg.innerHTML=cats.map(cat=>`<div class="lg-i"><div class="lg-dot" style="background:${cat.col}CC"></div>${cat.n} ${cat.v}%</div>`).join('');
+}
+
+/* ── CANDLESTICK ── */
+function buildCandlestick(){
+  const c=P();
+  const svgEl=document.getElementById('vibiz-c-candle');
+  if(!svgEl)return;
+  const parentEl=svgEl.closest('.cw-md');
+  if(!parentEl)return;
+  const W=parentEl.clientWidth||550,H=parentEl.clientHeight||220;
+  const pad={l:44,r:14,t:14,b:26};
+  const ohlc=[];let price=100;
+  for(let i=0;i<16;i++){
+    const open=+(price+rnd(-3,3)).toFixed(2),change=rnd(-6,7),close=+(open+change).toFixed(2);
+    const high=+(Math.max(open,close)+rnd(1,4)).toFixed(2),low=+(Math.min(open,close)-rnd(1,4)).toFixed(2);
+    ohlc.push({open,high,low,close});price=close;
+  }
+  const allH=ohlc.map(d=>d.high),allL=ohlc.map(d=>d.low);
+  const maxP=Math.max(...allH)+2,minP=Math.min(...allL)-2;
+  const yscale=v=>pad.t+(H-pad.t-pad.b)*(1-(v-minP)/(maxP-minP));
+  const cw=(W-pad.l-pad.r)/ohlc.length,bw=Math.min(cw*.55,18);
+  const bullC='#10b981',bearC='#ef4444';
+  let s=`<svg width="${W}" height="${H}" xmlns="http://www.w3.org/2000/svg" style="font-family:'DM Sans',sans-serif;overflow:visible">`;
+  for(let g=0;g<=4;g++){const v=minP+(maxP-minP)*g/4,y=yscale(v);s+=`<line x1="${pad.l}" y1="${y}" x2="${W-pad.r}" y2="${y}" stroke="${c.g}" stroke-width="1"/><text x="${pad.l-4}" y="${y+3}" text-anchor="end" font-size="9" fill="${c.t}">${v.toFixed(0)}</text>`;}
+  ohlc.forEach((d,i)=>{
+    const cx=pad.l+cw*(i+.5),bull=d.close>=d.open,col=bull?bullC:bearC;
+    const yh=yscale(d.high),yl=yscale(d.low),yo=yscale(d.open),yc=yscale(d.close);
+    s+=`<line x1="${cx}" y1="${yh}" x2="${cx}" y2="${yl}" stroke="${col}" stroke-width="1.5"/>`;
+    const ry=Math.min(yo,yc),rh=Math.max(Math.abs(yo-yc),2);
+    s+=`<rect x="${cx-bw/2}" y="${ry}" width="${bw}" height="${rh}" fill="${bull?col+'88':col}" stroke="${col}" stroke-width="1" rx="2"/>`;
+    if(i%3===0)s+=`<text x="${cx}" y="${H-6}" text-anchor="middle" font-size="9" fill="${c.t}">D${i+1}</text>`;
+  });
+  s+='</svg>';
+  svgEl.outerHTML=s;
+}
+
+/* ── BUILD ALL ── */
+function buildAll(){
+  buildKPIs();
+  requestAnimationFrame(()=>{
+    buildBars();buildLines();buildCircular();buildDistrib();
+    buildFunnel();buildHeatmap();buildTreemap();buildProgress();buildWaffle();
+    setTimeout(buildCandlestick,50);
+  });
+}
+
+window.addEventListener('load',buildAll);
+let resizeTimeout;
+window.addEventListener('resize',()=>{clearTimeout(resizeTimeout);resizeTimeout=setTimeout(buildAll,250);});
+
+window.togglePal = togglePal;
+window.setPalette = setPalette;
+window.buildAll_vibiz = buildAll;
+})();
+</script>
+
+<div class="theme-graficos">
+<div class="dashboard-container">
+<div class="header">
+        <h1><i class="fas fa-chart-line"></i> Tendencia global por año</h1>
+        <p>Productividad (S/.) vs Atenciones · Evolución 2020–2026</p>
+    </div>
+
+    <div class="charts-grid">
+        <!-- NUEVO: GRÁFICO ORIGINAL INTEGRADO (Línea verde + Barras violetas) -->
+        <div class="chart-card-original" id="chart-55"><div class="chart-badge">#55 — Tendencia global por anio (barras + linea) (bar+line (mixed), Dashboard original (Tailwind + FontAwesome))</div>
+            <div class="card-header" style="border-bottom: 1px solid #f3f4f6;">
+                <h2 style="color: #2c3a57; font-weight: 700;">
+                    <i class="fas fa-chart-line" style="color: #10b981;"></i> Original · Tendencia Global
+                </h2>
+                <div class="legend-badge">
+                    <span><span class="legend-color" style="background: #10b981;"></span> Productividad (S/)</span>
+                    <span><span class="legend-color" style="background: #6366f1;"></span> Atenciones</span>
+                </div>
+            </div>
+            <div class="canvas-wrapper-original">
+                <canvas id="graficos-trendChart"></canvas>
+            </div>
+        </div>
+
+        <!-- GRÁFICO 1: BARRAS (Principal - diseño original) -->
+        <div class="chart-card" id="chart-56"><div class="chart-badge">#56 — Barras - Productividad &amp; Atenciones (bar, Dashboard original (Tailwind + FontAwesome))</div>
+            <div class="card-header">
+                <h2><i class="fas fa-chart-bar"></i> Barras · Productividad & Atenciones</h2>
+                <div class="legend-badge">
+                    <span><span class="legend-color" style="background: #2c7da0;"></span> Productividad (S/.)</span>
+                    <span><span class="legend-color" style="background: #f4a261;"></span> Atenciones</span>
+                </div>
+            </div>
+            <div class="canvas-wrapper">
+                <canvas id="graficos-barChart" width="600" height="340" style="display: block; width:100%; height:auto;"></canvas>
+            </div>
+        </div>
+
+        <!-- GRÁFICO 2: LÍNEAS (tendencia suave) -->
+        <div class="chart-card" id="chart-57"><div class="chart-badge">#57 — Lineas - Evolucion comparativa (line, Dashboard original (Tailwind + FontAwesome))</div>
+            <div class="card-header">
+                <h2><i class="fas fa-chart-line"></i> Líneas · Evolución comparativa</h2>
+                <div class="legend-badge">
+                    <span><span class="legend-color" style="background: #2c7da0;"></span> Productividad (S/.)</span>
+                    <span><span class="legend-color" style="background: #f4a261;"></span> Atenciones</span>
+                </div>
+            </div>
+            <div class="canvas-wrapper">
+                <canvas id="graficos-lineChart" width="600" height="340" style="display: block; width:100%; height:auto;"></canvas>
+            </div>
+        </div>
+
+        <!-- GRÁFICO 3: ÁREA (stacked / opcional sombreado) -->
+        <div class="chart-card" id="chart-58"><div class="chart-badge">#58 — Area - Acumulado visual (line (area), Dashboard original (Tailwind + FontAwesome))</div>
+            <div class="card-header">
+                <h2><i class="fas fa-chart-area"></i> Área · Acumulado visual</h2>
+                <div class="legend-badge">
+                    <span><span class="legend-color" style="background: #2c7da0;"></span> Productividad (S/.)</span>
+                    <span><span class="legend-color" style="background: #f4a261;"></span> Atenciones</span>
+                </div>
+            </div>
+            <div class="canvas-wrapper">
+                <canvas id="graficos-areaChart" width="600" height="340" style="display: block; width:100%; height:auto;"></canvas>
+            </div>
+        </div>
+
+        <!-- GRÁFICO 4: RADAR (fortaleza de indicadores por año) opcional pero atractivo -->
+        <div class="chart-card" id="chart-59"><div class="chart-badge">#59 — Radar - Perfil por anio (normalizado) (radar, Dashboard original (Tailwind + FontAwesome))</div>
+            <div class="card-header">
+                <h2><i class="fas fa-chart-pie"></i> Radar · Perfil por año (normalizado)</h2>
+                <div class="legend-badge">
+                    <span><span class="legend-color" style="background: #3b82b6;"></span> Productividad (índice)</span>
+                    <span><span class="legend-color" style="background: #e76f51;"></span> Atenciones (índice)</span>
+                </div>
+            </div>
+            <div class="canvas-wrapper">
+                <canvas id="graficos-radarChart" width="600" height="340" style="display: block; width:100%; height:auto;"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script>
+
+    (function() {
+        const G_INSTANCES = {};
+        function gkill(id){ if(G_INSTANCES[id]){ G_INSTANCES[id].destroy(); delete G_INSTANCES[id]; } }
+
+        function buildGraficos(){
+            const pal = window.getChartPalette();
+
+            // ========== GRÁFICO ORIGINAL (Línea verde + Barras violetas) ==========
+            const ctxTrend = document.getElementById('graficos-trendChart').getContext('2d');
+            gkill('trend');
+            G_INSTANCES.trend = new Chart(ctxTrend, {
+                data: {
+                    labels: ['2020', '2021', '2022', '2023', '2024', '2025', '2026'],
+                    datasets: [
+                        {
+                            type: 'line',
+                            label: 'Productividad (S/)',
+                            data: [75000, 81000, 85000, 83000, 76000, 82500, 34000],
+                            borderColor: '#10b981',
+                            backgroundColor: pal.isDark ? 'rgba(16,185,129,0.18)' : 'rgba(16, 185, 129, 0.12)',
+                            fill: true,
+                            borderWidth: 3,
+                            pointBackgroundColor: pal.pointBg,
+                            pointBorderColor: '#10b981',
+                            pointBorderWidth: 2,
+                            pointRadius: 5,
+                            pointHoverRadius: 7,
+                            tension: 0.4,
+                            yAxisID: 'yProductividad',
+                            order: 1
+                        },
+                        {
+                            type: 'bar',
+                            label: 'Atenciones',
+                            data: [710, 760, 800, 765, 720, 770, 305],
+                            backgroundColor: pal.isDark ? 'rgba(99,102,241,0.25)' : 'rgba(238, 242, 255, 0.8)',
+                            borderColor: '#6366f1',
+                            borderWidth: 1.5,
+                            borderRadius: 8,
+                            borderSkipped: false,
+                            barPercentage: 0.6,
+                            yAxisID: 'yAtenciones',
+                            order: 2
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            align: 'center',
+                            labels: {
+                                boxWidth: 14,
+                                boxHeight: 14,
+                                useRadius: false,
+                                borderRadius: 2,
+                                padding: 20,
+                                font: { size: 13 },
+                                color: pal.text
+                            }
+                        },
+                        tooltip: Object.assign({ mode: 'index', intersect: false }, pal.tooltip)
+                    },
+                    scales: {
+                        x: {
+                            grid: { display: true, color: pal.gridSoft },
+                            ticks: { color: pal.text, font: { size: 13 } }
+                        },
+                        yAtenciones: {
+                            type: 'linear',
+                            position: 'left',
+                            min: 0,
+                            max: 900,
+                            ticks: { stepSize: 100, color: pal.text },
+                            grid: { color: pal.grid },
+                            title: { display: true, text: 'Atenciones', color: pal.text, font: { size: 12 } }
+                        },
+                        yProductividad: {
+                            type: 'linear',
+                            position: 'right',
+                            min: 0,
+                            max: 90000,
+                            ticks: {
+                                stepSize: 10000,
+                                callback: function(value) { return value.toLocaleString('en-US'); },
+                                color: pal.text
+                            },
+                            grid: { drawOnChartArea: false },
+                            title: { display: true, text: 'S/', color: pal.text, font: { size: 12 } }
+                        }
+                    }
+                }
+            });
+
+            // ----- DATOS PARA LOS OTROS GRÁFICOS -----
+            const years = ['2020', '2021', '2022', '2023', '2024', '2025', '2026'];
+            const productividadData = [145, 215, 340, 455, 590, 720, 860];
+            const atencionesData = [18500, 24200, 68500, 47400, 52300, 71200, 65800];
+            const maxProd = Math.max(...productividadData);
+            const maxAten = Math.max(...atencionesData);
+            const prodNormalized = productividadData.map(v => (v / maxProd) * 100);
+            const atenNormalized = atencionesData.map(v => (v / maxAten) * 100);
+
+            const azul = pal.isDark ? '#5fb3da' : '#2c7da0';
+            const naranja = pal.isDark ? '#f4a261' : '#e9a45e';
+            const naranjaLine = pal.isDark ? '#f6b88a' : '#f4a261';
+
+            // 1. GRÁFICO DE BARRAS
+            const ctxBar = document.getElementById('graficos-barChart').getContext('2d');
+            gkill('bar');
+            G_INSTANCES.bar = new Chart(ctxBar, {
+                type: 'bar',
+                data: {
+                    labels: years,
+                    datasets: [
+                        {
+                            label: 'Productividad (S/.)',
+                            data: productividadData,
+                            yAxisID: 'y-right',
+                            backgroundColor: pal.isDark ? 'rgba(95,179,218,0.55)' : 'rgba(44, 125, 160, 0.75)',
+                            borderColor: azul,
+                            borderWidth: 1,
+                            borderRadius: 8,
+                            barPercentage: 0.65,
+                            categoryPercentage: 0.8,
+                        },
+                        {
+                            label: 'Atenciones (unidades)',
+                            data: atencionesData,
+                            yAxisID: 'y-left',
+                            backgroundColor: pal.isDark ? 'rgba(244,162,97,0.55)' : 'rgba(244, 162, 97, 0.8)',
+                            borderColor: naranja,
+                            borderWidth: 1,
+                            borderRadius: 8,
+                            barPercentage: 0.65,
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        tooltip: Object.assign({
+                            mode: 'index',
+                            intersect: false,
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    let val = context.raw;
+                                    if (context.dataset.label.includes('Productividad')) {
+                                        return `${label}: S/ ${val.toLocaleString('es-PE')}`;
+                                    } else {
+                                        return `${label}: ${val.toLocaleString('es-PE')} atenciones`;
+                                    }
+                                }
+                            }
+                        }, pal.tooltip),
+                        legend: { position: 'top', labels: { usePointStyle: true, boxWidth: 12, color: pal.text } },
+                    },
+                    scales: {
+                        'y-left': {
+                            position: 'left',
+                            title: { display: true, text: 'Atenciones (unidades)', color: naranja, font: { weight: 'bold', size: 11 } },
+                            min: 0, max: 90000,
+                            grid: { drawOnChartArea: true, color: pal.grid },
+                            ticks: { callback: (val) => val.toLocaleString(), color: pal.text }
+                        },
+                        'y-right': {
+                            position: 'right',
+                            title: { display: true, text: 'Productividad (S/.)', color: azul, font: { weight: 'bold', size: 11 } },
+                            min: 0, max: 1000,
+                            grid: { drawOnChartArea: false },
+                            ticks: { stepSize: 200, callback: (val) => `S/ ${val}`, color: pal.text }
+                        },
+                        x: {
+                            title: { display: true, text: 'Año', font: { weight: '500' }, color: pal.text },
+                            grid: { display: false },
+                            ticks: { color: pal.text }
+                        }
+                    },
+                    interaction: { mode: 'nearest', axis: 'xy', intersect: false }
+                }
+            });
+
+            // 2. GRÁFICO DE LÍNEAS
+            const ctxLine = document.getElementById('graficos-lineChart').getContext('2d');
+            gkill('line');
+            G_INSTANCES.line = new Chart(ctxLine, {
+                type: 'line',
+                data: {
+                    labels: years,
+                    datasets: [
+                        {
+                            label: 'Productividad (S/.)',
+                            data: productividadData,
+                            borderColor: azul,
+                            backgroundColor: pal.isDark ? 'rgba(95,179,218,0.08)' : 'rgba(44, 125, 160, 0.05)',
+                            borderWidth: 3,
+                            pointRadius: 5,
+                            pointHoverRadius: 7,
+                            pointBackgroundColor: azul,
+                            pointBorderColor: pal.pointBg,
+                            tension: 0.2,
+                            fill: false,
+                            yAxisID: 'y-right',
+                        },
+                        {
+                            label: 'Atenciones (unidades)',
+                            data: atencionesData,
+                            borderColor: naranjaLine,
+                            backgroundColor: pal.isDark ? 'rgba(244,162,97,0.08)' : 'rgba(244, 162, 97, 0.05)',
+                            borderWidth: 3,
+                            pointRadius: 5,
+                            pointHoverRadius: 7,
+                            pointBackgroundColor: '#e76f51',
+                            pointBorderColor: pal.pointBg,
+                            tension: 0.2,
+                            fill: false,
+                            yAxisID: 'y-left',
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        tooltip: Object.assign({ mode: 'index', intersect: false,
+                            callbacks: {
+                                label: (ctx) => {
+                                    let val = ctx.raw;
+                                    if (ctx.dataset.label.includes('Productividad')) return `Productividad: S/ ${val.toLocaleString('es-PE')}`;
+                                    return `Atenciones: ${val.toLocaleString('es-PE')}`;
+                                }
+                            }
+                        }, pal.tooltip),
+                        legend: { position: 'top', labels: { color: pal.text } }
+                    },
+                    scales: {
+                        'y-left': {
+                            position: 'left',
+                            title: { display: true, text: 'Atenciones (unidades)', color: naranja },
+                            min: 0, max: 90000,
+                            grid: { drawOnChartArea: true, color: pal.grid },
+                            ticks: { callback: (val) => val.toLocaleString(), color: pal.text }
+                        },
+                        'y-right': {
+                            position: 'right',
+                            title: { display: true, text: 'Productividad (S/.)', color: azul },
+                            min: 0, max: 1000,
+                            grid: { drawOnChartArea: false },
+                            ticks: { callback: (val) => `S/ ${val}`, color: pal.text }
+                        },
+                        x: { ticks: { color: pal.text } }
+                    }
+                }
+            });
+
+            // 3. GRÁFICO DE ÁREA
+            const ctxArea = document.getElementById('graficos-areaChart').getContext('2d');
+            gkill('area');
+            G_INSTANCES.area = new Chart(ctxArea, {
+                type: 'line',
+                data: {
+                    labels: years,
+                    datasets: [
+                        {
+                            label: 'Productividad (S/.)',
+                            data: productividadData,
+                            borderColor: azul,
+                            backgroundColor: pal.isDark ? 'rgba(95,179,218,0.3)' : 'rgba(44, 125, 160, 0.35)',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.3,
+                            pointRadius: 3,
+                            yAxisID: 'y-right',
+                        },
+                        {
+                            label: 'Atenciones (unidades)',
+                            data: atencionesData,
+                            borderColor: naranjaLine,
+                            backgroundColor: pal.isDark ? 'rgba(244,162,97,0.28)' : 'rgba(244, 162, 97, 0.3)',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.3,
+                            pointRadius: 3,
+                            yAxisID: 'y-left',
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        tooltip: Object.assign({ mode: 'index', intersect: false }, pal.tooltip),
+                        legend: { position: 'top', labels: { color: pal.text } }
+                    },
+                    scales: {
+                        'y-left': {
+                            position: 'left',
+                            title: { display: true, text: 'Atenciones', color: naranja },
+                            min: 0, max: 90000,
+                            grid: { drawOnChartArea: true, color: pal.grid },
+                            ticks: { callback: (val) => val.toLocaleString(), color: pal.text }
+                        },
+                        'y-right': {
+                            position: 'right',
+                            title: { display: true, text: 'Productividad (S/.)', color: azul },
+                            min: 0, max: 1000,
+                            grid: { drawOnChartArea: false },
+                            ticks: { callback: (val) => `S/ ${val}`, color: pal.text }
+                        },
+                        x: { ticks: { color: pal.text } }
+                    },
+                    elements: { line: { borderJoin: 'round' } }
+                }
+            });
+
+            // 4. GRÁFICO RADAR
+            const ctxRadar = document.getElementById('graficos-radarChart').getContext('2d');
+            gkill('radar');
+            G_INSTANCES.radar = new Chart(ctxRadar, {
+                type: 'radar',
+                data: {
+                    labels: years,
+                    datasets: [
+                        {
+                            label: 'Productividad (índice %)',
+                            data: prodNormalized,
+                            backgroundColor: pal.isDark ? 'rgba(95,179,218,0.3)' : 'rgba(59, 130, 182, 0.25)',
+                            borderColor: azul,
+                            borderWidth: 2,
+                            pointBackgroundColor: pal.isDark ? '#bfe3f5' : '#1e4a76',
+                            pointBorderColor: pal.pointBg,
+                            pointRadius: 4,
+                            fill: true,
+                        },
+                        {
+                            label: 'Atenciones (índice %)',
+                            data: atenNormalized,
+                            backgroundColor: pal.isDark ? 'rgba(244,162,97,0.25)' : 'rgba(231, 111, 81, 0.2)',
+                            borderColor: '#e76f51',
+                            borderWidth: 2,
+                            pointBackgroundColor: pal.isDark ? '#f6c9a8' : '#b84724',
+                            pointBorderColor: pal.pointBg,
+                            pointRadius: 4,
+                            fill: true,
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        tooltip: Object.assign({
+                            callbacks: {
+                                label: (ctx) => {
+                                    let val = ctx.raw;
+                                    let serie = ctx.dataset.label;
+                                    return `${serie}: ${val.toFixed(1)}% (normalizado respecto al máximo histórico)`;
+                                }
+                            }
+                        }, pal.tooltip),
+                        legend: { position: 'top', labels: { color: pal.text } }
+                    },
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: { stepSize: 20, backdropColor: 'transparent', color: pal.text },
+                            grid: { color: pal.grid },
+                            angleLines: { color: pal.grid },
+                            pointLabels: { color: pal.text },
+                            title: { display: true, text: 'Índice comparativo %', font: { size: 9 }, color: pal.text }
+                        }
+                    }
+                }
+            });
+
+            // ---------- ESTADÍSTICAS ----------
+            const totalAtenciones = atencionesData.reduce((acc, val) => acc + val, 0);
+            const promedioAtenciones = totalAtenciones / years.length;
+            const totalProductividad = productividadData.reduce((acc, val) => acc + val, 0);
+            const promedioProductividad = totalProductividad / years.length;
+            const maxAtencionVal = Math.max(...atencionesData);
+            const maxAtencionYear = years[atencionesData.indexOf(maxAtencionVal)];
+            const maxProdVal = Math.max(...productividadData);
+            const maxProdYear = years[productividadData.indexOf(maxProdVal)];
+
+            const statsContainer = document.getElementById('graficos-statsContainer');
+            statsContainer.innerHTML = `
+                <div class="stat-card"><div class="stat-number">${totalAtenciones.toLocaleString('es-PE')}</div><div class="stat-label">Atenciones totales (2020-26)</div></div>
+                <div class="stat-card"><div class="stat-number">${Math.round(promedioAtenciones).toLocaleString('es-PE')}</div><div class="stat-label">Promedio anual atenciones</div></div>
+                <div class="stat-card"><div class="stat-number">S/ ${maxProdVal.toLocaleString('es-PE')}</div><div class="stat-label">Máx. Productividad (${maxProdYear})</div></div>
+                <div class="stat-card"><div class="stat-number">${maxAtencionVal.toLocaleString('es-PE')}</div><div class="stat-label">Pico atenciones (${maxAtencionYear})</div></div>
+                <div class="stat-card"><div class="stat-number">S/ ${Math.round(promedioProductividad).toLocaleString('es-PE')}</div><div class="stat-label">Productividad media (S/.)</div></div>
+            `;
+
+            console.log('✅ Todos los gráficos renderizados correctamente (incluyendo el gráfico original)');
+        }
+
+        // Redimensionar todos los gráficos al cambiar tamaño de ventana
+        window.addEventListener('resize', () => {
+            Object.values(G_INSTANCES).forEach(ch => ch && ch.resize());
+        });
+
+        window.buildAll_graficos = buildGraficos;
+        window.addEventListener('load', buildGraficos);
+    })();
+
+</script>
+
+<div id="chart-60" class="theme-barras2"><div class="chart-badge chart-badge-plain">#60 — Tendencia global por anio (bar+line (mixed), Tailwind simple, fondo gris claro)</div>
+<div class="bg-white rounded-[24px] shadow-sm p-8 max-w-3xl w-full border border-gray-100">
+        
+        <h2 class="text-[#2c3a57] text-xl font-bold tracking-tight mb-6">
+            Tendencia global por año
+        </h2>
+
+        <div class="relative w-full h-[400px]">
+            <canvas id="barras2-trendChart"></canvas>
+        </div>
+    </div>
+</div>
+<script>
+(function(){
+        let chartInstance = null;
+
+        function buildBarras2(){
+            const pal = window.getChartPalette();
+            const ctx = document.getElementById('barras2-trendChart').getContext('2d');
+            if(chartInstance){ chartInstance.destroy(); chartInstance = null; }
+
+            // Configuración de los datos del gráfico
+            const data = {
+                labels: ['2020', '2021', '2022', '2023', '2024', '2025', '2026'],
+                datasets: [
+                    {
+                        type: 'line',
+                        label: 'Productividad (S/)',
+                        data: [75000, 81000, 85000, 83000, 76000, 82500, 34000],
+                        borderColor: '#10b981', // Verde esmeralda
+                        backgroundColor: pal.isDark ? 'rgba(16,185,129,0.18)' : 'rgba(16, 185, 129, 0.12)',
+                        fill: true, // Habilita el pintado debajo de la línea
+                        borderWidth: 3,
+                        pointBackgroundColor: pal.pointBg,
+                        pointBorderColor: '#10b981',
+                        pointBorderWidth: 2,
+                        pointRadius: 5,
+                        pointHoverRadius: 7,
+                        tension: 0.4, // Suavizado de la curva
+                        yAxisID: 'yProductividad',
+                        order: 1 // La línea y su fondo se dibujan encima de las barras si se requiere
+                    },
+                    {
+                        type: 'bar',
+                        label: 'Atenciones',
+                        data: [710, 760, 800, 765, 720, 770, 305],
+                        backgroundColor: pal.isDark ? 'rgba(99,102,241,0.25)' : 'rgba(238, 242, 255, 0.8)', // Fondo lila/azul claro
+                        borderColor: '#6366f1', // Borde azul/morado
+                        borderWidth: 1.5,
+                        borderRadius: 8,
+                        borderSkipped: false,
+                        barPercentage: 0.6,
+                        yAxisID: 'yAtenciones',
+                        order: 2
+                    }
+                ]
+            };
+
+            // Configuración de opciones del gráfico
+            const config = {
+                data: data,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            align: 'center',
+                            labels: {
+                                boxWidth: 14,
+                                boxHeight: 14,
+                                useRadius: false,
+                                borderRadius: 2,
+                                padding: 20,
+                                font: {
+                                    size: 13
+                                },
+                                color: pal.text
+                            }
+                        },
+                        tooltip: Object.assign({
+                            mode: 'index',
+                            intersect: false
+                        }, pal.tooltip)
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                display: true,
+                                color: pal.gridSoft
+                            },
+                            ticks: {
+                                color: pal.text,
+                                font: { size: 13 }
+                            }
+                        },
+                        yAtenciones: {
+                            type: 'linear',
+                            position: 'left',
+                            min: 0,
+                            max: 900,
+                            ticks: {
+                                stepSize: 100,
+                                color: pal.text
+                            },
+                            grid: {
+                                color: pal.grid
+                            },
+                            title: {
+                                display: true,
+                                text: 'Atenciones',
+                                color: pal.text,
+                                font: { size: 12 }
+                            }
+                        },
+                        yProductividad: {
+                            type: 'linear',
+                            position: 'right',
+                            min: 0,
+                            max: 90000,
+                            ticks: {
+                                stepSize: 10000,
+                                callback: function(value) {
+                                    return value.toLocaleString('en-US');
+                                },
+                                color: pal.text
+                            },
+                            grid: {
+                                drawOnChartArea: false
+                            },
+                            title: {
+                                display: true,
+                                text: 'S/',
+                                color: pal.text,
+                                font: { size: 12 }
+                            }
+                        }
+                    }
+                }
+            };
+
+            // Renderizado del gráfico
+            chartInstance = new Chart(ctx, config);
+        }
+
+        window.buildAll_barras2 = buildBarras2;
+        window.addEventListener('load', buildBarras2);
+})();
+</script>
+
+<div id="chart-61" class="theme-tendencia"><div class="chart-badge chart-badge-plain">#61 — Network Activities (line (area, gradient fill), Tailwind simple, card blanca)</div>
+<div class="max-w-4xl mx-auto bg-white rounded-sm border border-gray-200 shadow-sm p-4 text-gray-700 font-sans">
+        
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b border-gray-100 pb-3 mb-4">
+            <div>
+                <h2 class="text-lg font-medium text-gray-600 tracking-tight">Network Activities</h2>
+                <p class="text-xs text-gray-400 mt-0.5">Graph title sub-title</p>
+            </div>
+            <div class="mt-2 sm:mt-0 flex items-center text-xs text-gray-500 border border-gray-200 rounded px-2.5 py-1.5 bg-gray-50 cursor-pointer hover:bg-gray-100 transition">
+                <svg class="w-3.5 h-3.5 me-2 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"></path>
+                </svg>
+                <span>October 25, 2015 - November 23, 2015</span>
+                <svg class="w-3 h-3 ms-2 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path>
+                </svg>
+            </div>
+        </div>
+
+        <div class="relative w-full h-72">
+            <canvas id="tendencia-networkChart"></canvas>
+        </div>
+    </div>
+</div>
+<script>
+(function(){
+        let chartInstance = null;
+
+        function buildTendencia(){
+            const pal = window.getChartPalette();
+            const ctx = document.getElementById('tendencia-networkChart').getContext('2d');
+            if(chartInstance){ chartInstance.destroy(); chartInstance = null; }
+
+            // Configuración de Gradientes para simular la opacidad del dashboard original
+            const gradientVerde = ctx.createLinearGradient(0, 0, 0, 300);
+            gradientVerde.addColorStop(0, pal.isDark ? 'rgba(26, 188, 156, 0.45)' : 'rgba(26, 188, 156, 0.55)');
+            gradientVerde.addColorStop(1, 'rgba(26, 188, 156, 0.05)');
+
+            const gradientAzul = ctx.createLinearGradient(0, 0, 0, 300);
+            gradientAzul.addColorStop(0, pal.isDark ? 'rgba(52, 152, 219, 0.45)' : 'rgba(52, 152, 219, 0.55)');
+            gradientAzul.addColorStop(1, 'rgba(52, 152, 219, 0.05)');
+
+            // Datos calcados de la imagen de tendencia (Jan 01 a Jan 06)
+            const data = {
+                labels: ['Jan 01', 'Jan 02', 'Jan 03', 'Jan 04', 'Jan 05', 'Jan 06'],
+                datasets: [
+                    {
+                        label: 'Dataset Verde (Frente)',
+                        data: [82, 54, 40, 15, 35, 68],
+                        borderColor: 'rgba(26, 188, 156, 0.65)',
+                        borderWidth: 1.5,
+                        backgroundColor: gradientVerde,
+                        fill: true,
+                        tension: 0.45, // Curvatura suave idéntica al diseño
+                        pointRadius: 0, // Ocultar puntos para un look limpio como la imagen
+                        pointHoverRadius: 4
+                    },
+                    {
+                        label: 'Dataset Azul (Fondo)',
+                        data: [50, 12, 52, 45, 120, 30],
+                        borderColor: 'rgba(52, 152, 219, 0.55)',
+                        borderWidth: 1.5,
+                        backgroundColor: gradientAzul,
+                        fill: true,
+                        tension: 0.45,
+                        pointRadius: 0,
+                        pointHoverRadius: 4
+                    }
+                ]
+            };
+
+            const config = {
+                type: 'line',
+                data: data,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false // Ocultar leyenda superior para respetar el diseño limpio
+                        },
+                        tooltip: Object.assign({
+                            mode: 'index',
+                            intersect: false
+                        }, pal.tooltip)
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false // Sin líneas verticales, solo marcas abajo
+                            },
+                            ticks: {
+                                color: pal.text,
+                                font: {
+                                    size: 11
+                                }
+                            }
+                        },
+                        y: {
+                            min: 0,
+                            max: 130,
+                            ticks: {
+                                stepSize: 10,
+                                color: pal.text,
+                                font: {
+                                    size: 10
+                                }
+                            },
+                            grid: {
+                                color: pal.gridSoft, // Líneas horizontales de fondo muy tenues
+                                drawBorder: false
+                            }
+                        }
+                    }
+                }
+            };
+
+            chartInstance = new Chart(ctx, config);
+        }
+
+        window.buildAll_tendencia = buildTendencia;
+        window.addEventListener('load', buildTendencia);
+})();
+</script>
+
+<script>
+// ===== Global theme palette helper for Chart.js (graficos / barras2 / tendencia sections) =====
+window.getChartPalette = function(){
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    return {
+        isDark: isDark,
+        text: isDark ? '#cbd5e1' : '#4b5563',
+        textSoft: isDark ? '#94a3b8' : '#6b7280',
+        grid: isDark ? 'rgba(148,197,255,.12)' : '#e5e7eb',
+        gridSoft: isDark ? 'rgba(148,197,255,.07)' : '#f3f4f6',
+        pointBg: isDark ? '#121c30' : '#ffffff',
+        tooltip: isDark
+            ? { backgroundColor:'rgba(15,23,42,0.92)', titleColor:'#e6f1ff', bodyColor:'#cbd5e1', borderColor:'rgba(148,197,255,.18)', borderWidth:1 }
+            : { backgroundColor:'rgba(255,255,255,0.95)', titleColor:'#111827', bodyColor:'#6b7280', borderColor:'rgba(0,0,0,.06)', borderWidth:1 }
+    };
+};
+
+// ===== Global theme toggle =====
+(function(){
+    const btn = document.getElementById('global-theme-toggle');
+    if(!btn) return;
+
+    function rebuildAll(){
+        try{ if(typeof window.buildAll_arctic === 'function') window.buildAll_arctic(); }catch(e){ console.error(e); }
+        try{ if(typeof window.buildAll_vibiz === 'function') window.buildAll_vibiz(); }catch(e){ console.error(e); }
+        try{ if(typeof window.buildAll_graficos === 'function') window.buildAll_graficos(); }catch(e){ console.error(e); }
+        try{ if(typeof window.buildAll_barras2 === 'function') window.buildAll_barras2(); }catch(e){ console.error(e); }
+        try{ if(typeof window.buildAll_tendencia === 'function') window.buildAll_tendencia(); }catch(e){ console.error(e); }
+    }
+
+    btn.addEventListener('click', function(){
+        const current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+        const next = current === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        try{ localStorage.setItem('catalog-theme', next); }catch(e){}
+        rebuildAll();
+    });
+})();
+</script>
+
+</body>
+</html>

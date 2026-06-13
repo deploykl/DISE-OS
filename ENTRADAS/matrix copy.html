@@ -1,592 +1,525 @@
 <!DOCTYPE html>
-<html lang="es">
+<html class="light" lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Matrix Loading Screen | System Initialization</title>
-    <!-- Tailwind CSS + Bootstrap Icons + PrimeIcons -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/primeicons@7.0.0/primeicons.css">
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>ONIEES - Observatorio Nacional de Infraestructura y Equipamiento</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"><\/script>
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed-dim": "#adc6ff",
+                        "surface-container": "#f1f5f9",
+                        "primary-container": "#0058bc",
+                        "background": "#fafafa",
+                        "outline": "#727784",
+                        "on-primary-fixed-variant": "#004494",
+                        "tertiary": "#00486d",
+                        "secondary-container": "#66affe",
+                        "error-container": "#ffdad6",
+                        "on-primary-container": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "surface-container-low": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed": "#001e30",
+                        "secondary-fixed-dim": "#9fcaff",
+                        "on-primary-fixed": "#001a41",
+                        "inverse-primary": "#adc6ff",
+                        "surface-bright": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "surface-container-highest": "#e2e8f0",
+                        "tertiary-fixed-dim": "#8ecdff",
+                        "secondary": "#0061a5",
+                        "on-tertiary-fixed-variant": "#004b71",
+                        "on-error": "#ffffff",
+                        "primary-fixed": "#d8e2ff",
+                        "tertiary-fixed": "#cbe6ff",
+                        "on-secondary-container": "#004172",
+                        "tertiary-container": "#006190",
+                        "primary": "#0058bc",
+                        "outline-variant": "#cbd5e1",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed-variant": "#00497e",
+                        "on-surface": "#0f172a",
+                        "inverse-on-surface": "#f8fafc",
+                        "secondary-fixed": "#d2e4ff",
+                        "surface-variant": "#f1f5f9",
+                        "surface-tint": "#0058bc",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-high": "#f8fafc",
+                        "on-surface-variant": "#475569",
+                        "surface": "#ffffff",
+                        "inverse-surface": "#1e293b",
+                        "on-tertiary-container": "#add9ff",
+                        "surface-dim": "#e2e8f0",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed": "#001d37",
+                        "on-background": "#0f172a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "1rem",
+                        "2xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "sm": "8px",
+                        "base": "4px",
+                        "xl": "40px",
+                        "container-max": "1280px",
+                        "xs": "4px",
+                        "xxl": "64px",
+                        "lg": "24px",
+                        "md": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Hanken Grotesk"],
+                        "label-md": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "label-sm": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "label-sm": ["12px", { "lineHeight": "1.4", "fontWeight": "500" }]
+                    }
+                },
+            },
+        }
+    </script>
     <style>
-        /* Forma hexagonal */
-        .hexagon {
-            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-        }
-
-        /* Animaciones personalizadas */
-        @keyframes typewriter {
-            from { width: 0; }
-            to { width: 100%; }
-        }
-
-        @keyframes cursor-blink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0; }
-        }
-
-        @keyframes glitch {
-            0% { transform: translate(0); opacity: 1; }
-            20% { transform: translate(-2px, 2px); opacity: 0.75; }
-            40% { transform: translate(-2px, -2px); opacity: 0.5; }
-            60% { transform: translate(2px, 2px); opacity: 0.75; }
-            80% { transform: translate(2px, -2px); opacity: 0.5; }
-            100% { transform: translate(0); opacity: 1; }
-        }
-
-        @keyframes processor {
-            0%, 100% { transform: scale(1); filter: brightness(1); }
-            50% { transform: scale(1.05); filter: brightness(1.3); }
-        }
-
-        @keyframes connection-line {
-            0% { transform: translateX(-100%); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateX(100%); opacity: 0; }
-        }
-
-        @keyframes data-dot {
-            0%, 100% { transform: translateY(0) scale(1); opacity: 0; }
-            10%, 90% { opacity: 1; }
-            50% { transform: translateY(-20px) scale(1.5); }
-        }
-
-        @keyframes scan-line {
-            0% { transform: translateY(-100%); }
-            100% { transform: translateY(100vh); }
-        }
-
-        @keyframes progress-shine {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        @keyframes console-line {
-            0% { opacity: 0; transform: translateX(-10px); }
-            100% { opacity: 1; transform: translateX(0); }
-        }
-
-        @keyframes spin-slow {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        @keyframes ping-slow {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.1); opacity: 0.7; }
-        }
-
-        @keyframes fade-in {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes pulse-slow {
-            0%, 100% { opacity: 0.1; transform: scale(1); }
-            50% { opacity: 0.2; transform: scale(1.1); }
-        }
-
-        /* Clases de animación */
-        .animate-typewriter {
-            animation: typewriter 2s steps(40) 1s both;
-            border-right: 2px solid;
-            border-color: inherit;
-            white-space: nowrap;
+        body {
+            font-family: 'Hanken Grotesk', sans-serif;
+            background-color: #fafafa;
+            margin: 0;
             overflow: hidden;
+            color: #0f172a;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 88, 188, 0.1);
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 0 20px 2px rgba(0, 88, 188, 0.05);
+            border-radius: 24px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-panel:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px -10px rgba(0, 88, 188, 0.15), 0 0 0 1px rgba(0, 88, 188, 0.2);
+            border-color: rgba(0, 88, 188, 0.2);
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        /* Splash Overlay & Reveal Animation */
+        .pulse-soft {
+            animation: pulse-soft 3s ease-in-out infinite;
+        }
+        @keyframes pulse-soft {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.85; }
+        }
+        .letter-reveal {
             display: inline-block;
-        }
-
-        .animate-cursor-blink {
-            animation: cursor-blink 1s infinite;
-        }
-
-        .animate-glitch {
-            animation: glitch 0.3s infinite;
-        }
-
-        .animate-processor {
-            animation: processor 2s ease-in-out infinite;
-        }
-
-        .animate-connection-line {
-            animation: connection-line linear infinite;
-        }
-
-        .animate-data-dot {
-            animation: data-dot ease-in-out infinite;
-        }
-
-        .animate-scan-line {
-            animation: scan-line 3s linear infinite;
-        }
-
-        .animate-progress-shine {
-            animation: progress-shine 2s ease-in-out infinite;
-        }
-
-        .animate-console-line {
-            animation: console-line 0.5s ease-out both;
-        }
-
-        .animate-spin-slow {
-            animation: spin-slow 3s linear infinite;
-        }
-
-        .animate-ping-slow {
-            animation: ping-slow 3s ease-in-out infinite;
-        }
-
-        .animate-fade-in-delay {
-            animation: fade-in 0.8s ease-out 0.5s both;
-        }
-
-        .animate-pulse-slow {
-            animation: pulse-slow 4s ease-in-out infinite;
-        }
-
-        /* Transición de desvanecimiento */
-        .fade-enter-active,
-        .fade-leave-active {
-            transition: all 0.8s ease;
-        }
-
-        .fade-enter-from,
-        .fade-leave-to {
             opacity: 0;
-            transform: scale(1.05);
+            transform: translateY(20px);
+            filter: blur(10px);
+            animation: letter-appear 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        @keyframes letter-appear {
+            to { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
+        @keyframes loading-bar {
+            0% { width: 0%; }
+            100% { width: 100%; }
         }
 
-        /* Ocultar elementos durante transición */
-        .hidden-transition {
-            display: none;
+        canvas#shader-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 100;
+            pointer-events: auto;
+        }
+        #splash-content {
+            position: fixed;
+            inset: 0;
+            z-index: 101;
+            pointer-events: none;
+            transition: opacity 0.5s ease-out;
         }
     </style>
 </head>
-<body class="antialiased">
+<body class="bg-background">
+    <!-- BOTTOM LAYER: Dashboard Content -->
+    <div class="relative z-0 min-h-screen" id="dashboard-layer">
+        <header class="docked full-width top-0 sticky z-50 bg-white/80 backdrop-blur-xl border-b border-slate-200/50" id="top-nav">
+            <div class="flex justify-between items-center w-full px-lg max-w-container-max mx-auto h-16">
+                <div class="flex items-center gap-md">
+                    <span class="text-headline-md font-headline-lg text-primary tracking-tight">ONIEES</span>
+                    <nav class="hidden md:flex items-center gap-lg ml-xl">
+                        <a class="font-label-md text-label-md text-primary border-b-2 border-primary pb-1" href="#">Observatorio</a>
+                        <a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Infraestructura</a>
+                        <a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Recursos</a>
+                        <a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Insights</a>
+                    </nav>
+                </div>
+                <div class="flex items-center gap-lg">
+                    <div class="hidden md:flex items-center gap-3 px-4 py-1.5 bg-slate-50 border border-slate-100 rounded-full">
+                        <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                        <span class="font-label-sm text-on-surface-variant">Bienvenido, <span class="text-on-surface font-bold">Admin</span></span>
+                    </div>
+                    <div class="flex items-center gap-md">
+                        <button class="p-2 hover:bg-slate-100 rounded-full transition-all duration-300">
+                            <span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+                        </button>
+                        <img alt="Admin profile" class="w-8 h-8 rounded-full border border-slate-200 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDztNU4vztFDtwpyNuzQm6a2D0uO_PEiMhGXoIQyKXxc5nFKFv-fABxWhT6d7CdtkY_L9KprzyuwUNV-chkbgdewC8UngfMK8XIfpY_YJIGyEHrJrmQ-n_k7Mh8_udSTmFCiwr2-ktCKg6fDfBC-xm7p3GD0QZiDvm45mPst1zLlwq6R7YB5ZfYyAWCy5Zut9-vKZuarbhPcjGy7u45NeOJavMq4XWa7hDDYjauzvsEWNz3T9lF5_MtM_-MtsjsjYqK8XgfWaYpygs" />
+                    </div>
+                </div>
+            </div>
+        </header>
+        <div class="flex max-w-[1440px] mx-auto">
+            <aside class="hidden lg:flex flex-col h-[calc(100vh-64px)] w-64 sticky top-16 py-lg gap-sm border-r border-slate-200/50 bg-white/50 backdrop-blur-lg" id="side-nav">
+                <div class="px-md mb-lg">
+                    <div class="flex items-center gap-md p-3">
+                        <div class="w-10 h-10 bg-primary/5 text-primary rounded-xl flex items-center justify-center">
+                            <span class="material-symbols-outlined">account_tree</span>
+                        </div>
+                        <div>
+                            <div class="font-label-md text-on-surface">Red Nacional</div>
+                            <div class="text-[10px] text-green-600 font-bold flex items-center gap-1">
+                                <span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
+                                SISTEMA ACTIVO
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <nav class="flex-1 space-y-1">
+                    <a class="flex items-center gap-md bg-primary text-on-primary rounded-xl mx-3 p-3 shadow-lg shadow-primary/20" href="#">
+                        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+                        <span class="font-label-md">Panel de Control</span>
+                    </a>
+                    <a class="flex items-center gap-md text-on-surface-variant hover:bg-slate-100/80 rounded-xl mx-3 p-3 transition-colors" href="#">
+                        <span class="material-symbols-outlined">account_tree</span>
+                        <span class="font-label-md">Red Hospitalaria</span>
+                    </a>
+                    <a class="flex items-center gap-md text-on-surface-variant hover:bg-slate-100/80 rounded-xl mx-3 p-3 transition-colors" href="#">
+                        <span class="material-symbols-outlined">bigtop_done</span>
+                        <span class="font-label-md">Estado de Equipos</span>
+                    </a>
+                    <a class="flex items-center gap-md text-on-surface-variant hover:bg-slate-100/80 rounded-xl mx-3 p-3 transition-colors" href="#">
+                        <span class="material-symbols-outlined">bolt</span>
+                        <span class="font-label-md">Red Eléctrica</span>
+                    </a>
+                    <a class="flex items-center gap-md text-on-surface-variant hover:bg-slate-100/80 rounded-xl mx-3 p-3 transition-colors" href="#">
+                        <span class="material-symbols-outlined">analytics</span>
+                        <span class="font-label-md">Reportes Estratégicos</span>
+                    </a>
+                </nav>
+                <div class="px-4 mt-auto border-t border-slate-100 pt-lg">
+                    <button class="w-full bg-slate-900 text-white py-3 rounded-xl font-label-md flex items-center justify-center gap-2 active:scale-95 transition-transform hover:bg-slate-800">
+                        <span class="material-symbols-outlined text-sm">add</span>
+                        Generar Reporte
+                    </button>
+                </div>
+            </aside>
+            <main class="flex-1 p-lg md:p-xl space-y-xl max-w-container-max mx-auto" id="main-content">
+                <section class="space-y-md">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 bg-primary/10 text-primary rounded-full font-label-sm border border-primary/20">
+                        <span class="relative flex h-2 w-2">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                        </span>
+                        SISTEMA ACTUALIZADO
+                    </div>
+                    <h1 class="font-display-lg text-display-lg max-w-3xl text-on-surface leading-tight">
+                        Observatorio de <span class="text-primary">Infraestructura</span> y Equipamiento Médico
+                    </h1>
+                    <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">
+                        Plataforma de monitoreo estratégico y visualización de datos en tiempo real de la red nacional de salud pública.
+                    </p>
+                </section>
+                <section class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-lg">
+                    <div class="glass-panel md:col-span-2 lg:col-span-2 p-lg space-y-xl">
+                        <div class="flex justify-between items-start">
+                            <div class="p-3 bg-slate-50 text-slate-900 rounded-2xl border border-slate-100">
+                                <span class="material-symbols-outlined">festival</span>
+                            </div>
+                            <span class="text-green-600 bg-green-50 px-2 py-1 rounded-lg font-bold text-[10px] border border-green-100">+2.4% ANUAL</span>
+                        </div>
+                        <div>
+                            <div class="text-5xl font-display-lg text-on-surface">9,480</div>
+                            <div class="font-label-sm text-on-surface-variant uppercase tracking-widest mt-1">Total Establecimientos</div>
+                        </div>
+                    </div>
+                    <div class="glass-panel md:col-span-2 lg:col-span-3 p-lg flex flex-col justify-between">
+                        <div class="flex items-center justify-between mb-md">
+                            <div class="font-label-sm text-on-surface-variant uppercase tracking-widest">Niveles de Atención</div>
+                            <span class="material-symbols-outlined text-slate-300">layers</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-md">
+                            <div class="space-y-1">
+                                <div class="text-2xl font-headline-md text-on-surface">8,124</div>
+                                <div class="text-[10px] font-bold text-primary uppercase">Primer Nivel</div>
+                            </div>
+                            <div class="space-y-1">
+                                <div class="text-2xl font-headline-md text-on-surface">1,215</div>
+                                <div class="text-[10px] font-bold text-on-surface-variant uppercase">Segundo Nivel</div>
+                            </div>
+                            <div class="space-y-1">
+                                <div class="text-2xl font-headline-md text-on-surface">141</div>
+                                <div class="text-[10px] font-bold text-on-surface-variant uppercase">Tercer Nivel</div>
+                            </div>
+                        </div>
+                        <div class="mt-lg h-1.5 w-full bg-slate-100 rounded-full flex overflow-hidden">
+                            <div class="h-full bg-primary" style="width: 75%"></div>
+                            <div class="h-full bg-slate-400" style="width: 15%"></div>
+                            <div class="h-full bg-slate-200" style="width: 10%"></div>
+                        </div>
+                    </div>
+                    <div class="glass-panel md:col-span-1 lg:col-span-1 p-lg flex flex-col items-center justify-center text-center">
+                        <div class="relative w-20 h-20 mb-md">
+                            <svg class="w-full h-full" viewbox="0 0 36 36">
+                                <path class="text-slate-100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="2"></path>
+                                <path class="text-primary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="75, 100" stroke-linecap="round" stroke-width="2.5"></path>
+                            </svg>
+                            <div class="absolute inset-0 flex items-center justify-center font-headline-md text-on-surface">9/12</div>
+                        </div>
+                        <div class="font-label-sm text-on-surface-variant uppercase font-bold tracking-tighter">Instituciones</div>
+                    </div>
+                    <div class="glass-panel md:col-span-4 lg:col-span-4 h-96 relative overflow-hidden group">
+                        <img alt="Map data visualization" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 opacity-90" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpCe3ROnnIfWllDZdBIi8AAXpmu_jgvcrDiUWkmy28g_tXbB-4_5Q8tLdgOmRMpMfZXaGa5-SfAlDcCVibzfdJ01Ao1NqYAZN-lMtGdV_X4V1iZyxtiW5MWCC6IrZf7vxtEM1JoW8-3UyJ5K0QMwRF1KCk3agVTYsFRWmF1Ve3mMNEAtOpQknBJ3jgy9mkMwypj7O2awP6_oAo-y3iPyoPRYVaRk6iqNFkUU1t7dR236AgaWLdiyUO3zuaSuLEQHkhLIFZKM_VE_E" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-white/95 via-white/10 to-transparent p-lg flex flex-col justify-end">
+                            <div class="flex justify-between items-end">
+                                <div>
+                                    <h3 class="font-headline-md text-on-surface">Capacidad Nacional</h3>
+                                    <p class="text-on-surface-variant font-label-md">Distribución geográfica de recursos</p>
+                                </div>
+                                <button class="bg-primary text-white px-lg py-sm rounded-xl font-label-md hover:bg-on-primary-fixed-variant transition-colors shadow-lg shadow-primary/20">
+                                    Ver Mapa Detallado
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="glass-panel md:col-span-2 lg:col-span-2 p-lg space-y-md">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-md">
+                            <h3 class="font-headline-md text-on-surface text-lg">Eventos Críticos</h3>
+                            <span class="material-symbols-outlined text-primary">sensors</span>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex items-start gap-md p-2 rounded-xl hover:bg-slate-50 transition-colors">
+                                <div class="p-2 bg-red-50 rounded-lg"><span class="material-symbols-outlined text-red-600 text-sm">priority_high</span></div>
+                                <div>
+                                    <div class="font-label-md text-on-surface">Falla Eléctrica</div>
+                                    <div class="text-[10px] text-on-surface-variant">Hosp. Central - Sector Quirófanos</div>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-md p-2 rounded-xl hover:bg-slate-50 transition-colors">
+                                <div class="p-2 bg-blue-50 rounded-lg"><span class="material-symbols-outlined text-primary text-sm">build</span></div>
+                                <div>
+                                    <div class="font-label-md text-on-surface">Mantenimiento de Red</div>
+                                    <div class="text-[10px] text-on-surface-variant">Nodo Regional - 14:00 hrs</div>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-md p-2 rounded-xl hover:bg-slate-50 transition-colors">
+                                <div class="p-2 bg-slate-100 rounded-lg"><span class="material-symbols-outlined text-slate-600 text-sm">inventory_2</span></div>
+                                <div>
+                                    <div class="font-label-md text-on-surface">Insumos Críticos</div>
+                                    <div class="text-[10px] text-on-surface-variant">Centro Sur - Bajo Stock Oxígeno</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
 
-    <div id="app"></div>
+    <!-- TOP LAYER: Splash Overlay & Shader -->
+    <canvas id="shader-bg"></canvas>
+    <div id="splash-content">
+        <main class="fixed inset-0 flex flex-col items-center justify-center">
+            <div class="relative z-10 flex flex-col items-center">
+                <div class="mb-xl pulse-soft">
+                    <span class="material-symbols-outlined text-primary text-[64px]" style="font-variation-settings: 'FILL' 1;">account_tree</span>
+                </div>
+                <h1 class="font-display-lg text-[80px] md:text-[120px] text-primary tracking-tighter" id="welcome-text"></h1>
+                <p class="font-body-md text-body-md text-on-surface-variant opacity-0 transform translate-y-4 transition-all duration-1000 delay-1000 mt-md" id="subtext">
+                    Observatorio Nacional de Infraestructura y Equipamiento
+                </p>
+                <div class="mt-xl w-32 h-1 bg-surface-container/50 rounded-full overflow-hidden" id="loader-container">
+                    <div class="h-full bg-primary w-0 animate-[loading-bar_3s_linear_forwards]"></div>
+                </div>
+            </div>
+            <div class="absolute bottom-xl w-full text-center px-margin-desktop">
+                <span class="font-label-md text-label-md text-outline tracking-widest uppercase">Sistema de Monitoreo Estratégico v.2.0</span>
+            </div>
+        </main>
+    </div>
 
     <script>
-        class MatrixLoadingScreen {
-            constructor(config) {
-                this.show = config.show || false;
-                this.duration = config.duration || 6000;
-                this.theme = config.theme || 'matrix';
-                this.onComplete = config.onComplete || (() => {});
-                
-                this.countdown = Math.ceil(this.duration / 1000);
-                this.internalShow = false;
-                this.elapsedTime = 0;
-                
-                this.matrixInterval = null;
-                this.countdownInterval = null;
-                this.columns = [];
-                this.startTime = 0;
-                
-                this.container = null;
-                this.canvas = null;
-                
-                this.init();
-            }
-            
-            get themeClasses() {
-                if (this.theme === 'light') {
-                    return {
-                        background: 'bg-gradient-to-br from-slate-50 to-blue-100',
-                        text: 'text-slate-800',
-                        title: 'text-slate-900',
-                        subtitle: 'text-blue-600',
-                        connectionLine: 'bg-blue-300/60',
-                        dataDot: 'bg-blue-400',
-                        glitch1: 'bg-red-300/30',
-                        glitch2: 'bg-blue-300/30',
-                        logoBorder: 'bg-white/90 border-blue-300/50',
-                        logoBg: 'bg-blue-200',
-                        logoIcon: 'text-blue-600',
-                        logoRing: 'border-blue-400',
-                        progressBorder: 'border-blue-300 bg-blue-100/50',
-                        progressBar: 'bg-gradient-to-r from-blue-500 to-cyan-500',
-                        progressShine: 'bg-gradient-to-r from-transparent via-white/40 to-transparent',
-                        counter: 'text-blue-700',
-                        consoleBorder: 'border-blue-200/30 bg-blue-50/30',
-                        statusText: 'text-blue-800',
-                        footer: 'text-blue-600'
-                    };
-                } else if (this.theme === 'matrix') {
-                    return {
-                        background: 'bg-gradient-to-br from-black via-green-900/20 to-black',
-                        text: 'text-white',
-                        title: 'text-green-400',
-                        subtitle: 'text-cyan-300',
-                        connectionLine: 'bg-green-400/40',
-                        dataDot: 'bg-cyan-400',
-                        glitch1: 'bg-red-500/20',
-                        glitch2: 'bg-cyan-500/20',
-                        logoBorder: 'bg-black/40 border-green-400/30',
-                        logoBg: 'bg-green-500/10',
-                        logoIcon: 'text-green-400',
-                        logoRing: 'border-cyan-400',
-                        progressBorder: 'border-green-500/50 bg-green-900/20',
-                        progressBar: 'bg-gradient-to-r from-green-400 to-cyan-400',
-                        progressShine: 'bg-gradient-to-r from-transparent via-green-200/40 to-transparent',
-                        counter: 'text-green-300',
-                        consoleBorder: 'border-green-500/30 bg-green-900/10',
-                        statusText: 'text-green-200',
-                        footer: 'text-green-400/70'
-                    };
-                } else {
-                    return {
-                        background: 'bg-gradient-to-br from-slate-900 to-indigo-900',
-                        text: 'text-white',
-                        title: 'text-blue-300',
-                        subtitle: 'text-cyan-300',
-                        connectionLine: 'bg-blue-400/40',
-                        dataDot: 'bg-cyan-400',
-                        glitch1: 'bg-purple-500/20',
-                        glitch2: 'bg-cyan-500/20',
-                        logoBorder: 'bg-white/5 border-white/20',
-                        logoBg: 'bg-blue-400/10',
-                        logoIcon: 'text-blue-300',
-                        logoRing: 'border-cyan-300',
-                        progressBorder: 'border-blue-400/50 bg-blue-900/20',
-                        progressBar: 'bg-gradient-to-r from-blue-400 to-cyan-400',
-                        progressShine: 'bg-gradient-to-r from-transparent via-blue-200/40 to-transparent',
-                        counter: 'text-blue-200',
-                        consoleBorder: 'border-blue-400/30 bg-blue-900/10',
-                        statusText: 'text-blue-100',
-                        footer: 'text-blue-300/70'
-                    };
+        // --- SHADER LOGIC (Identical to Elegance, adapted colors) ---
+        const canvas = document.getElementById('shader-bg');
+        const gl = canvas.getContext('webgl');
+
+        if (gl) {
+            const vsSource = `
+                attribute vec2 position;
+                varying vec2 v_texCoord;
+                void main() {
+                    v_texCoord = position * 0.5 + 0.5;
+                    v_texCoord.y = 1.0 - v_texCoord.y;
+                    gl_Position = vec4(position, 0.0, 1.0);
                 }
-            }
-            
-            get progressWidth() {
-                if (this.duration === 0) return 0;
-                return Math.min((this.elapsedTime / this.duration) * 100, 100);
-            }
-            
-            init() {
-                this.render();
-                if (this.show) {
-                    this.showLoading();
+            `;
+
+            const fsSource = `
+                precision highp float;
+                varying vec2 v_texCoord;
+                uniform float u_time;
+                uniform vec2 u_resolution;
+
+                vec3 permute(vec3 x) { return mod(((x*34.0)+1.0)*x, 289.0); }
+                float snoise(vec2 v){
+                  const vec4 C = vec4(0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439);
+                  vec2 i  = floor(v + dot(v, C.yy) );
+                  vec2 x0 = v -   i + dot(i, C.xx);
+                  vec2 i1;
+                  i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+                  vec4 x12 = x0.xyxy + C.xxzz;
+                  x12.xy -= i1;
+                  i = mod(i, 289.0);
+                  vec3 p = permute( permute( i.y + vec3(0.0, i1.y, 1.0 )) + i.x + vec3(0.0, i1.x, 1.0 ));
+                  vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);
+                  m = m*m ;
+                  m = m*m ;
+                  vec3 x = 2.0 * fract(p * C.www) - 1.0;
+                  vec3 h = abs(x) - 0.5;
+                  vec3 a0 = x - floor(h + 0.5);
+                  return 130.0 * dot(m, x);
                 }
-            }
-            
-            render() {
-                const app = document.getElementById('app');
-                const classes = this.themeClasses;
-                const canvasOpacity = this.theme === 'dark' ? 0.8 : (this.theme === 'matrix' ? 0.8 : 0.4);
-                
-                // Generar líneas de conexión dinámicas
-                let connectionLines = '';
-                for (let i = 0; i < 20; i++) {
-                    const top = Math.random() * 100;
-                    const left = Math.random() * 100;
-                    const width = Math.random() * 200 + 50;
-                    const delay = Math.random() * 5;
-                    const duration = Math.random() * 3 + 2;
-                    connectionLines += `<div class="absolute h-0.5 animate-connection-line ${classes.connectionLine}" style="top: ${top}%; left: ${left}%; width: ${width}px; animation-delay: ${delay}s; animation-duration: ${duration}s;"></div>`;
-                }
-                
-                // Generar puntos de datos flotantes
-                let dataDots = '';
-                for (let i = 0; i < 15; i++) {
-                    const top = Math.random() * 100;
-                    const left = Math.random() * 100;
-                    const delay = Math.random() * 8;
-                    const duration = Math.random() * 10 + 5;
-                    dataDots += `<div class="absolute w-1 h-1 rounded-full animate-data-dot ${classes.dataDot}" style="top: ${top}%; left: ${left}%; animation-delay: ${delay}s; animation-duration: ${duration}s;"></div>`;
-                }
-                
-                this.container = document.createElement('div');
-                this.container.className = `fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden transition-all duration-800 ${classes.background}`;
-                this.container.style.transition = 'all 0.8s ease';
-                
-                if (!this.internalShow) {
-                    this.container.style.opacity = '0';
-                    this.container.style.transform = 'scale(1.05)';
-                    this.container.style.pointerEvents = 'none';
-                }
-                
-                this.container.innerHTML = `
-                    <canvas class="absolute inset-0 w-full h-full pointer-events-none" style="opacity: ${canvasOpacity};"></canvas>
+
+                void main() {
+                    vec2 uv = v_texCoord;
+                    vec2 centered_uv = (uv - 0.5) * 2.0;
+                    centered_uv.x *= u_resolution.x / u_resolution.y;
                     
-                    <div class="absolute inset-0 overflow-hidden">
-                        ${connectionLines}
-                        ${dataDots}
-                    </div>
+                    // ONIEES Color Palette adapted for the shader
+                    vec3 bg = vec3(0.98, 0.98, 0.98);
+                    vec3 primary = vec3(0.0, 0.345, 0.737); // #0058bc
+                    vec3 accent = vec3(0.86, 0.88, 0.91);
                     
-                    <div class="absolute inset-0 overflow-hidden">
-                        <div class="absolute w-full h-1 bg-gradient-to-r from-transparent via-green-400 to-transparent animate-scan-line opacity-70"></div>
-                    </div>
+                    float n = snoise(uv * 1.5 + u_time * 0.15);
+                    n += snoise(uv * 3.0 - u_time * 0.1) * 0.5;
                     
-                    <div class="relative z-10 text-center space-y-8 max-w-2xl mx-auto px-4 ${classes.text}">
-                        <div class="relative mx-auto w-40 h-40">
-                            <div class="absolute inset-0 hexagon animate-glitch opacity-70 ${classes.glitch1}" style="transform: translate(-2px, 0);"></div>
-                            <div class="absolute inset-0 hexagon animate-glitch opacity-70 ${classes.glitch2}" style="transform: translate(2px, 0); animation-delay: 0.1s;"></div>
-                            
-                            <div class="relative hexagon overflow-hidden backdrop-blur-lg border-2 flex items-center justify-center ${classes.logoBorder}">
-                                <div class="absolute inset-0 opacity-20 animate-pulse-slow ${classes.logoBg}"></div>
-                                <div class="relative z-10">
-                                    <i class="bi bi-cpu text-5xl animate-processor ${classes.logoIcon}"></i>
-                                    <div class="absolute -inset-4 rounded-full border-2 border-dashed animate-spin-slow opacity-30 ${classes.logoRing}"></div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="space-y-6">
-                            <div class="relative">
-                                <h1 class="text-5xl md:text-6xl font-black tracking-tighter animate-typewriter overflow-hidden whitespace-nowrap ${classes.title}">
-                                    SYSTEM_INITIALIZATION
-                                </h1>
-                                <div class="absolute bottom-0 right-0 w-0.5 h-8 bg-green-400 animate-cursor-blink"></div>
-                            </div>
-                            <p class="text-xl font-mono animate-fade-in-delay tracking-wider ${classes.subtitle}">
-                                > LOADING_USER_EXPERIENCE_MODULES...
-                            </p>
-                        </div>
-                        
-                        <div class="w-full max-w-md mx-auto space-y-6">
-                            <div class="relative">
-                                <div class="w-full h-3 rounded-sm overflow-hidden border ${classes.progressBorder}">
-                                    <div class="h-full transition-all duration-100 ease-linear relative ${classes.progressBar}" style="width: 0%;">
-                                        <div class="absolute inset-0 animate-progress-shine ${classes.progressShine}"></div>
-                                    </div>
-                                </div>
-                                <div class="flex justify-between text-xs mt-1 font-mono ${classes.counter}">
-                                    <span>0%</span>
-                                    <span>25%</span>
-                                    <span>50%</span>
-                                    <span>75%</span>
-                                    <span>100%</span>
-                                </div>
-                            </div>
-                            
-                            <div class="flex justify-between items-center text-sm font-mono px-2 ${classes.counter}">
-                                <span class="flex items-center space-x-2">
-                                    <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
-                                    <span>SYSTEM_READY_IN</span>
-                                </span>
-                                <span class="font-bold tracking-wider countdown-display">${this.countdown}s</span>
-                            </div>
-                        </div>
-                        
-                        <div class="space-y-3 text-sm font-mono max-w-lg mx-auto text-left bg-black/20 backdrop-blur-sm rounded-lg p-4 border ${classes.consoleBorder}">
-                            <div class="flex items-center space-x-3 animate-console-line ${classes.statusText}">
-                                <span class="text-green-400">></span>
-                                <i class="pi pi-check text-base text-green-400"></i>
-                                <span>USER_AUTHENTICATION_COMPLETE</span>
-                            </div>
-                            <div class="flex items-center space-x-3 animate-console-line ${classes.statusText}" style="animation-delay: 0.3s;">
-                                <span class="text-green-400">></span>
-                                <i class="pi pi-cog animate-spin text-base text-cyan-400"></i>
-                                <span>LOADING_SECURITY_MODULES_[##########]</span>
-                            </div>
-                            <div class="flex items-center space-x-3 animate-console-line ${classes.statusText}" style="animation-delay: 0.6s;">
-                                <span class="text-green-400">></span>
-                                <i class="pi pi-database text-base text-blue-400"></i>
-                                <span>DATABASE_CONNECTION_ESTABLISHED</span>
-                            </div>
-                            <div class="flex items-center space-x-3 animate-console-line ${classes.statusText}" style="animation-delay: 0.9s;">
-                                <span class="text-green-400">></span>
-                                <i class="pi pi-shield text-base text-amber-400"></i>
-                                <span>ENCRYPTION_PROTOCOLS_ACTIVE</span>
-                            </div>
-                            <div class="flex items-center space-x-3 animate-console-line ${classes.statusText}" style="animation-delay: 1.2s;">
-                                <span class="text-green-400">></span>
-                                <i class="pi pi-bolt text-base text-purple-400"></i>
-                                <span>SYSTEM_OPTIMIZATION_IN_PROGRESS</span>
-                            </div>
-                        </div>
-                        
-                        <div class="text-xs font-mono opacity-70 animate-fade-in-delay ${classes.footer}">
-                            <div class="flex justify-center space-x-6">
-                                <span>VERSION: 2.4.1</span>
-                                <span>BUILD: 7842A</span>
-                                <span>STATUS: SECURE</span>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                
-                this.canvas = this.container.querySelector('canvas');
-                app.appendChild(this.container);
-                
-                // Guardar referencias
-                this.progressBar = this.container.querySelector('.h-full.transition-all');
-                this.countdownSpan = this.container.querySelector('.countdown-display');
-            }
-            
-            initializeMatrix() {
-                if (!this.canvas) return;
-                
-                const canvas = this.canvas;
-                const ctx = canvas.getContext('2d');
-                if (!ctx) return;
-                
-                canvas.height = window.innerHeight;
+                    float wave_time = clamp((u_time - 3.0) * 1.5, 0.0, 2.5);
+                    float dist = length(centered_uv);
+                    
+                    float edge_width = 0.04;
+                    float edge = smoothstep(wave_time - edge_width, wave_time, dist) - smoothstep(wave_time, wave_time + edge_width, dist);
+                    float mask = smoothstep(wave_time - 0.02, wave_time + 0.02, dist);
+                    
+                    vec3 color = mix(bg, accent, n * 0.5 + 0.5);
+                    color = mix(color, primary, clamp(n * 0.2, 0.0, 0.1));
+                    color = mix(color, primary, edge);
+                    
+                    gl_FragColor = vec4(color, mask);
+                }
+            `;
+
+            const createShader = (type, source) => {
+                const shader = gl.createShader(type);
+                gl.shaderSource(shader, source);
+                gl.compileShader(shader);
+                return shader;
+            };
+
+            const program = gl.createProgram();
+            gl.attachShader(program, createShader(gl.VERTEX_SHADER, vsSource));
+            gl.attachShader(program, createShader(gl.FRAGMENT_SHADER, fsSource));
+            gl.linkProgram(program);
+
+            const positionBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+
+            const posLoc = gl.getAttribLocation(program, 'position');
+            const timeLoc = gl.getUniformLocation(program, 'u_time');
+            const resLoc = gl.getUniformLocation(program, 'u_resolution');
+
+            const render = (time) => {
                 canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                gl.viewport(0, 0, canvas.width, canvas.height);
+
+                gl.useProgram(program);
+                gl.enableVertexAttribArray(posLoc);
+                gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+                gl.uniform1f(timeLoc, time * 0.001);
+                gl.uniform2f(resLoc, canvas.width, canvas.height);
                 
-                ctx.font = '16px "Courier New", monospace';
-                ctx.textBaseline = 'top';
+                gl.enable(gl.BLEND);
+                gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
                 
-                const columnCount = Math.floor(canvas.width / 10);
-                this.columns = Array(columnCount).fill(0);
-                
-                if (this.matrixInterval) {
-                    clearInterval(this.matrixInterval);
-                }
-                
-                const colors = this.theme === 'matrix' ? ['#00ff00', '#00cc00', '#009900', '#00ff88', '#00ffcc'] :
-                              this.theme === 'dark' ? ['#4facfe', '#00f2fe', '#00ffcc', '#4facfe', '#00f2fe'] :
-                              ['#0066cc', '#0088ff', '#00aaff', '#00ccff', '#00eeff'];
-                
-                const charSet = "01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン";
-                
-                this.matrixInterval = setInterval(() => {
-                    if (!ctx || !this.internalShow) return;
-                    
-                    ctx.fillStyle = this.theme === 'matrix' ? 'rgba(0, 0, 0, 0.05)' : 
-                                    this.theme === 'dark' ? 'rgba(0, 0, 10, 0.05)' : 'rgba(255, 255, 255, 0.03)';
-                    ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    
-                    this.columns.forEach((y, index) => {
-                        const character = charSet[Math.floor(Math.random() * charSet.length)] || '0';
-                        ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)] || '#00ff00';
-                        ctx.fillText(character, index * 10, y);
-                        
-                        if (y > canvas.height && Math.random() > 0.975) {
-                            this.columns[index] = 0;
-                        } else {
-                            this.columns[index] = y + 10;
-                        }
-                    });
-                }, 33);
-            }
-            
-            startCountdown() {
-                this.startTime = Date.now();
-                this.elapsedTime = 0;
-                
-                this.countdownInterval = setInterval(() => {
-                    const currentTime = Date.now();
-                    this.elapsedTime = currentTime - this.startTime;
-                    this.countdown = Math.max(0, Math.ceil((this.duration - this.elapsedTime) / 1000));
-                    
-                    if (this.countdownSpan) {
-                        this.countdownSpan.textContent = `${this.countdown}s`;
-                    }
-                    
-                    if (this.progressBar) {
-                        this.progressBar.style.width = `${this.progressWidth}%`;
-                    }
-                    
-                    if (this.elapsedTime >= this.duration) {
-                        this.cleanup();
-                        this.internalShow = false;
-                        this.startExitAnimation();
-                    }
-                }, 50);
-            }
-            
-            startExitAnimation() {
-                if (this.container) {
-                    this.container.style.opacity = '0';
-                    this.container.style.transform = 'scale(1.05)';
-                    setTimeout(() => {
-                        this.container.style.pointerEvents = 'none';
-                        this.onComplete();
-                    }, 800);
-                }
-            }
-            
-            cleanup() {
-                if (this.countdownInterval) {
-                    clearInterval(this.countdownInterval);
-                    this.countdownInterval = null;
-                }
-                if (this.matrixInterval) {
-                    clearInterval(this.matrixInterval);
-                    this.matrixInterval = null;
-                }
-                if (this.canvas) {
-                    const ctx = this.canvas.getContext('2d');
-                    if (ctx) {
-                        ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-                    }
-                }
-                this.elapsedTime = 0;
-            }
-            
-            showLoading() {
-                this.cleanup();
-                this.internalShow = true;
-                this.countdown = Math.ceil(this.duration / 1000);
-                this.elapsedTime = 0;
-                
-                if (this.container) {
-                    this.container.style.opacity = '1';
-                    this.container.style.transform = 'scale(1)';
-                    this.container.style.pointerEvents = 'auto';
-                    
-                    if (this.progressBar) this.progressBar.style.width = '0%';
-                    if (this.countdownSpan) this.countdownSpan.textContent = `${this.countdown}s`;
-                }
-                
-                setTimeout(() => {
-                    this.initializeMatrix();
-                    this.startCountdown();
-                }, 100);
-            }
-            
-            hide() {
-                if (this.internalShow) {
-                    this.startExitAnimation();
-                }
-            }
-            
-            destroy() {
-                this.cleanup();
-                if (this.container && this.container.parentNode) {
-                    this.container.parentNode.removeChild(this.container);
-                }
-            }
-            
-            handleResize = () => {
-                if (this.internalShow && this.canvas) {
-                    this.initializeMatrix();
-                }
-            }
+                gl.clearColor(0,0,0,0);
+                gl.clear(gl.COLOR_BUFFER_BIT);
+                gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+                requestAnimationFrame(render);
+            };
+            requestAnimationFrame(render);
         }
+
+        // --- TEXT ANIMATION ---
+        const word = "ONIEES";
+        const container = document.getElementById('welcome-text');
+        const subtext = document.getElementById('subtext');
         
-        // Inicializar la pantalla de carga
-        const loadingScreen = new MatrixLoadingScreen({
-            show: true,
-            duration: 6000,
-            theme: 'matrix', // 'matrix', 'dark', o 'light'
-            onComplete: () => {
-                console.log('✅ System ready - Loading complete');
-                // Mostrar mensaje de finalización
-                const completeMsg = document.createElement('div');
-                completeMsg.className = 'fixed inset-0 flex items-center justify-center bg-gradient-to-br from-green-900 to-black z-50';
-                completeMsg.innerHTML = `
-                    <div class="text-center text-white">
-                        <i class="bi bi-check-circle-fill text-6xl text-green-400 mb-4"></i>
-                        <h1 class="text-4xl font-bold font-mono">SYSTEM READY</h1>
-                        <p class="mt-4 text-green-300 font-mono">> INITIALIZATION_COMPLETE</p>
-                        <p class="mt-2 text-sm text-green-500/70">Redirigiendo al dashboard...</p>
-                    </div>
-                `;
-                document.body.appendChild(completeMsg);
-                setTimeout(() => {
-                    completeMsg.style.opacity = '0';
-                    completeMsg.style.transition = 'opacity 0.5s';
-                    setTimeout(() => completeMsg.remove(), 500);
-                }, 2000);
-            }
+        word.split('').forEach((char, index) => {
+            const span = document.createElement('span');
+            span.textContent = char;
+            span.className = 'letter-reveal';
+            span.style.animationDelay = `${index * 0.1}s`;
+            container.appendChild(span);
         });
-        
-        window.addEventListener('resize', () => loadingScreen.handleResize());
+
+        setTimeout(() => {
+            subtext.classList.remove('opacity-0', 'translate-y-4');
+            subtext.classList.add('opacity-100', 'translate-y-0');
+        }, 1000);
+
+        // --- TRANSITION SEQUENCE ---
+        setTimeout(() => {
+            document.getElementById('splash-content').style.opacity = '0';
+        }, 3000);
+
+        setTimeout(() => {
+            canvas.style.pointerEvents = 'none';
+            document.getElementById('splash-content').style.display = 'none';
+            // Re-enable scrolling after splash is gone
+            document.body.style.overflow = 'auto';
+        }, 4500);
     </script>
 </body>
 </html>
