@@ -63,10 +63,19 @@
   .dark .card:hover { box-shadow: 0 16px 32px -14px rgba(0,0,0,0.6); }
   .dark .bg-gradient-to-br.from-sky-50,
   .dark .bg-gradient-to-br.from-amber-50,
+  .dark .bg-gradient-to-br.from-violet-50,
+  .dark .bg-gradient-to-br.from-emerald-50,
   .dark .bg-gradient-to-br.from-amber-50.to-white { --tw-gradient-from: #1C2230 var(--tw-gradient-from-position); --tw-gradient-to: #161B26 var(--tw-gradient-to-position); }
-  .dark .to-white { --tw-gradient-to: #161B26 var(--tw-gradient-to-position); }
+  .dark .to-white,
+  .dark .to-indigo-50,
+  .dark .to-fuchsia-50,
+  .dark .to-orange-50,
+  .dark .to-teal-50 { --tw-gradient-to: #161B26 var(--tw-gradient-to-position); }
+  .dark .via-white { --tw-gradient-via: #1C2230 var(--tw-gradient-via-position); }
   .dark input::placeholder { color: #475569; }
   .dark .bg-slate-50.rounded-xl { background-color: #1C2230; }
+  .dark .bg-white\/80 { background-color: rgba(30,41,59,0.7); }
+  .dark .border-white { border-color: rgba(148,197,255,0.12); }
 
   /* Theme toggle button */
   .theme-toggle { position: relative; width: 52px; height: 28px; border-radius: 9999px; background: #E2E8F0; transition: background-color .25s ease; }
@@ -118,7 +127,7 @@
       <span class="knob"><i data-lucide="sun" class="w-3.5 h-3.5"></i></span>
     </button>
   </div>
-  <p class="text-slate-500 mb-8 text-sm">34 diseños refinados con detalles sutiles, tipografía editorial y micro-interacciones</p>
+  <p class="text-slate-500 mb-8 text-sm">43 diseños refinados con detalles sutiles, tipografía editorial y micro-interacciones</p>
 
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5">
 
@@ -932,6 +941,134 @@
           <a href="#" class="read-more text-xs font-semibold text-emerald-600 flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></a>
         </div>
       </div>
+    </div>
+
+    <!-- 36. KPI Total Revenue (Arctic style) -->
+    <div class="card rounded-3xl p-6 bg-white border border-slate-200/70 cursor-pointer">
+      <div class="flex items-center justify-between mb-4">
+        <div class="w-10 h-10 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center">
+          <i data-lucide="dollar-sign" class="w-5 h-5"></i>
+        </div>
+        <span class="inline-flex items-center gap-1 text-xs font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
+          <i data-lucide="trending-up" class="w-3 h-3"></i> +14.8%
+        </span>
+      </div>
+      <p class="text-xs font-semibold text-slate-400 uppercase tracking-[0.2em] mb-1">Total Revenue</p>
+      <h2 class="font-display text-3xl font-semibold text-slate-900 mb-3">$1.24M</h2>
+      <svg viewBox="0 0 240 50" class="w-full h-12">
+        <path class="draw" d="M0,38 L24,32 L48,36 L72,22 L96,28 L120,14 L144,20 L168,8 L192,16 L216,6 L240,12"
+              fill="none" stroke="#0ea5e9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <!-- 37. KPI Active Users (Arctic style) -->
+    <div class="card rounded-3xl p-6 bg-white border border-slate-200/70 cursor-pointer">
+      <div class="flex items-center justify-between mb-4">
+        <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+          <i data-lucide="users" class="w-5 h-5"></i>
+        </div>
+        <span class="inline-flex items-center gap-1 text-xs font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
+          <i data-lucide="trending-up" class="w-3 h-3"></i> +8.2%
+        </span>
+      </div>
+      <p class="text-xs font-semibold text-slate-400 uppercase tracking-[0.2em] mb-1">Active Users</p>
+      <h2 class="font-display text-3xl font-semibold text-slate-900 mb-3">48,291</h2>
+      <svg viewBox="0 0 240 50" class="w-full h-12">
+        <path class="draw" d="M0,30 L24,34 L48,24 L72,28 L96,18 L120,22 L144,12 L168,18 L192,10 L216,14 L240,6"
+              fill="none" stroke="#6366f1" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <!-- 38. KPI Avg Latency (Arctic style) -->
+    <div class="card rounded-3xl p-6 bg-white border border-slate-200/70 cursor-pointer">
+      <div class="flex items-center justify-between mb-4">
+        <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
+          <i data-lucide="zap" class="w-5 h-5"></i>
+        </div>
+        <span class="inline-flex items-center gap-1 text-xs font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
+          <i data-lucide="trending-down" class="w-3 h-3"></i> -1.8ms
+        </span>
+      </div>
+      <p class="text-xs font-semibold text-slate-400 uppercase tracking-[0.2em] mb-1">Avg Latency</p>
+      <h2 class="font-display text-3xl font-semibold text-slate-900 mb-3">14.2ms</h2>
+      <svg viewBox="0 0 240 50" class="w-full h-12">
+        <path class="draw" d="M0,8 L24,14 L48,10 L72,20 L96,18 L120,28 L144,24 L168,34 L192,32 L216,40 L240,38"
+              fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <!-- 39. KPI System Uptime (Arctic style) -->
+    <div class="card rounded-3xl p-6 bg-white border border-slate-200/70 cursor-pointer">
+      <div class="flex items-center justify-between mb-4">
+        <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+          <i data-lucide="server" class="w-5 h-5"></i>
+        </div>
+        <span class="inline-flex items-center gap-1 text-xs font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
+          <i data-lucide="trending-up" class="w-3 h-3"></i> +0.1%
+        </span>
+      </div>
+      <p class="text-xs font-semibold text-slate-400 uppercase tracking-[0.2em] mb-1">System Uptime</p>
+      <h2 class="font-display text-3xl font-semibold text-slate-900 mb-3">99.9%</h2>
+      <svg viewBox="0 0 240 50" class="w-full h-12">
+        <path class="draw" d="M0,16 L24,15 L48,16 L72,14 L96,15 L120,13 L144,14 L168,12 L192,13 L216,11 L240,12"
+              fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <!-- 40. KPI Revenue Total (Vibiz glass style) -->
+    <div class="card rounded-3xl p-6 bg-gradient-to-br from-sky-50 via-white to-indigo-50 border border-slate-200/70 cursor-pointer">
+      <div class="flex items-center justify-between mb-4">
+        <div class="w-11 h-11 rounded-2xl bg-white/80 shadow-sm border border-white text-sky-600 flex items-center justify-center backdrop-blur">
+          <i data-lucide="wallet" class="w-5 h-5"></i>
+        </div>
+        <span class="inline-flex items-center gap-1 text-xs font-bold text-emerald-600">
+          <i data-lucide="arrow-up" class="w-3 h-3"></i> 14.8%
+        </span>
+      </div>
+      <h2 class="font-display text-3xl font-semibold text-slate-900">$1.24M</h2>
+      <p class="text-xs font-medium text-slate-500 mt-1 uppercase tracking-[0.15em]">Revenue Total</p>
+    </div>
+
+    <!-- 41. KPI Usuarios Activos (Vibiz glass style) -->
+    <div class="card rounded-3xl p-6 bg-gradient-to-br from-violet-50 via-white to-fuchsia-50 border border-slate-200/70 cursor-pointer">
+      <div class="flex items-center justify-between mb-4">
+        <div class="w-11 h-11 rounded-2xl bg-white/80 shadow-sm border border-white text-violet-600 flex items-center justify-center backdrop-blur">
+          <i data-lucide="users-round" class="w-5 h-5"></i>
+        </div>
+        <span class="inline-flex items-center gap-1 text-xs font-bold text-emerald-600">
+          <i data-lucide="arrow-up" class="w-3 h-3"></i> 8.2%
+        </span>
+      </div>
+      <h2 class="font-display text-3xl font-semibold text-slate-900">48.3k</h2>
+      <p class="text-xs font-medium text-slate-500 mt-1 uppercase tracking-[0.15em]">Usuarios Activos</p>
+    </div>
+
+    <!-- 42. KPI Latencia Avg (Vibiz glass style) -->
+    <div class="card rounded-3xl p-6 bg-gradient-to-br from-amber-50 via-white to-orange-50 border border-slate-200/70 cursor-pointer">
+      <div class="flex items-center justify-between mb-4">
+        <div class="w-11 h-11 rounded-2xl bg-white/80 shadow-sm border border-white text-amber-600 flex items-center justify-center backdrop-blur">
+          <i data-lucide="gauge" class="w-5 h-5"></i>
+        </div>
+        <span class="inline-flex items-center gap-1 text-xs font-bold text-emerald-600">
+          <i data-lucide="arrow-down" class="w-3 h-3"></i> 1.8ms
+        </span>
+      </div>
+      <h2 class="font-display text-3xl font-semibold text-slate-900">14.2ms</h2>
+      <p class="text-xs font-medium text-slate-500 mt-1 uppercase tracking-[0.15em]">Latencia Avg</p>
+    </div>
+
+    <!-- 43. KPI Uptime (Vibiz glass style) -->
+    <div class="card rounded-3xl p-6 bg-gradient-to-br from-emerald-50 via-white to-teal-50 border border-slate-200/70 cursor-pointer">
+      <div class="flex items-center justify-between mb-4">
+        <div class="w-11 h-11 rounded-2xl bg-white/80 shadow-sm border border-white text-emerald-600 flex items-center justify-center backdrop-blur">
+          <i data-lucide="shield-check" class="w-5 h-5"></i>
+        </div>
+        <span class="inline-flex items-center gap-1 text-xs font-bold text-emerald-600">
+          <i data-lucide="arrow-up" class="w-3 h-3"></i> 0.1%
+        </span>
+      </div>
+      <h2 class="font-display text-3xl font-semibold text-slate-900">99.9%</h2>
+      <p class="text-xs font-medium text-slate-500 mt-1 uppercase tracking-[0.15em]">Uptime</p>
     </div>
 
   </div>
